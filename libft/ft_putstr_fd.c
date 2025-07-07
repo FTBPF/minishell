@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: franc <franc@student.42.fr>                +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/26 15:24:05 by franc             #+#    #+#             */
-/*   Updated: 2025/06/26 15:26:22 by franc            ###   ########.fr       */
+/*   Created: 2024/10/30 19:00:19 by frteixei          #+#    #+#             */
+/*   Updated: 2024/11/12 16:04:21 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int main(int argc, char **argv, char **env)
+void	ft_putstr_fd(char *s, int fd)
 {
-	t_vars vars;
-	
-	(void)argc;
-	(void)argv;
-	setup_shell(&vars, env);
-    run_shell(&vars, env);
-	return (0);
+	if (!s)
+		return ;
+	write(fd, s, ft_strlen(s));
 }

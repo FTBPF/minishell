@@ -3,33 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: franc <franc@student.42.fr>                +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/26 15:19:10 by franc             #+#    #+#             */
-/*   Updated: 2025/06/26 15:19:24 by franc            ###   ########.fr       */
+/*   Created: 2024/11/15 16:37:19 by frteixei          #+#    #+#             */
+/*   Updated: 2025/07/07 19:46:58 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# include <unistd.h>
-# include <stdlib.h>
-
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 5
+#  define BUFFER_SIZE 420
 # endif
 
-char	*get_next_line(int fd);
-char	*read_into_temp(int fd, char *temp);
-int		cpy_line_only(char *temp);
+# include <fcntl.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
 
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_strchr(const char *str, int c);
-size_t	ft_strlen(const char *str);
-char	*ft_cleartemp(char *src, int len);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-void	*ft_calloc(size_t nmemb, size_t size);
-char	*ft_strdup(const char *s);
+char	*get_next_line(int fd);
+char	*ft_strjoingnl(char *s1, char *s2);
+void	buffer_clean(char *str);
+int		ft_linelen(char *str);
 
 #endif
