@@ -6,7 +6,7 @@
 /*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/08 18:59:03 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/08 19:03:44 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,14 @@
 # include "GNL/get_next_line.h"
 # include "GNL/get_next_line.h"
 # include "ft_printf/ft_printf.h"
+# include "libft/libft.h"
+# include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/wait.h>
 
 typedef struct s_vars
 {
@@ -44,7 +52,7 @@ typedef struct s_vars
 	char	**my_environ;
 	int		exit_stat;
 	int		num_env_vars;
-}t_vars;
+}			t_vars;
 
 // Input Sanitize.c
 char		*check_executable(char *command, char **split_paths);
@@ -74,22 +82,19 @@ int			ft_strcmp(char *s1, char *s2);
 int			ft_exit_ctrl_d(char *input);
 
 // util2.c
-int			get_token_length_no_redirection(char *str, \
-				char *delimiters);
-char		*get_next_token_no_redirection(char *str, \
-				char *delimiters);
+int			get_token_length_no_redirection(char *str, char *delimiters);
+char		*get_next_token_no_redirection(char *str, char *delimiters);
 int			count_words_no_redirection(char *str, char *delimiters);
-void		process_token(char **tokens, char **token_start, \
-				char *delimiters, int *i);
-char		**ft_split_commands_no_redirection(char *str, \
-				char *delimiters);
+void		process_token(char **tokens, char **token_start, char *delimiters,
+				int *i);
+char		**ft_split_commands_no_redirection(char *str, char *delimiters);
 
 // utils3.c
 void		ft_free(char **matrix);
 void		signal_handler(int sig);
 void		ft_free_vars(t_vars *vars);
 void		ft_vars_init(t_vars *vars);
-int			setup_pipe(int	*pipe_fd);
+int			setup_pipe(int *pipe_fd);
 
 // utils4.c
 int			is_delimiter(char c, char *delimiters);
@@ -99,9 +104,9 @@ char		*ft_strjoin_char(char *str1, char c);
 char		*get_value_for_expand(char *str);
 
 // utils5.c
-void		ft_get_next_token_noredirection_helper(char chr, \
-				int *in_quotes, char *current_quote);
-void		ft_get_token_l_noredirection_helper(int *len, char *ts, \
+void		ft_get_next_token_noredirection_helper(char chr, int *in_quotes,
+				char *current_quote);
+void		ft_get_token_l_noredirection_helper(int *len, char *ts,
 				char *delimiters, char cq);
 void		ft_remove_quotes_helper(char *str, char *new_str, int *i);
 int			str_is_spaces_only(char *input);
@@ -111,8 +116,8 @@ int			find_env_line_nbr(t_vars *vars, char *name);
 char		*funcao_nova(char *str, char *delimiters);
 void		handler_quit_ctrlc(int sig);
 char		*ft_strjoin_three_help(char *s1, char *s2, char *s3, char *str);
-char		*setup_output_redirection_help(char **commands, t_vars *vars, \
-	char *temp, char *outfile);
+char		*setup_output_redirection_help(char **commands, t_vars *vars,
+				char *temp, char *outfile);
 void		first_process_helper(t_vars *vars);
 
 // Built_ins.c
@@ -125,8 +130,7 @@ void		ft_cd(char **commands, t_vars *vars);
 // Built_ins2.c
 char		*ft_strjoin_three(char *s1, char *s2, char *s3);
 void		add_env_var(t_vars *vars, char *name, char *value);
-void		modify_env_var(t_vars *vars, char *name,
-				char *new_value);
+void		modify_env_var(t_vars *vars, char *name, char *new_value);
 char		*get_env_var(t_vars *vars, char *name);
 void		copy_environ(char **environ, t_vars *vars);
 
@@ -153,7 +157,7 @@ void		handle_heredoc(t_vars *vars, char *tmp, int *j);
 
 // here_doc2.c
 void		ft_open_helper(int *i, char *commands);
-void		ft_aspas_helper( int len, int *i, char *new_str, char *commands);
+void		ft_aspas_helper(int len, int *i, char *new_str, char *commands);
 char		*ft_strndup_aspas(char *commands, int len);
 
 // var_expander.c

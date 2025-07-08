@@ -6,14 +6,14 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:55 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/07 19:42:56 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:04:29 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_get_next_token_noredirection_helper(char chr,
-	int *in_quotes, char *current_quote)
+void	ft_get_next_token_noredirection_helper(char chr, int *in_quotes,
+		char *current_quote)
 {
 	if (chr == '\'' || chr == '\"')
 	{
@@ -28,8 +28,8 @@ void	ft_get_next_token_noredirection_helper(char chr,
 	}
 }
 
-void	ft_get_token_l_noredirection_helper(int *len, char *token_start, \
-	char *delimiters, char current_quote)
+void	ft_get_token_l_noredirection_helper(int *len, char *token_start,
+		char *delimiters, char current_quote)
 {
 	int	in_quotes;
 
@@ -65,11 +65,11 @@ void	ft_remove_quotes_helper(char *str, char *new_str, int *i)
 	current_quote = '\0';
 	while (str[j])
 	{
-		if ((in_quotes == 1 && current_quote != str[j])
-			|| (str[j] != '\"' && str[j] != '\''))
+		if ((in_quotes == 1 && current_quote != str[j]) || (str[j] != '\"'
+				&& str[j] != '\''))
 			new_str[(*i)++] = str[j];
-		if ((str[j] == '\'' || str[j] == '\"')
-			&& (in_quotes == -1 || current_quote == str[j]))
+		if ((str[j] == '\'' || str[j] == '\"') && (in_quotes == -1
+				|| current_quote == str[j]))
 		{
 			in_quotes *= -1;
 			if (in_quotes == 1)
@@ -97,8 +97,8 @@ int	str_is_spaces_only(char *input)
 
 int	find_env_line_nbr(t_vars *vars, char *name)
 {
-	int		i;
-	int		name_len;
+	int	i;
+	int	name_len;
 
 	name_len = ft_strlen(name);
 	i = 0;

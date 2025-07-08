@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:59 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/07 19:42:00 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:04:16 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ void	ft_open_helper(int *i, char *commands)
 	current_quote = '\0';
 	while (commands[*i])
 	{
-		if (in_quotes == -1 && (commands[*i] == ' ' || commands[*i] == '<' || \
-			commands[*i] == '>'))
+		if (in_quotes == -1 && (commands[*i] == ' ' || commands[*i] == '<'
+				|| commands[*i] == '>'))
 			break ;
-		if ((commands[*i] == '\'' || commands[*i] == '\"')
-			&& (in_quotes == -1 || current_quote == commands[*i]))
+		if ((commands[*i] == '\'' || commands[*i] == '\"') && (in_quotes == -1
+				|| current_quote == commands[*i]))
 		{
 			in_quotes *= -1;
 			if (in_quotes == 1)
@@ -51,8 +51,8 @@ void	ft_aspas_helper(int len, int *i, char *new_str, char *commands)
 		if ((in_quotes == 1 && current_quote != commands[j])
 			|| (commands[j] != '\'' && commands[j] != '\"'))
 			new_str[(*i)++] = commands[j];
-		if ((commands[j] == '\'' || commands[j] == '\"')
-			&& (in_quotes == -1 || current_quote == commands[j]))
+		if ((commands[j] == '\'' || commands[j] == '\"') && (in_quotes == -1
+				|| current_quote == commands[j]))
 		{
 			in_quotes *= -1;
 			if (in_quotes == 1)

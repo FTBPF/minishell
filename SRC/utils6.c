@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:59 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/07 19:43:00 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/08 17:02:38 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,11 @@ char	*funcao_nova(char *str, char *delimiters)
 void	handler_quit_ctrlc(int sig)
 {
 	if (sig == SIGINT || sig == SIGQUIT)
-	{
-		printf("\n");
-	}
+		return ;
 }
 
-char	*setup_output_redirection_help(char **commands, t_vars *vars, \
-	char *temp, char *outfile)
+char	*setup_output_redirection_help(char **commands, t_vars *vars,
+		char *temp, char *outfile)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:12 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/08 16:02:33 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/08 19:03:37 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	run_shell(t_vars *vars, char **env)
 	commands = NULL;
 	while (1)
 	{
-		signal(SIGQUIT, signal_handler);
+		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, signal_handler);
 		input = readline("myshell> ");
 		if (!ft_exit_ctrl_d(input))
@@ -104,7 +104,7 @@ void	run_shell(t_vars *vars, char **env)
 			add_history(input);
 		if (ft_strlen(input) != 0)
 			minishell(input, env, vars, commands);
-		signal(SIGQUIT, signal_handler);
+		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, signal_handler);
 	}
 }
