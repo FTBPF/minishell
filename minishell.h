@@ -6,13 +6,22 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/08 16:02:47 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:12:46 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <stdlib.h>
+# include <stdio.h>
+# include <sys/wait.h>
+# include <fcntl.h>
+# include <signal.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include "libft/libft.h"
+# include "GNL/get_next_line.h"
 # include "GNL/get_next_line.h"
 # include "ft_printf/ft_printf.h"
 # include "libft/libft.h"
