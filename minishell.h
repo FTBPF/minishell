@@ -13,7 +13,6 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <meu_pau.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <sys/wait.h>
