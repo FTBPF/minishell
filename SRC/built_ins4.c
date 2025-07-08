@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins4.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:37 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/08 19:02:24 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/08 19:10:59 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,9 @@ static size_t	ft_tamnhoplavra(char const *s, char c)
 		if (s[i] == '\"' || s[i] == '\'')
 		{
 			if (flag == 0)
-			flag = 1;
+				flag = 1;
 			else
-			flag = 0;
+				flag = 0;
 		}
 		i++;
 	}
@@ -164,12 +164,12 @@ static char	**ft_putmatrix(char **matrix, char const *s, char c, size_t	ctp)
 		i = 0;
 		while (*s && (*s != c || flag == 1))
 		{
-			if (s[i] == '\"' || s[i] == '\'')
+			if (*s == '\"' || *s == '\'')
 			{
 				if (flag == 0)
-				flag = 1;
+					flag = 1;
 				else
-				flag = 0;
+					flag = 0;
 			}
 			matrix[j][i] = *s;
 			i++;
@@ -177,7 +177,7 @@ static char	**ft_putmatrix(char **matrix, char const *s, char c, size_t	ctp)
 		}
 		matrix[j][i] = '\0';
 		while (*s && *s == c)
-		s++;
+			s++;
 		j++;
 		ctp--;
 	}
