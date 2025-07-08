@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 13:40:35 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/07 19:52:32 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:03:15 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*ft_strndup(const char *s, size_t n)
 {
-	size_t len;
+	size_t	len;
 	char	*dupe;
 
 	len = ft_strlen(s);
@@ -27,20 +27,3 @@ char	*ft_strndup(const char *s, size_t n)
 	dupe[len] = '\0';
 	return (dupe);
 }
-
-/* int	main(void)
-{
-	char	source[] = "Hello, world!";
-	char	*duplicate;
-
-	duplicate = ft_strdup(source);
-	if (duplicate)
-	{
-		printf("Original: %s\n", source);
-		printf("Duplicate: %s\n", duplicate);
-		free(duplicate);
-	}
-	else
-		printf("Memory allocation failed.\n");
-	return (0);
-} */

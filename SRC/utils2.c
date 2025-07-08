@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:40 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/07 19:42:41 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:04:23 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	get_token_length_no_redirection(char *token_start, char *delimiters)
 
 	length = 0;
 	current_quote = '\0';
-	ft_get_token_l_noredirection_helper(&length, token_start, delimiters, \
+	ft_get_token_l_noredirection_helper(&length, token_start, delimiters,
 		current_quote);
 	return (length);
 }
@@ -41,7 +41,7 @@ char	*get_next_token_no_redirection(char *str, char *delimiters)
 		}
 		else
 			break ;
-		ft_get_next_token_noredirection_helper(*str, &in_quotes, \
+		ft_get_next_token_noredirection_helper(*str, &in_quotes,
 			&current_quote);
 	}
 	if (*str != '\0')
@@ -70,14 +70,14 @@ int	count_words_no_redirection(char *str, char *delimiters)
 
 /**
  * The function "process_token" takes in an array of tokens, a pointer to the
- * start of a token, a string of delimiters, and a pointer to an integer. It 
+ * start of a token, a string of delimiters, and a pointer to an integer. It
  * extracts the next token from the token start, checks if it is not a
  * redirection symbol, gets the length of the token, duplicates the token
  * and stores it in the tokens array, updates the token start pointer,
  * and increments the integer pointer.
  */
-void	process_token(char **tokens, char **token_start,
-		char *delimiters, int *i)
+void	process_token(char **tokens, char **token_start, char *delimiters,
+		int *i)
 {
 	int	token_length;
 
@@ -94,11 +94,11 @@ void	process_token(char **tokens, char **token_start,
 /**
  * Splits a string into tokens based on a set of delimiters, excluding any
  * tokens that contain redirection symbols.
- * 
+ *
  * @param str - string containing the input commands.
  * @param delimiters - string containing the characters used as
  * delimiters to split the input string.
- * 
+ *
  * @return the split commands as an array of strings.
  */
 char	**ft_split_commands_no_redirection(char *str, char *delimiters)

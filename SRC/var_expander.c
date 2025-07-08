@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:43:06 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/07 19:43:08 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:06:18 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_replace_helper2(char *commands, int j, char *tmp, char **freee)
 {
 	int	k;
 
-	free (*freee);
+	free(*freee);
 	*freee = NULL;
 	k = 0;
 	while (k < j - 1 && commands[k])
@@ -24,7 +24,7 @@ void	ft_replace_helper2(char *commands, int j, char *tmp, char **freee)
 		if (*freee)
 		{
 			tmp = ft_strdup(*freee);
-			free (*freee);
+			free(*freee);
 		}
 		*freee = ft_strjoin_char(tmp, commands[k]);
 		free(tmp);
@@ -39,8 +39,9 @@ int	ft_replace_helper(char *commands, int j, char **tmp)
 
 	fre = NULL;
 	i = 0;
-	while (commands[j + i] && ((commands[j + i] >= 'a' && commands[j + i] \
-		<= 'z') || (commands[j + i] >= 'A' && commands[j + i] <= 'Z')))
+	while (commands[j + i] && ((commands[j + i] >= 'a'
+				&& commands[j + i] <= 'z') || (commands[j + i] >= 'A'
+				&& commands[j + i] <= 'Z')))
 	{
 		fre = *tmp;
 		*tmp = ft_strjoin_char(*tmp, commands[j + i]);
@@ -78,7 +79,7 @@ char	*replace_var(t_vars *vars, char *commands, int j)
 
 void	var_expander(t_vars *vars, char **commands)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (commands[i])

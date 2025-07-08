@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:19 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/07 19:41:22 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:07:20 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int	check_if_builtin(t_vars *vars)
 		ft_cd(vars->cmd_flags, vars);
 	else if (ft_strcmp(vars->cmd_flags[0], "pwd") == 0)
 		ft_pwd();
-	else if (ft_strcmp(vars->cmd_flags[0], "export") == 0 && !vars->cmd_flags[1])
+	else if (ft_strcmp(vars->cmd_flags[0], "export") == 0
+		&& !vars->cmd_flags[1])
 		ft_export(vars, vars->cmd_flags);
 	else if (ft_strcmp(vars->cmd_flags[0], "env") == 0)
 		ft_env(vars);
