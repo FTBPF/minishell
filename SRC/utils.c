@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:34 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/07 19:42:35 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:49:08 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	handler_quit(int signal)
 {
 	if (signal == SIGQUIT)
 		write(2, "Quit (core dumped)\n", 20);
+	return ;
 }
 
 int	ft_strcmp(char *s1, char *s2)
