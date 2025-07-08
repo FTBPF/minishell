@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/07 19:42:21 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/08 17:10:42 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int	setup_output_redirection(char **commands, t_vars *vars)
 	return (1);
 }
 
-// signals para evitar o double prompt "minishell>minishell>"
 void	execute_command(t_vars *vars, char **commands, char **envp)
 {
 	signal(SIGQUIT, SIG_DFL);
@@ -116,7 +115,10 @@ void	first_process(t_vars *vars, char **envp, char **commands, int *j)
 	vars->pid1 = fork();
 	if (vars->pid1 < 0)
 		return ;
-	signal(SIGQUIT, handler_quit);
+	if (strcmp("./minishell", commands[0]) == 0)
+		signal(SIGQUIT, SIG_IGN);
+	else
+		signal(SIGQUIT, handler_quit);
 	signal(SIGINT, handler_quit_ctrlc);
 	if (vars->pid1 == 0)
 		execute_command(vars, commands, envp);
