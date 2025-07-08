@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:50:08 by frteixei          #+#    #+#             */
-/*   Updated: 2024/11/12 17:48:25 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/08 15:59:23 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,31 +81,3 @@ char	**ft_split(char const *s, char c)
 	strings[count] = NULL;
 	return (strings);
 }
-
-/* int	main(void)
-{
-	char const	*str;
-	char		delimiter;
-	char		**result;
-	int			i;
-
-	i = 0;
-	str = "Hello,world,this,is,a,test";
-	delimiter = ',';
-	result = ft_split(str, delimiter);
-	if (!result)
-	{
-		printf("Error: ft_split failed\n");
-		return (1);
-	}
-	printf("Original string: \"%s\"\n", str);
-	printf("Splitted strings:\n");
-	while (result[i] != NULL)
-	{
-		printf("Substring %d: %s\n", i + 1, result[i]);
-		free(result[i]);
-		i++;
-	}
-	free(result);
-	return (0);
-} */

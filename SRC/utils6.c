@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:59 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/07 19:43:00 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:04:39 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	handler_quit_ctrlc(int sig)
 	}
 }
 
-char	*setup_output_redirection_help(char **commands, t_vars *vars, \
-	char *temp, char *outfile)
+char	*setup_output_redirection_help(char **commands, t_vars *vars,
+		char *temp, char *outfile)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:27 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/07 19:41:28 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:03:55 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	modify_env_var(t_vars *vars, char *name, char *new_value)
 	i = 0;
 	while (vars->my_environ[i])
 	{
-		if (ft_strncmp(vars->my_environ[i], name, name_len) == 0 \
+		if (ft_strncmp(vars->my_environ[i], name, name_len) == 0
 			&& vars->my_environ[i][name_len] == '=')
 		{
 			free(vars->my_environ[i]);
@@ -86,14 +86,14 @@ void	modify_env_var(t_vars *vars, char *name, char *new_value)
 
 char	*get_env_var(t_vars *vars, char *name)
 {
-	int		i;
-	int		name_len;
+	int	i;
+	int	name_len;
 
 	name_len = ft_strlen(name);
 	i = 0;
 	while (vars->my_environ[i])
 	{
-		if (ft_strncmp(vars->my_environ[i], name, name_len) == 0 \
+		if (ft_strncmp(vars->my_environ[i], name, name_len) == 0
 			&& vars->my_environ[i][name_len] == '=')
 			return (vars->my_environ[i] + name_len + 1);
 		i++;
@@ -103,8 +103,8 @@ char	*get_env_var(t_vars *vars, char *name)
 
 void	copy_environ(char **environ, t_vars *vars)
 {
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (environ[i] != NULL)
