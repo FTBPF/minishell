@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:31 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/07 19:41:33 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:22:55 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	ft_export(t_vars *vars, char **split_cmds)
 		while (split_cmds[i])
 		{
 			name = get_var_name(split_cmds[i]);
+			printf("s:%s\n", name);
 			value = get_value(split_cmds[i]);
 			if (name && value)
 				modify_env_var(vars, name, value);
