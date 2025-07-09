@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:37 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/08 19:10:59 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/09 20:33:35 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,11 @@ void	ft_unset(t_vars *vars, char **commands)
 	vars->my_environ = new_environ;
 }
 
-
 static size_t	ft_tamnhoplavra(char const *s, char c)
 {
 	size_t	i;
 	int		flag;
-	
+
 	flag = 0;
 	i = 0;
 	while (s[i] && (s[i] != c || flag == 1))
@@ -121,12 +120,12 @@ static size_t	ft_ctp(char const *s, char c)
 	size_t	i;
 	int		flag;
 	size_t	ctp;
-	
+
 	flag = 0;
 	i = 0;
 	ctp = 0;
 	while (s[i] && s[i] == c)
-	i++;
+		i++;
 	while (s[i])
 	{
 		while (s[i] && (s[i] != c || flag == 1))
@@ -134,30 +133,30 @@ static size_t	ft_ctp(char const *s, char c)
 			if (s[i] == '\"' || s[i] == '\'')
 			{
 				if (flag == 0)
-				flag = 1;
+					flag = 1;
 				else
-				flag = 0;
+					flag = 0;
 			}
 			i++;
 		}
 		ctp++;
 		while (s[i] && s[i] == c)
-		i++;
+			i++;
 	}
 	return (ctp);
 }
 
-static char	**ft_putmatrix(char **matrix, char const *s, char c, size_t	ctp)
+static char	**ft_putmatrix(char **matrix, char const *s, char c, size_t ctp)
 {
 	size_t	i;
 	int		flag;
 	size_t	j;
-	
+
 	i = 0;
 	flag = 0;
 	j = 0;
 	while (*s && *s == c)
-	s++;
+		s++;
 	while (ctp)
 	{
 		matrix[j] = (char *)malloc(sizeof(char) * (ft_tamnhoplavra(s, c) + 1));
@@ -195,7 +194,7 @@ char	**ft_split_novo_e_melhorado(char const *s, char c)
 	if (!matrix || !s)
 		return (0);
 	matrix = ft_putmatrix(matrix, s, c, ft_ctp(s, c));
-	return (matrix);	
+	return (matrix);
 }
 
 int	check_cd_ex_uns(char **commands, t_vars *vars)
@@ -203,6 +202,11 @@ int	check_cd_ex_uns(char **commands, t_vars *vars)
 	char	**split_cmds;
 
 	split_cmds = ft_split_novo_e_melhorado(commands[0], ' ');
+	if (!split_cmds || !split_cmds[0])
+	{
+		ft_free(split_cmds);
+		return (0);
+	}
 	if (ft_strcmp(split_cmds[0], "cd") == 0)
 		ft_cd(split_cmds, vars);
 	else if (ft_strcmp(split_cmds[0], "exit") == 0 && split_cmds[1]

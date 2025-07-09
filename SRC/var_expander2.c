@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:43:12 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/07 19:43:14 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/09 19:58:20 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,17 @@ char	*replace_exit_status(t_vars *vars, char *commands, int j)
 	char	*temp;
 	char	*temp2;
 
-	temp = ft_substr(commands, 0, j - 2);
+	temp = NULL;
+	temp2 = NULL;
+	if (j >= 2)
+		temp = ft_substr(commands, 0, j - 2);
+	else
+		temp = ft_strdup("");
 	temp2 = ft_substr(commands, j, ft_strlen(commands) - j);
-	free (commands);
+	free(commands);
 	commands = ft_strjoin_three(temp, ft_itoa(vars->exit_stat), temp2);
-	free (temp);
+	free(temp);
+	free(temp2);
 	return (commands);
 }
 
@@ -37,9 +43,9 @@ int	check_if_exit_stat(char **commands, int i, t_vars *vars, int j)
 
 void	ft_expander_helper2(char **commands, t_vars *vars, int i)
 {
-	int		j;
-	int		in_quotes;
-	int		in_squotes;
+	int	j;
+	int	in_quotes;
+	int	in_squotes;
 
 	j = 0;
 	in_quotes = -1;

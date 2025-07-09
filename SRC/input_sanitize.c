@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:05 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/07 19:42:07 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/09 18:22:34 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,16 @@ char	*check_command(char *command, char **split_paths)
 	{
 		temp = ft_strjoin(split_paths[i], "/");
 		path = ft_strjoin(temp, command);
-		free (temp);
+		free(temp);
 		if (access(path, 0) == 0)
 		{
 			ft_free(split_paths);
 			return (path);
 		}
-		free (path);
+		free(path);
 		i++;
 	}
-	ft_free (split_paths);
+	ft_free(split_paths);
 	ft_printf("Command not found: %s\n", command);
 	return (NULL);
 }
@@ -87,6 +87,16 @@ char	*check_valid_cmd(char *command, char **envp)
 	char	*valid_cmd;
 
 	cmd = find_path(envp);
+	if (!cmd)
+	{
+		if (ft_strchr(command, '/'))
+			return (check_executable(command, NULL));
+		else
+		{
+			ft_printf("command not found: %s\n", command);
+			return (NULL);
+		}
+	}
 	split_paths = ft_split(cmd, ':');
 	valid_cmd = check_valid_cmd_builtin(command, split_paths);
 	if (valid_cmd)

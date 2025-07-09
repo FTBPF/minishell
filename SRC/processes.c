@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/08 17:10:42 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/09 20:34:04 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ int	setup_input_redirection(char **commands, t_vars *vars, int *j)
 
 int	setup_output_redirection(char **commands, t_vars *vars)
 {
-	char		*outfile;
-	char		*temp;
-	int			in_quotes;
+	char	*outfile;
+	char	*temp;
+	int		in_quotes;
 
 	outfile = NULL;
 	temp = (commands[0]);
@@ -94,7 +94,7 @@ void	execute_command(t_vars *vars, char **commands, char **envp)
 	}
 	else if (commands[1])
 		dup2(vars->pipe_fd[1], STDOUT_FILENO);
-	close (vars->pipe_fd[0]);
+	close(vars->pipe_fd[0]);
 	if (vars->fd0 != 0)
 	{
 		dup2(vars->fd0, STDIN_FILENO);
