@@ -6,7 +6,7 @@
 /*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/08 19:03:44 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/09 02:43:26 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,9 @@ int			env_num(t_vars *vars, char **commands);
 int			is_command_in_env(char *env_var, char **commands);
 void		ft_unset(t_vars *vars, char **commands);
 int			check_cd_ex_uns(char **commands, t_vars *vars);
+
+//Built_ins5.c
+char	**ft_split_novo_e_melhorado(char const *s, char c);
 
 // here_doc.c
 void		open_doc(t_vars *vars, char *commands, int *j);

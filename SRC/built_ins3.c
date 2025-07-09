@@ -6,7 +6,7 @@
 /*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:31 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/08 19:03:58 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/09 03:12:40 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ char	*get_var_name(char *str)
 	return (name);
 }
 
+//IMPLEMENTAR O SISTEMA DE REMOVER ASPAS DO ECHO
+
 char	*get_value(char *str)
 {
 	int		i;
@@ -102,8 +104,9 @@ void	ft_export(t_vars *vars, char **split_cmds)
 		while (split_cmds[i])
 		{
 			name = get_var_name(split_cmds[i]);
-			printf("s:%s\n", name);
+			printf("name:%s\n", name);
 			value = get_value(split_cmds[i]);
+			printf("value:%s\n", value);
 			if (name && value)
 				modify_env_var(vars, name, value);
 			else if (name)
