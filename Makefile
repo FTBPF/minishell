@@ -9,7 +9,7 @@ RM = rm -rf
 CFLAGS = -Wall -Wextra -Werror -g
 
 SRC = main.c input_sanitize.c processes.c split_cmds.c utils.c utils2.c built_ins.c built_ins2.c \
-		built_ins3.c built_ins4.c built_ins5.c utils3.c utils4.c utils5.c here_doc.c here_doc2.c var_expander.c \
+		built_ins3.c built_ins4.c built_ins5.c built_ins6.c utils3.c utils4.c utils5.c here_doc.c here_doc2.c var_expander.c \
 		var_expander2.c utils6.c
 
 SRC_GNL = get_next_line.c get_next_line_utils.c
