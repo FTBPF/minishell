@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:19 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/08 19:03:53 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/10 15:59:29 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,39 @@
 
 int	check_if_builtin(t_vars *vars)
 {
-	if (ft_strcmp(vars->cmd_flags[0], "echo") == 0)
-		ft_echo(vars->cmd_flags);
-	else if (ft_strcmp(vars->cmd_flags[0], "cd") == 0)
-		ft_cd(vars->cmd_flags, vars);
-	else if (ft_strcmp(vars->cmd_flags[0], "pwd") == 0)
-		ft_pwd();
-	else if (ft_strcmp(vars->cmd_flags[0], "export") == 0
-		&& !vars->cmd_flags[1])
-		ft_export(vars, vars->cmd_flags);
-	else if (ft_strcmp(vars->cmd_flags[0], "env") == 0)
-		ft_env(vars);
-	else if (ft_strcmp(vars->cmd_flags[0], "exit") == 0)
-		ft_exit(vars->cmd_flags);
-	else
+	char	*cmd;
+
+	cmd = vars->cmd_flags[0];
+	if (!cmd)
 		return (0);
-	return (1);
+	if (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "cd") == 0
+		|| ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "export") == 0
+		|| ft_strcmp(cmd, "unset") == 0 || ft_strcmp(cmd, "env") == 0
+		|| ft_strcmp(cmd, "exit") == 0)
+		return (1);
+	return (0);
+}
+
+void	run_builtin(t_vars *vars)
+{
+	char	*cmd;
+
+	cmd = vars->cmd_flags[0];
+	if (ft_strcmp(cmd, "echo") == 0)
+		return (ft_echo(vars->cmd_flags));
+	if (ft_strcmp(cmd, "cd") == 0)
+		return (ft_cd(vars->cmd_flags, vars));
+	if (ft_strcmp(cmd, "pwd") == 0)
+		return (ft_pwd());
+	if (ft_strcmp(cmd, "export") == 0)
+		return (ft_export(vars, vars->cmd_flags));
+	if (ft_strcmp(cmd, "unset") == 0)
+		return (ft_unset(vars, vars->cmd_flags));
+	if (ft_strcmp(cmd, "env") == 0)
+		return (ft_env(vars));
+	if (ft_strcmp(cmd, "exit") == 0)
+		return (ft_exit(vars->cmd_flags));
+	return ;
 }
 
 void	ft_echo2(char **commands, int i)
@@ -45,8 +62,8 @@ void	ft_echo2(char **commands, int i)
 
 void	ft_echo(char **commands)
 {
-	int		i;
-	int		n_flag;
+	int	i;
+	int	n_flag;
 
 	i = 1;
 	n_flag = 0;
@@ -58,7 +75,7 @@ void	ft_echo(char **commands)
 	ft_echo2(commands, i);
 	if (!n_flag)
 		ft_printf("\n");
-	exit (0);
+	exit(0);
 }
 
 void	change_directory(char *path, t_vars *vars)

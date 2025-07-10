@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:05 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/10 14:15:47 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/10 16:12:06 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 char	*check_executable(char *command, char **split_paths)
 {
-	if (access(command, 0) == 0)
+	if (access(command, X_OK) == 0)
 	{
 		ft_free(split_paths);
 		return (command);
@@ -54,9 +54,10 @@ char	*check_command(char *command, char **split_paths)
 	return (NULL);
 }
 
-char	*check_valid_cmd_builtin(char *command, char **split_paths)
+char	*check_valid_cmd_builtin(char *command)
 {
 	char	*builtins[8];
+	char	*cmd_name;
 	int		i;
 
 	builtins[0] = "echo";
@@ -68,13 +69,13 @@ char	*check_valid_cmd_builtin(char *command, char **split_paths)
 	builtins[6] = "exit";
 	builtins[7] = NULL;
 	i = 0;
+	cmd_name = ft_strrchr(command, '/');
+	if (cmd_name)
+		command = cmd_name + 1;
 	while (builtins[i])
 	{
 		if (ft_strcmp(command, builtins[i]) == 0)
-		{
-			ft_free(split_paths);
-			return (command);
-		}
+			return (ft_strdup(command));
 		i++;
 	}
 	return (NULL);
@@ -82,29 +83,24 @@ char	*check_valid_cmd_builtin(char *command, char **split_paths)
 
 char	*check_valid_cmd(char *command, char **envp)
 {
-	char	*cmd;
+	char	*path_var;
 	char	**split_paths;
 	char	*valid_cmd;
 
-	cmd = find_path(envp);
-	if (!cmd)
-	{
-		if (ft_strchr(command, '/'))
-			return (check_executable(command, NULL));
-		else
-		{
-			ft_printf("command not found: %s\n", command);
-			return (NULL);
-		}
-	}
-	split_paths = ft_split(cmd, ':');
-	valid_cmd = check_valid_cmd_builtin(command, split_paths);
+	valid_cmd = check_valid_cmd_builtin(command);
 	if (valid_cmd)
 		return (valid_cmd);
 	if (ft_strchr(command, '/'))
-		return (check_executable(command, split_paths));
-	else
-		return (check_command(command, split_paths));
+		return (check_executable(command, NULL));
+	path_var = find_path(envp);
+	if (!path_var)
+	{
+		ft_printf("minishell: command not found: %s\n", command);
+		return (NULL);
+	}
+	split_paths = ft_split(path_var, ':');
+	valid_cmd = check_command(command, split_paths);
+	return (valid_cmd);
 }
 
 int	check_flag_n(char *str)

@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/10 13:58:14 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/10 16:13:24 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	execute_command(t_vars *vars, char **commands, char **envp)
 	remove_quotes_from_array(vars->cmd_flags);
 	vars->cmd1_path = check_valid_cmd(vars->cmd_flags[0], vars->my_environ);
 	if (vars->cmd1_path == NULL)
-		exit(1);
+		exit(127);
 	if (vars->fd1 != 1)
 	{
 		dup2(vars->fd1, STDOUT_FILENO);
@@ -102,8 +102,17 @@ void	execute_command(t_vars *vars, char **commands, char **envp)
 	}
 	else if (vars->p0 != 0)
 		dup2(vars->p0, STDIN_FILENO);
-	if (!check_if_builtin(vars))
+	if (check_if_builtin(vars))
+	{
+		run_builtin(vars);
+		exit(0);
+	}
+	else
+	{
 		execve(vars->cmd1_path, vars->cmd_flags, envp);
+		perror("execve");
+		exit(1);
+	}
 }
 
 void	first_process(t_vars *vars, char **envp, char **commands, int *j)
