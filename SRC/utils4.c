@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:51 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/07 19:42:52 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/09 20:04:51 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,18 +85,18 @@ char	*get_value_for_expand(char *str)
 
 	i = 0;
 	if (!str)
-		return ("");
+		return (ft_strdup(""));
 	while (str[i] && str[i] != '=')
 		i++;
-	if (!str[i])
-		return (NULL);
+	if (!str[i] || !*(str + 1))
+		return (ft_strdup(""));
 	i++;
 	j = i;
 	while (str[j])
 		j++;
 	value = malloc(sizeof(char) * (j - i + 1));
 	if (!value)
-		return ("");
+		return (ft_strdup(""));
 	ft_strlcpy(value, str + i, j - i + 1);
 	return (value);
 }

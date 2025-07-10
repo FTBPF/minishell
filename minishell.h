@@ -3,25 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/09 20:16:37 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/10 18:42:43 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <stdlib.h>
-# include <stdio.h>
-# include <sys/wait.h>
-# include <fcntl.h>
-# include <signal.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include "libft/libft.h"
-# include "GNL/get_next_line.h"
 # include "GNL/get_next_line.h"
 # include "ft_printf/ft_printf.h"
 # include "libft/libft.h"
@@ -57,7 +48,7 @@ typedef struct s_vars
 // Input Sanitize.c
 char		*check_executable(char *command, char **split_paths);
 char		*check_command(char *command, char **split_paths);
-char		*check_valid_cmd_builtin(char *command, char **split_paths);
+char		*check_valid_cmd_builtin(char *command);
 char		*check_valid_cmd(char *argv, char **envp);
 int			check_flag_n(char *str);
 
@@ -122,6 +113,7 @@ void		first_process_helper(t_vars *vars);
 
 // Built_ins.c
 int			check_if_builtin(t_vars *vars);
+void		run_builtin(t_vars *vars);
 void		ft_echo2(char **commands, int i);
 void		ft_echo(char **commands);
 void		change_directory(char *path, t_vars *vars);

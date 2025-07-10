@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins4.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:37 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/09 02:41:39 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/10 18:44:35 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,16 @@ void	ft_unset(t_vars *vars, char **commands)
 	vars->my_environ = new_environ;
 }
 
-
-
-
 int	check_cd_ex_uns(char **commands, t_vars *vars)
 {
 	char	**split_cmds;
 
 	split_cmds = ft_split_novo_e_melhorado(commands[0], ' ');
+	if (!split_cmds || !split_cmds[0])
+	{
+		ft_free(split_cmds);
+		return (0);
+	}
 	if (ft_strcmp(split_cmds[0], "cd") == 0)
 		ft_cd(split_cmds, vars);
 	else if (ft_strcmp(split_cmds[0], "exit") == 0 && split_cmds[1]
