@@ -6,7 +6,7 @@
 /*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 02:41:50 by marada            #+#    #+#             */
-/*   Updated: 2025/07/09 02:44:12 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/10 16:12:39 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,24 +36,24 @@ static size_t	ft_tamnhoplavra(char const *s, char c)
 static size_t	ft_ctp(char const *s, char c)
 {
 	size_t	i;
-	int		flag;
+	char	d;
 	size_t	ctp;
 	
-	flag = 0;
+	d = '+';
 	i = 0;
 	ctp = 0;
 	while (s[i] && s[i] == c)
 	i++;
 	while (s[i])
 	{
-		while (s[i] && (s[i] != c || flag == 1))
+		while (s[i] && (s[i] != c || d != '+'))
 		{
 			if (s[i] == '\"' || s[i] == '\'')
 			{
-				if (flag == 0)
-				flag = 1;
-				else
-				flag = 0;
+				if (s[i] == d)
+					d = '+';
+				else if(d == '+')
+					d = s[i];
 			}
 			i++;
 		}
@@ -67,11 +67,11 @@ static size_t	ft_ctp(char const *s, char c)
 static char	**ft_putmatrix(char **matrix, char const *s, char c, size_t	ctp)
 {
 	size_t	i;
-	int		flag;
+	char	d;
 	size_t	j;
 	
 	i = 0;
-	flag = 0;
+	d = '+';
 	j = 0;
 	while (*s && *s == c)
 	s++;
@@ -79,14 +79,14 @@ static char	**ft_putmatrix(char **matrix, char const *s, char c, size_t	ctp)
 	{
 		matrix[j] = (char *)malloc(sizeof(char) * (ft_tamnhoplavra(s, c) + 1));
 		i = 0;
-		while (*s && (*s != c || flag == 1))
+		while (*s && (*s != c || d != '+'))
 		{
 			if (*s == '\"' || *s == '\'')
 			{
-				if (flag == 0)
-					flag = 1;
-				else
-					flag = 0;
+				if (s[i] == d)
+					d = '+';
+				else if(d == '+')
+					d = s[i];
 			}
 			matrix[j][i] = *s;
 			i++;
@@ -108,6 +108,8 @@ char	**ft_split_novo_e_melhorado(char const *s, char c)
 
 	if (!s)
 		return (0);
+	printf("string:%s\n", s);
+	printf("ctp:%li\n", ft_ctp(s, c));
 	matrix = (char **)malloc(sizeof(char *) * (ft_ctp(s, c) + 1));
 	if (!matrix || !s)
 		return (0);

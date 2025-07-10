@@ -6,7 +6,7 @@
 /*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 20:15:18 by marada            #+#    #+#             */
-/*   Updated: 2025/07/09 20:37:15 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/10 15:49:05 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,6 @@ char	*new_get_value(char *str)
 	value = malloc(sizeof(char) * (x + 1));
 	if (!value)
 		exit(1);
-	new_improved_strcpy(value, str + x);
+	new_improved_strcpy(value, str + i);
 	return (value);
 }
