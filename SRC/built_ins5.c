@@ -6,7 +6,7 @@
 /*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 02:41:50 by marada            #+#    #+#             */
-/*   Updated: 2025/07/10 16:12:39 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/10 19:05:59 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,6 @@ char	**ft_split_novo_e_melhorado(char const *s, char c)
 
 	if (!s)
 		return (0);
-	printf("string:%s\n", s);
-	printf("ctp:%li\n", ft_ctp(s, c));
 	matrix = (char **)malloc(sizeof(char *) * (ft_ctp(s, c) + 1));
 	if (!matrix || !s)
 		return (0);
