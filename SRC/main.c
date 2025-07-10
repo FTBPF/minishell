@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:12 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/09 20:33:25 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/10 14:18:30 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	run_shell(t_vars *vars, char **env)
 	while (1)
 	{
 		signal(SIGQUIT, SIG_IGN);
+		signal(SIGTSTP, SIG_IGN);
 		signal(SIGINT, signal_handler);
 		input = readline("myshell> ");
 		if (!ft_exit_ctrl_d(input))
@@ -105,6 +106,7 @@ void	run_shell(t_vars *vars, char **env)
 		if (ft_strlen(input) != 0)
 			minishell(input, env, vars, commands);
 		signal(SIGQUIT, SIG_IGN);
+		signal(SIGTSTP, SIG_IGN);
 		signal(SIGINT, signal_handler);
 	}
 }
