@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/10 18:42:43 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/13 19:09:22 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ int			check_if_builtin(t_vars *vars);
 void		run_builtin(t_vars *vars);
 void		ft_echo2(char **commands, int i);
 void		ft_echo(char **commands);
-void		change_directory(char *path, t_vars *vars);
 void		ft_cd(char **commands, t_vars *vars);
 
 // Built_ins2.c
@@ -145,6 +144,11 @@ char	**ft_split_novo_e_melhorado(char const *s, char c);
 
 //Built_ins6.c
 char	*new_get_value(char *str);
+
+//Built_ins7.c
+void	ctp_helper(char const *s, char c, char *d, size_t *i);
+void	put_matrix_helper(char const **s, char c, char *d, char *str);
+void	change_directory(char *path, t_vars *vars);
 
 // here_doc.c
 void		open_doc(t_vars *vars, char *commands, int *j);

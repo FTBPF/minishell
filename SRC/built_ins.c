@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:19 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/10 15:59:29 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/13 19:08:57 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,25 +76,6 @@ void	ft_echo(char **commands)
 	if (!n_flag)
 		ft_printf("\n");
 	exit(0);
-}
-
-void	change_directory(char *path, t_vars *vars)
-{
-	char	*old_pwd;
-	char	*new_pwd;
-	char	*temp;
-
-	old_pwd = get_env_var(vars, "PWD");
-	temp = old_pwd;
-	if (chdir(path) == 0)
-	{
-		new_pwd = getcwd(NULL, 0);
-		modify_env_var(vars, "OLDPWD", temp);
-		modify_env_var(vars, "PWD", new_pwd);
-		free(new_pwd);
-	}
-	else
-		perror(path);
 }
 
 void	ft_cd(char **commands, t_vars *vars)

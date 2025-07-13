@@ -6,7 +6,7 @@
 /*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 02:41:50 by marada            #+#    #+#             */
-/*   Updated: 2025/07/13 18:58:55 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/13 19:08:17 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,6 @@ static size_t	ft_tamnhoplavra(char const *s, char c)
 	return (i);
 }
 
-void	ctp_helper(char const *s, char c, char *d, size_t *i)
-{
-	while (s[*i] && (s[*i] != c || *d != '+'))
-	{
-		if (s[*i] == '\"' || s[*i] == '\'')
-		{
-			if (s[*i] == *d)
-				*d = '+';
-			else if (*d == '+')
-				*d = s[*i];
-		}
-		(*i)++;
-	}
-}
-
 static size_t	ft_ctp(char const *s, char c)
 {
 	size_t	i;
@@ -67,27 +52,6 @@ static size_t	ft_ctp(char const *s, char c)
 			i++;
 	}
 	return (ctp);
-}
-
-void	put_matrix_helper(char const **s, char c, char *d, char *str)
-{
-	int	i;
-
-	i = 0;
-	while (**s && (**s != c || *d != '+'))
-	{
-		if (**s == '\"' || **s == '\'')
-		{
-			if (**s == *d)
-				*d = '+';
-			else if (*d == '+')
-				*d = **s;
-		}
-		str[i] = **s;
-		i++;
-		(*s)++;
-	}
-	str[i] = '\0';
 }
 
 static char	**ft_putmatrix(char **matrix, char const *s, char c, size_t	ctp)
