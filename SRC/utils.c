@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:34 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/10 19:06:17 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/14 15:25:24 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 // Finds the PATH string in the "envp" text
 char	*find_path(char **envp)
 {
-	
 	while (ft_strncmp("PATH=", *envp, 5))
 	{
 		envp++;
@@ -27,9 +26,9 @@ char	*find_path(char **envp)
 
 int	count_words(char *str, char *delimiters)
 {
-	int			count;
-	int			token_length;
-	char		*token_start;
+	int		count;
+	int		token_length;
+	char	*token_start;
 
 	count = 0;
 	if (!str)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins6.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 20:15:18 by marada            #+#    #+#             */
-/*   Updated: 2025/07/10 19:06:03 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/14 15:25:18 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	new_improved_strcpy(char *dst, char *src)
 		{
 			if (src[j] == c)
 				c = '+';
-			else if(c == '+')
+			else if (c == '+')
 				c = src[j];
 			else
 			{
@@ -68,7 +68,7 @@ char	*new_get_value(char *str)
 		{
 			if (str[j] == c)
 				c = '+';
-			else if(c == '+')
+			else if (c == '+')
 				c = str[j];
 			else
 				x++;

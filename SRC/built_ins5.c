@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins5.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 02:41:50 by marada            #+#    #+#             */
-/*   Updated: 2025/07/10 19:05:59 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/14 15:25:04 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static size_t	ft_tamnhoplavra(char const *s, char c)
 {
 	size_t	i;
 	int		flag;
-	
+
 	flag = 0;
 	i = 0;
 	while (s[i] && (s[i] != c || flag == 1))
@@ -38,12 +38,12 @@ static size_t	ft_ctp(char const *s, char c)
 	size_t	i;
 	char	d;
 	size_t	ctp;
-	
+
 	d = '+';
 	i = 0;
 	ctp = 0;
 	while (s[i] && s[i] == c)
-	i++;
+		i++;
 	while (s[i])
 	{
 		while (s[i] && (s[i] != c || d != '+'))
@@ -52,29 +52,29 @@ static size_t	ft_ctp(char const *s, char c)
 			{
 				if (s[i] == d)
 					d = '+';
-				else if(d == '+')
+				else if (d == '+')
 					d = s[i];
 			}
 			i++;
 		}
 		ctp++;
 		while (s[i] && s[i] == c)
-		i++;
+			i++;
 	}
 	return (ctp);
 }
 
-static char	**ft_putmatrix(char **matrix, char const *s, char c, size_t	ctp)
+static char	**ft_putmatrix(char **matrix, char const *s, char c, size_t ctp)
 {
 	size_t	i;
 	char	d;
 	size_t	j;
-	
+
 	i = 0;
 	d = '+';
 	j = 0;
 	while (*s && *s == c)
-	s++;
+		s++;
 	while (ctp)
 	{
 		matrix[j] = (char *)malloc(sizeof(char) * (ft_tamnhoplavra(s, c) + 1));
@@ -85,7 +85,7 @@ static char	**ft_putmatrix(char **matrix, char const *s, char c, size_t	ctp)
 			{
 				if (s[i] == d)
 					d = '+';
-				else if(d == '+')
+				else if (d == '+')
 					d = s[i];
 			}
 			matrix[j][i] = *s;
@@ -112,5 +112,5 @@ char	**ft_split_novo_e_melhorado(char const *s, char c)
 	if (!matrix || !s)
 		return (0);
 	matrix = ft_putmatrix(matrix, s, c, ft_ctp(s, c));
-	return (matrix);	
+	return (matrix);
 }
