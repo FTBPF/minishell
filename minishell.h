@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/13 19:09:22 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/14 17:52:53 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,16 +139,16 @@ int			is_command_in_env(char *env_var, char **commands);
 void		ft_unset(t_vars *vars, char **commands);
 int			check_cd_ex_uns(char **commands, t_vars *vars);
 
-//Built_ins5.c
-char	**ft_split_novo_e_melhorado(char const *s, char c);
+// Built_ins5.c
+char		**ft_split_novo_e_melhorado(char const *s, char c);
 
-//Built_ins6.c
-char	*new_get_value(char *str);
+// Built_ins6.c
+char		*new_get_value(char *str);
 
-//Built_ins7.c
-void	ctp_helper(char const *s, char c, char *d, size_t *i);
-void	put_matrix_helper(char const **s, char c, char *d, char *str);
-void	change_directory(char *path, t_vars *vars);
+// Built_ins7.c
+void		ctp_helper(char const *s, char c, char *d, size_t *i);
+void		put_matrix_helper(char const **s, char c, char *d, char *str);
+void		change_directory(char *path, t_vars *vars);
 
 // here_doc.c
 void		open_doc(t_vars *vars, char *commands, int *j);

@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:37 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/10 18:44:35 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:50:13 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,16 +100,13 @@ int	check_cd_ex_uns(char **commands, t_vars *vars)
 
 	split_cmds = ft_split_novo_e_melhorado(commands[0], ' ');
 	if (!split_cmds || !split_cmds[0])
-	{
-		ft_free(split_cmds);
-		return (0);
-	}
+		return (ft_free(split_cmds), 0);
 	if (ft_strcmp(split_cmds[0], "cd") == 0)
 		ft_cd(split_cmds, vars);
 	else if (ft_strcmp(split_cmds[0], "exit") == 0 && split_cmds[1]
 		&& split_cmds[2])
 	{
-		ft_putendl_fd("exit: too many arguments", 2);
+		ft_putendl_fd("minishell: exit: too many arguments", 2);
 		vars->exit_stat = 1;
 	}
 	else if (ft_strcmp(split_cmds[0], "exit") == 0)
@@ -119,10 +116,7 @@ int	check_cd_ex_uns(char **commands, t_vars *vars)
 	else if (ft_strcmp(split_cmds[0], "export") == 0 && split_cmds[1])
 		ft_export(vars, split_cmds);
 	else
-	{
-		ft_free(split_cmds);
-		return (0);
-	}
+		return (ft_free(split_cmds), 0);
 	ft_free(split_cmds);
 	return (1);
 }
