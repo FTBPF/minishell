@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:19 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/10 15:59:29 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/14 18:11:24 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,25 +78,6 @@ void	ft_echo(char **commands)
 	exit(0);
 }
 
-void	change_directory(char *path, t_vars *vars)
-{
-	char	*old_pwd;
-	char	*new_pwd;
-	char	*temp;
-
-	old_pwd = get_env_var(vars, "PWD");
-	temp = old_pwd;
-	if (chdir(path) == 0)
-	{
-		new_pwd = getcwd(NULL, 0);
-		modify_env_var(vars, "OLDPWD", temp);
-		modify_env_var(vars, "PWD", new_pwd);
-		free(new_pwd);
-	}
-	else
-		perror(path);
-}
-
 void	ft_cd(char **commands, t_vars *vars)
 {
 	char	*home;
@@ -109,7 +90,7 @@ void	ft_cd(char **commands, t_vars *vars)
 		if (home)
 			change_directory(home, vars);
 		else
-			ft_printf("cd: HOME not set\n");
+			ft_printf("minishell: cd: HOME not set\n");
 	}
 	else if (ft_strcmp(commands[1], "-") == 0)
 	{
@@ -117,7 +98,7 @@ void	ft_cd(char **commands, t_vars *vars)
 		if (old_pwd)
 			change_directory(old_pwd, vars);
 		else
-			ft_printf("cd: OLDPWD not set\n");
+			ft_printf("minishell: cd: OLDPWD not set\n");
 	}
 	else
 		change_directory(commands[1], vars);

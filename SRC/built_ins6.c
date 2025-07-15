@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 20:15:18 by marada            #+#    #+#             */
-/*   Updated: 2025/07/14 15:25:18 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/15 16:04:26 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	new_improved_strcpy(char *dst, char *src)
 	char	c;
 
 	i = 0;
-	j = 0;
+	j = -1;
 	c = '+';
-	while (src[j])
+	while (src[++j])
 	{
 		if (src[j] == '\"' || src[j] == '\'')
 		{
@@ -30,39 +30,22 @@ void	new_improved_strcpy(char *dst, char *src)
 			else if (c == '+')
 				c = src[j];
 			else
-			{
-				dst[i] = src[j];
-				i++;
-			}
+				dst[i++] = src[j];
 		}
 		else
-		{
-			dst[i] = src[j];
-			i++;
-		}
-		j++;
+			dst[i++] = src[j];
 	}
 	dst[i] = '\0';
 }
 
-char	*new_get_value(char *str)
+int	get_value_helper(char *str, int j)
 {
-	int		i;
 	int		x;
-	int		j;
 	char	c;
-	char	*value;
 
-	i = 0;
 	x = 0;
 	c = '+';
-	while (str[i] && str[i] != '=')
-		i++;
-	if (!str[i])
-		return (NULL);
-	i++;
-	j = i;
-	while (str[j])
+	while (str[++j])
 	{
 		if (str[j] == '\"' || str[j] == '\'')
 		{
@@ -75,9 +58,22 @@ char	*new_get_value(char *str)
 		}
 		else
 			x++;
-		j++;
 	}
-	value = malloc(sizeof(char) * (x + 1));
+	return (x);
+}
+
+char	*new_get_value(char *str)
+{
+	int		i;
+	char	*value;
+
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	if (!str[i])
+		return (NULL);
+	i++;
+	value = malloc(sizeof(char) * (get_value_helper(str, i - 1) + 1));
 	if (!value)
 		exit(1);
 	new_improved_strcpy(value, str + i);

@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 02:41:50 by marada            #+#    #+#             */
-/*   Updated: 2025/07/14 15:25:04 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/15 16:04:20 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,7 @@ static size_t	ft_ctp(char const *s, char c)
 		i++;
 	while (s[i])
 	{
-		while (s[i] && (s[i] != c || d != '+'))
-		{
-			if (s[i] == '\"' || s[i] == '\'')
-			{
-				if (s[i] == d)
-					d = '+';
-				else if (d == '+')
-					d = s[i];
-			}
-			i++;
-		}
+		ctp_helper(s, c, &d, &i);
 		ctp++;
 		while (s[i] && s[i] == c)
 			i++;
@@ -66,11 +56,9 @@ static size_t	ft_ctp(char const *s, char c)
 
 static char	**ft_putmatrix(char **matrix, char const *s, char c, size_t ctp)
 {
-	size_t	i;
 	char	d;
 	size_t	j;
 
-	i = 0;
 	d = '+';
 	j = 0;
 	while (*s && *s == c)
@@ -78,21 +66,7 @@ static char	**ft_putmatrix(char **matrix, char const *s, char c, size_t ctp)
 	while (ctp)
 	{
 		matrix[j] = (char *)malloc(sizeof(char) * (ft_tamnhoplavra(s, c) + 1));
-		i = 0;
-		while (*s && (*s != c || d != '+'))
-		{
-			if (*s == '\"' || *s == '\'')
-			{
-				if (s[i] == d)
-					d = '+';
-				else if (d == '+')
-					d = s[i];
-			}
-			matrix[j][i] = *s;
-			i++;
-			s++;
-		}
-		matrix[j][i] = '\0';
+		put_matrix_helper(&s, c, &d, matrix[j]);
 		while (*s && *s == c)
 			s++;
 		j++;

@@ -3,19 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:31 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/10 19:05:52 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/14 18:19:22 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// default exit success is 0, failure is 1
-void	ft_exit(char **split_cmds)
+static int	ft_is_valid_number(char *str)
 {
 	int	i;
+
+	i = 0;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	if (!str[i])
+		return (0);
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+void	ft_exit(char **split_cmds)
+{
+	int		i;
 
 	i = 0;
 	while (split_cmds[i])
@@ -24,7 +41,7 @@ void	ft_exit(char **split_cmds)
 		exit(EXIT_SUCCESS);
 	else if (i == 2)
 	{
-		if (ft_isdigit(split_cmds[1][0]))
+		if (ft_is_valid_number(split_cmds[1]))
 			exit(ft_atoi(split_cmds[1]));
 		else
 		{
