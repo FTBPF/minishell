@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:37 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/15 16:42:04 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:41:35 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	ft_pwd(void)
 	}
 	else
 		perror("pwd");
-	exit(0);
+	g_exit_status = 0;
+	exit(g_exit_status);
 }
 
 // Helps determine the number of env variables that need to be unset.

@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:19 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/14 18:11:24 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/15 18:23:55 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ void	ft_echo(char **commands)
 	ft_echo2(commands, i);
 	if (!n_flag)
 		ft_printf("\n");
-	exit(0);
+	g_exit_status = 0;
+	exit(g_exit_status);
 }
 
 void	ft_cd(char **commands, t_vars *vars)
@@ -99,6 +100,12 @@ void	ft_cd(char **commands, t_vars *vars)
 			change_directory(old_pwd, vars);
 		else
 			ft_printf("minishell: cd: OLDPWD not set\n");
+	}
+	else if (commands[1] && commands[2])
+	{
+		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
+		g_exit_status = 1;
+		exit(g_exit_status);
 	}
 	else
 		change_directory(commands[1], vars);
