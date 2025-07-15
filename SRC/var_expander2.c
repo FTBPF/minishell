@@ -6,13 +6,13 @@
 /*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:43:12 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/15 17:17:21 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/15 17:24:11 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*replace_exit_status(t_vars *vars, char *commands, int j)
+char	*replace_exit_status(char *commands, int j)
 {
 	char	*temp;
 	char	*temp2;
@@ -25,17 +25,17 @@ char	*replace_exit_status(t_vars *vars, char *commands, int j)
 		temp = ft_strdup("");
 	temp2 = ft_substr(commands, j, ft_strlen(commands) - j);
 	free(commands);
-	commands = ft_strjoin_three(temp, ft_itoa(vars->exit_stat), temp2);
+	commands = ft_strjoin_three(temp, ft_itoa(g_exit_status), temp2);
 	free(temp);
 	free(temp2);
 	return (commands);
 }
 
-int	check_if_exit_stat(char **commands, int i, t_vars *vars, int j)
+int	check_if_exit_stat(char **commands, int i, int j)
 {
 	if (commands[i][j] == '$' && commands[i][j + 1] == '?')
 	{
-		commands[i] = replace_exit_status(vars, commands[i], j + 2);
+		commands[i] = replace_exit_status(commands[i], j + 2);
 		return (1);
 	}
 	return (0);
@@ -52,7 +52,7 @@ void	ft_expander_helper2(char **commands, t_vars *vars, int i)
 	in_squotes = -1;
 	while (commands[i][j])
 	{
-		if (in_squotes == -1 && check_if_exit_stat(commands, i, vars, j))
+		if (in_squotes == -1 && check_if_exit_stat(commands, i, j))
 			continue ;
 		else if (in_squotes == -1 && commands[i][j] == '$' && commands[i][j + 1] != ' ' && commands[i][j + 1] != '\0' && commands[i][j + 1] != '\"')
 		{

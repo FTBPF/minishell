@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:34 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/13 19:09:53 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/15 16:04:43 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ char	*find_path(char **envp)
 
 int	count_words(char *str, char *delimiters)
 {
-	int			count;
-	int			token_length;
-	char		*token_start;
+	int		count;
+	int		token_length;
+	char	*token_start;
 
 	count = 0;
 	if (!str)

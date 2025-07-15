@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins5.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 02:41:50 by marada            #+#    #+#             */
-/*   Updated: 2025/07/13 19:08:17 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/15 16:04:20 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static size_t	ft_ctp(char const *s, char c)
 	return (ctp);
 }
 
-static char	**ft_putmatrix(char **matrix, char const *s, char c, size_t	ctp)
+static char	**ft_putmatrix(char **matrix, char const *s, char c, size_t ctp)
 {
 	char	d;
 	size_t	j;

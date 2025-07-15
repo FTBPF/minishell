@@ -6,11 +6,13 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:12 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/10 15:51:09 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:16:47 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int			g_exit_status = 0;
 
 // returns i so that the processes dont interrupt each other (while loop)
 int	minishell_helper(char *input, char **env, t_vars *vars,
@@ -48,19 +50,12 @@ void	minishell(char *input, char **env, t_vars *vars, char **commands)
 	int		status;
 
 	i = 0;
-	vars->exit_stat = 0;
 	commands = NULL;
 	status = 0;
 	i = minishell_helper(input, env, vars, commands);
 	if (i == 0)
 		return ;
 	close(vars->pipe_fd[0]);
-	while (i-- > 0)
-	{
-		wait(&status);
-		if (WIFEXITED(status))
-			vars->exit_stat = WEXITSTATUS(status);
-	}
 	if (commands)
 		ft_free(commands);
 	if (input)
@@ -93,7 +88,7 @@ void	run_shell(t_vars *vars, char **env)
 		input = readline("myshell> ");
 		if (!ft_exit_ctrl_d(input))
 		{
-			vars->exit_stat = 1;
+			g_exit_status = 1;
 			if (commands)
 				ft_free (commands);
 			ft_free(vars->my_environ);
@@ -117,5 +112,5 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	setup_shell(&vars, env);
 	run_shell(&vars, env);
-	return (0);
+	return (g_exit_status);
 }

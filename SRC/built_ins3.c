@@ -6,7 +6,7 @@
 /*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:31 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/15 16:26:23 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/15 17:23:48 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,26 +33,52 @@ static int	ft_is_valid_number(char *str)
 void	ft_exit(char **split_cmds)
 {
 	int		i;
+	char	**split;
+	char	*clean_str;
+	
 	i = 0;
+	split = NULL;
+	clean_str = NULL;
 	while (split_cmds[i])
 		i++;
 	if (i == 1)
+	{
+		printf("exit\n");
 		exit(EXIT_SUCCESS);
+	}
 	else if (i == 2)
 	{
-		if (ft_is_valid_number(split_cmds[1]))
-			exit(ft_atoi(split_cmds[1]));
+		check_if_exit_stat(&split_cmds[1], 0, 0);
+		split = ft_split_novo_e_melhorado(split_cmds[1], '"');
+		if (!split || !split[0])
+		{
+			g_exit_status = 2;
+			ft_free(split);
+			ft_printf("minishell: exit: %s: numeric argument required\n", split_cmds[1]);
+			exit(g_exit_status);
+		}
+		clean_str = ft_strdup(split[0]);
+		ft_free(split);
+		if (ft_is_valid_number(clean_str))
+		{
+			printf("exit\n");
+			g_exit_status = ft_atoi(clean_str);
+			free(clean_str);
+			exit((unsigned char)g_exit_status);
+		}
 		else
 		{
+			g_exit_status = 2;
 			ft_printf("minishell: exit: %s: numeric argument required\n",
 				split_cmds[1]);
-			exit(2);
+			exit(g_exit_status);
 		}
 	}
 	else
 	{
+		g_exit_status = 1;
 		ft_printf("minishell: exit: too many arguments\n");
-		exit(EXIT_FAILURE);
+		exit(g_exit_status);
 	}
 }
 
@@ -66,7 +92,8 @@ void	ft_env(t_vars *vars)
 		ft_printf("%s\n", vars->my_environ[i]);
 		i++;
 	}
-	exit(0);
+	g_exit_status = 0;
+	exit(g_exit_status);
 }
 
 char	*get_var_name(char *str)

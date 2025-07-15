@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/14 17:54:10 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:15:46 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ static void	cleanup_temp_file(t_vars *vars)
 
 void	first_process(t_vars *vars, char **envp, char **commands, int *j)
 {
+	int	status;
+
 	vars->fd0 = 0;
 	vars->fd1 = 1;
 	vars->cmd_flags = ft_split_commands_no_redirection(commands[0], " |<>");
@@ -90,7 +92,11 @@ void	first_process(t_vars *vars, char **envp, char **commands, int *j)
 		execute_command(vars, commands, envp);
 	first_process_helper(vars);
 	vars->p0 = vars->pipe_fd[0];
-	wait(&vars->pid1);
+	waitpid(vars->pid1, &status, 0);
+	if (WIFEXITED(status))
+		g_exit_status = WEXITSTATUS(status);
+	else
+		g_exit_status = 1;
 	cleanup_temp_file(vars);
 	if (vars->cmd_flags)
 		ft_free(vars->cmd_flags);

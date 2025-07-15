@@ -6,12 +6,14 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/14 17:52:53 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/15 16:43:33 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+extern int			g_exit_status;
 
 # include "GNL/get_next_line.h"
 # include "ft_printf/ft_printf.h"
@@ -23,6 +25,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
+
 
 typedef struct s_vars
 {
@@ -41,7 +44,6 @@ typedef struct s_vars
 	char	**cmd2_flags;
 	char	*here_doc_fd;
 	char	**my_environ;
-	int		exit_stat;
 	int		num_env_vars;
 }			t_vars;
 
@@ -169,8 +171,8 @@ char		*replace_var(t_vars *vars, char *commands, int j);
 void		var_expander(t_vars *vars, char **commands);
 
 // var_expander.c
-char		*replace_exit_status(t_vars *vars, char *commands, int j);
-int			check_if_exit_stat(char **commands, int i, t_vars *vars, int j);
+char		*replace_exit_status(char *commands, int j);
+int			check_if_exit_stat(char **commands, int i, int j);
 void		ft_expander_helper2(char **commands, t_vars *vars, int i);
 
 #endif

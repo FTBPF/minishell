@@ -6,7 +6,7 @@
 /*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:37 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/15 16:28:31 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/15 17:23:58 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	check_cd_ex_uns(char **commands, t_vars *vars)
 		&& split_cmds[2])
 	{
 		ft_putendl_fd("minishell: exit: too many arguments", 2);
-		vars->exit_stat = 1;
+		g_exit_status = 1;
 	}
 	else if (ft_strcmp(split_cmds[0], "exit") == 0)
 		ft_exit(split_cmds);
