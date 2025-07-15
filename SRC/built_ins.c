@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:19 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/13 19:08:57 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/14 18:11:24 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	ft_cd(char **commands, t_vars *vars)
 		if (home)
 			change_directory(home, vars);
 		else
-			ft_printf("cd: HOME not set\n");
+			ft_printf("minishell: cd: HOME not set\n");
 	}
 	else if (ft_strcmp(commands[1], "-") == 0)
 	{
@@ -98,7 +98,7 @@ void	ft_cd(char **commands, t_vars *vars)
 		if (old_pwd)
 			change_directory(old_pwd, vars);
 		else
-			ft_printf("cd: OLDPWD not set\n");
+			ft_printf("minishell: cd: OLDPWD not set\n");
 	}
 	else
 		change_directory(commands[1], vars);
