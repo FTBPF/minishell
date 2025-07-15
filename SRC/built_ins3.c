@@ -6,7 +6,7 @@
 /*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:31 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/15 17:29:23 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/15 18:33:39 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_exit(char **split_cmds)
 	int		i;
 	char	*split;
 	char	*clean_str;
-	
+
 	i = 0;
 	split = NULL;
 	clean_str = NULL;
@@ -54,7 +54,8 @@ void	ft_exit(char **split_cmds)
 		{
 			g_exit_status = 2;
 			free(split);
-			ft_printf("minishell: exit: %s: numeric argument required\n", split_cmds[1]);
+			ft_printf("minishell: exit: %s: numeric argument required\n",
+				split_cmds[1]);
 			exit(g_exit_status);
 		}
 		clean_str = ft_strdup(split);
@@ -69,7 +70,9 @@ void	ft_exit(char **split_cmds)
 		else
 		{
 			g_exit_status = 2;
-			ft_putendl_fd("minishell: exit: numeric argument required", 2);
+			ft_putstr_fd("minishell: exit: ", 2);
+			ft_putstr_fd(clean_str, 2);
+			ft_putstr_fd(" numeric argument required\n", 2);
 			exit(g_exit_status);
 		}
 	}
@@ -105,7 +108,10 @@ char	*get_var_name(char *str)
 		i++;
 	name = malloc(sizeof(char) * (i + 1));
 	if (!name)
-		exit(1);
+	{
+		g_exit_status = 1;
+		exit(g_exit_status);
+	}
 	ft_strlcpy(name, str, i + 1);
 	return (name);
 }
@@ -127,7 +133,10 @@ char	*get_value(char *str)
 		j++;
 	value = malloc(sizeof(char) * (j - i + 1));
 	if (!value)
-		exit(1);
+	{
+		g_exit_status = 1;
+		exit(g_exit_status);
+	}
 	ft_strlcpy(value, str + i, j - i + 1);
 	return (value);
 }
@@ -157,6 +166,7 @@ void	ft_export(t_vars *vars, char **split_cmds)
 	else
 	{
 		ft_env(vars);
-		exit(1);
+		g_exit_status = 1;
+		exit(g_exit_status);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:27 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/15 16:41:37 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:50:48 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,6 @@ void	setup_redirections(char **commands, t_vars *vars, int *j)
 	if (!setup_pipe(vars->pipe_fd))
 	{
 		g_exit_status = 1;
-		exit(1);
+		exit(g_exit_status);
 	}
 }

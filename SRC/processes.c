@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/15 17:15:46 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/15 18:01:55 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,22 @@ void	execute_command(t_vars *vars, char **commands, char **envp)
 	remove_quotes_from_array(vars->cmd_flags);
 	vars->cmd1_path = check_valid_cmd(vars->cmd_flags[0], vars->my_environ);
 	if (vars->cmd1_path == NULL)
-		exit(127);
+	{
+		g_exit_status = 127;	
+		exit(g_exit_status);
+	}
 	handle_io(vars, commands);
 	if (check_if_builtin(vars))
 	{
 		run_builtin(vars);
-		exit(0);
+		exit(g_exit_status);
 	}
-	execve(vars->cmd1_path, vars->cmd_flags, envp);
-	perror("execve");
-	exit(1);
+	if (execve(vars->cmd1_path, vars->cmd_flags, envp) == -1)
+	{
+		perror("minishell");
+		g_exit_status = 126;
+		exit(g_exit_status);
+	}
 }
 
 static void	cleanup_temp_file(t_vars *vars)

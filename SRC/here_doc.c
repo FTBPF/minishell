@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:52 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/08 16:04:10 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:42:39 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ void	process_heredoc(t_vars *vars, char *doc_file, int fd)
 	get_next_line(-1);
 	free(doc_file);
 	ft_free_vars(vars);
-	exit(0);
+	g_exit_status = 0;
+	exit(g_exit_status);
 }
 
 // Searches the commands matrix for '<<'

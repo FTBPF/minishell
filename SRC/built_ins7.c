@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins7.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 19:06:41 by marada            #+#    #+#             */
-/*   Updated: 2025/07/13 19:09:03 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/15 18:25:12 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,9 @@ void	change_directory(char *path, t_vars *vars)
 		free(new_pwd);
 	}
 	else
+	{
+		ft_putstr_fd("minishell: cd: ", 2);
+		g_exit_status = 1;
 		perror(path);
+	}
 }
