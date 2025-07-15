@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:31 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/15 16:53:07 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:27:18 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	ft_is_valid_number(char *str)
 void	ft_exit(char **split_cmds)
 {
 	int		i;
-	char	**split;
+	char	*split;
 	char	*clean_str;
 	
 	i = 0;
@@ -49,16 +49,16 @@ void	ft_exit(char **split_cmds)
 	else if (i == 2)
 	{
 		check_if_exit_stat(&split_cmds[1], 0, 0);
-		split = ft_split_novo_e_melhorado(split_cmds[1], '"');
+		split = remove_quotes_from_string(split_cmds[1]);
 		if (!split || !split[0])
 		{
 			g_exit_status = 2;
-			ft_free(split);
+			free(split);
 			ft_printf("minishell: exit: %s: numeric argument required\n", split_cmds[1]);
 			exit(g_exit_status);
 		}
-		clean_str = ft_strdup(split[0]);
-		ft_free(split);
+		clean_str = ft_strdup(split);
+		free(split);
 		if (ft_is_valid_number(clean_str))
 		{
 			printf("exit\n");
@@ -69,8 +69,7 @@ void	ft_exit(char **split_cmds)
 		else
 		{
 			g_exit_status = 2;
-			ft_printf("minishell: exit: %s: numeric argument required\n",
-				split_cmds[1]);
+			ft_putendl_fd("minishell: exit: numeric argument required", 2);
 			exit(g_exit_status);
 		}
 	}
