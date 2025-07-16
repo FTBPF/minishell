@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_sanitize.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:05 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/10 19:00:44 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/16 18:16:26 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ char	*check_command(char *command, char **split_paths)
 		i++;
 	}
 	ft_free(split_paths);
-	ft_printf("Command not found: %s\n", command);
+	ft_putstr_fd(command, 2);
+	ft_putstr_fd(": command not found\n", 2);
 	return (NULL);
 }
 
@@ -95,7 +96,8 @@ char	*check_valid_cmd(char *command, char **envp)
 	path_var = find_path(envp);
 	if (!path_var)
 	{
-		ft_printf("minishell: command not found: %s\n", command);
+		ft_putstr_fd(command, 2);
+		ft_putstr_fd(": command not found\n", 2);
 		return (NULL);
 	}
 	split_paths = ft_split(path_var, ':');

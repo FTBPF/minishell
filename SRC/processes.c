@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/16 17:46:15 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/16 18:40:06 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,9 @@ void	execute_command(t_vars *vars, char **commands, char **envp)
 	}
 	if (execve(vars->cmd1_path, vars->cmd_flags, envp) == -1)
 	{
-		perror("minishell");
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(commands[0], 2);
+		ft_putstr_fd(": Is a directory\n", 2);
 		g_exit_status = 126;
 		exit(g_exit_status);
 	}
@@ -105,6 +107,5 @@ void	first_process(t_vars *vars, char **envp, char **commands, int *j)
 		execute_command(vars, commands, envp);
 	first_process_helper(vars);
 	vars->p0 = vars->pipe_fd[0];
-
 	cleanup_temp_file(vars);
 }

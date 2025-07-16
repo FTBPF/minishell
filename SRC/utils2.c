@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:40 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/08 16:04:23 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/16 18:49:48 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*get_next_token_no_redirection(char *str, char *delimiters)
 	{
 		if (in_quotes == 0 && ft_strchr(delimiters, *str))
 		{
-			if (*str == '>')
+			if (*str == '>' || *str == '<')
 				str = funcao_nova(str, delimiters);
 			str++;
 		}
