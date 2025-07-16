@@ -1,5 +1,3 @@
-.SILENT:
-
 NAME = minishell
 
 CC = cc
@@ -24,21 +22,21 @@ OBJ_GNL = $(SRC_GNL:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(addprefix SRC/,$(OBJ))  $(addprefix GNL/,$(OBJ_GNL)) $(addprefix GNL/,$(OBJ_GNL))
-	make -s -C ft_printf
-	make -s -C libft
-	$(CC) $(addprefix SRC/,$(OBJ)) $(addprefix GNL/,$(OBJ_GNL)) ft_printf/libftprintf.a libft/libft.a -o $(NAME) -lreadline
+$(NAME): $(addprefix SRC/,$(OBJ)) $(addprefix GNL/,$(OBJ_GNL)) $(addprefix GNL/,$(OBJ_GNL))
+	@make -s -C ft_printf
+	@make -s -C libft
+	@$(CC) $(addprefix SRC/,$(OBJ)) $(addprefix GNL/,$(OBJ_GNL)) ft_printf/libftprintf.a libft/libft.a -o $(NAME) -lreadline
 
 clean: 
-	make clean -s -C ft_printf
-	make clean -s -C libft
-	$(RM) $(addprefix SRC/,$(OBJ))
-	$(RM) $(addprefix GNL/,$(OBJ_GNL))
+	@make clean -s -C ft_printf
+	@make clean -s -C libft
+	@$(RM) $(addprefix SRC/,$(OBJ))
+	@$(RM) $(addprefix GNL/,$(OBJ_GNL))
 
 fclean: clean
-	make fclean -s -C ft_printf
-	make fclean -s -C libft
-	$(RM) $(NAME) $(LIB)
+	@make fclean -s -C ft_printf
+	@make fclean -s -C libft
+	@$(RM) $(NAME) $(LIB)
 
 re: fclean all
 

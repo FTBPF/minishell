@@ -6,11 +6,11 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 16:26:23 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/16 16:27:59 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/16 17:23:34 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	change_directory(char *path, t_vars *vars)
 {
