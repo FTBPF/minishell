@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_expander2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:43:12 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/15 17:24:11 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/16 15:59:01 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ void	ft_expander_helper2(char **commands, t_vars *vars, int i)
 	{
 		if (in_squotes == -1 && check_if_exit_stat(commands, i, j))
 			continue ;
-		else if (in_squotes == -1 && commands[i][j] == '$' && commands[i][j + 1] != ' ' && commands[i][j + 1] != '\0' && commands[i][j + 1] != '\"')
+		else if (in_squotes == -1 && commands[i][j] == '$' && commands[i][j
+			+ 1] != ' ' && commands[i][j + 1] != '\0' && commands[i][j
+			+ 1] != '\"')
 		{
 			commands[i] = replace_var(vars, commands[i], j + 1);
 			if (!commands[i])
