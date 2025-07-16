@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/15 18:01:55 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/16 17:45:29 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ static void	handle_io(t_vars *vars, char **commands)
 		close(vars->fd1);
 	}
 	else if (commands[1])
+	{
 		dup2(vars->pipe_fd[1], STDOUT_FILENO);
+		close(vars->pipe_fd[1]);
+	}
 	close(vars->pipe_fd[0]);
 	if (vars->fd0 != 0)
 	{
@@ -40,7 +43,10 @@ static void	handle_io(t_vars *vars, char **commands)
 		close(vars->fd0);
 	}
 	else if (vars->p0 != 0)
+	{
 		dup2(vars->p0, STDIN_FILENO);
+		close(vars->p0);
+	}
 }
 
 void	execute_command(t_vars *vars, char **commands, char **envp)
@@ -80,8 +86,6 @@ static void	cleanup_temp_file(t_vars *vars)
 
 void	first_process(t_vars *vars, char **envp, char **commands, int *j)
 {
-	int	status;
-
 	vars->fd0 = 0;
 	vars->fd1 = 1;
 	vars->cmd_flags = ft_split_commands_no_redirection(commands[0], " |<>");
@@ -98,11 +102,7 @@ void	first_process(t_vars *vars, char **envp, char **commands, int *j)
 		execute_command(vars, commands, envp);
 	first_process_helper(vars);
 	vars->p0 = vars->pipe_fd[0];
-	waitpid(vars->pid1, &status, 0);
-	if (WIFEXITED(status))
-		g_exit_status = WEXITSTATUS(status);
-	else
-		g_exit_status = 1;
+
 	cleanup_temp_file(vars);
 	if (vars->cmd_flags)
 		ft_free(vars->cmd_flags);

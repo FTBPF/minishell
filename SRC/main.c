@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:12 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/15 17:16:47 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/16 17:41:47 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int			g_exit_status = 0;
 int	minishell_helper(char *input, char **env, t_vars *vars,
 		char **commands)
 {
+	int	status;
+
 	if (str_is_spaces_only(input))
 		return (0);
 	commands = ft_split_commands(input, "|");
@@ -33,12 +35,19 @@ int	minishell_helper(char *input, char **env, t_vars *vars,
 	vars->i = 0;
 	vars->p0 = 0;
 	vars->j = 0;
+	// run_pipeline(vars, env, commands);
 	while (commands[vars->i])
 	{
 		first_process(vars, env, &commands[vars->i], &vars->j);
 		free(commands[vars->i]);
 		(vars->i)++;
 	}
+	while (wait(&status) > 0)
+		;
+	if (WIFEXITED(status))
+		g_exit_status = WEXITSTATUS(status);
+	else
+		g_exit_status = 1;
 	free(commands);
 	commands = NULL;
 	return (vars->i);

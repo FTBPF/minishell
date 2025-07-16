@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/15 16:43:33 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/16 16:31:59 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ extern int			g_exit_status;
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
+#include <errno.h>
 
 
 typedef struct s_vars
@@ -66,6 +67,7 @@ int			setup_input_redirection(char **commands, t_vars *vars, int *j);
 int			setup_output_redirection(char **commands, t_vars *vars);
 void		execute_command(t_vars *vars, char **commands, char **envp);
 void		first_process(t_vars *vars, char **envp, char **commands, int *j);
+void	run_pipeline(t_vars *vars, char **envp, char **commands);
 
 // utils.c
 char		*find_path(char **envp);
