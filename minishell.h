@@ -6,14 +6,12 @@
 /*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/16 16:31:59 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/16 17:46:06 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
-extern int			g_exit_status;
 
 # include "GNL/get_next_line.h"
 # include "ft_printf/ft_printf.h"
@@ -27,6 +25,7 @@ extern int			g_exit_status;
 # include <sys/wait.h>
 #include <errno.h>
 
+extern int	g_exit_status;
 
 typedef struct s_vars
 {

@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:19 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/15 18:23:55 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/16 16:27:54 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,37 +49,7 @@ void	run_builtin(t_vars *vars)
 	return ;
 }
 
-void	ft_echo2(char **commands, int i)
-{
-	while (commands[i])
-	{
-		ft_printf("%s", commands[i]);
-		if (commands[i + 1])
-			ft_printf(" ");
-		i++;
-	}
-}
-
-void	ft_echo(char **commands)
-{
-	int	i;
-	int	n_flag;
-
-	i = 1;
-	n_flag = 0;
-	if (commands[1] && check_flag_n(commands[1]) == 1)
-	{
-		n_flag = 1;
-		i++;
-	}
-	ft_echo2(commands, i);
-	if (!n_flag)
-		ft_printf("\n");
-	g_exit_status = 0;
-	exit(g_exit_status);
-}
-
-void	ft_cd(char **commands, t_vars *vars)
+static int	handle_cd_special_cases(char **commands, t_vars *vars)
 {
 	char	*home;
 	char	*old_pwd;
@@ -91,22 +61,28 @@ void	ft_cd(char **commands, t_vars *vars)
 		if (home)
 			change_directory(home, vars);
 		else
-			ft_printf("minishell: cd: HOME not set\n");
+			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+		return (1);
 	}
-	else if (ft_strcmp(commands[1], "-") == 0)
+	if (ft_strcmp(commands[1], "-") == 0)
 	{
-		old_pwd = get_env_var(vars, "OLDPWD");
 		if (old_pwd)
 			change_directory(old_pwd, vars);
 		else
-			ft_printf("minishell: cd: OLDPWD not set\n");
+			ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
+		return (1);
 	}
-	else if (commands[1] && commands[2])
+	return (0);
+}
+
+void	ft_cd(char **commands, t_vars *vars)
+{
+	if (commands[2])
 	{
 		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
-		g_exit_status = 1;
-		exit(g_exit_status);
+		exit(g_exit_status = 1);
 	}
-	else
-		change_directory(commands[1], vars);
+	if (handle_cd_special_cases(commands, vars))
+		return ;
+	change_directory(commands[1], vars);
 }

@@ -3,86 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:31 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/15 18:33:39 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/16 16:26:59 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static int	ft_is_valid_number(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[i] == '+' || str[i] == '-')
-		i++;
-	if (!str[i])
-		return (0);
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-void	ft_exit(char **split_cmds)
-{
-	int		i;
-	char	*split;
-	char	*clean_str;
-
-	i = 0;
-	split = NULL;
-	clean_str = NULL;
-	while (split_cmds[i])
-		i++;
-	if (i == 1)
-	{
-		printf("exit\n");
-		exit(EXIT_SUCCESS);
-	}
-	else if (i == 2)
-	{
-		check_if_exit_stat(&split_cmds[1], 0, 0);
-		split = remove_quotes_from_string(split_cmds[1]);
-		if (!split || !split[0])
-		{
-			g_exit_status = 2;
-			free(split);
-			ft_printf("minishell: exit: %s: numeric argument required\n",
-				split_cmds[1]);
-			exit(g_exit_status);
-		}
-		clean_str = ft_strdup(split);
-		free(split);
-		if (ft_is_valid_number(clean_str))
-		{
-			printf("exit\n");
-			g_exit_status = ft_atoi(clean_str);
-			free(clean_str);
-			exit((unsigned char)g_exit_status);
-		}
-		else
-		{
-			g_exit_status = 2;
-			ft_putstr_fd("minishell: exit: ", 2);
-			ft_putstr_fd(clean_str, 2);
-			ft_putstr_fd(" numeric argument required\n", 2);
-			exit(g_exit_status);
-		}
-	}
-	else
-	{
-		g_exit_status = 1;
-		ft_printf("minishell: exit: too many arguments\n");
-		exit(g_exit_status);
-	}
-}
 
 void	ft_env(t_vars *vars)
 {
@@ -98,14 +26,31 @@ void	ft_env(t_vars *vars)
 	exit(g_exit_status);
 }
 
+char	*ft_export_error(char *str)
+{
+	g_exit_status = 1;
+	ft_putstr_fd("minishell: export: `", 2);
+	ft_putstr_fd(str, 2);
+	ft_putendl_fd("': not a valid identifier", 2);
+	return (NULL);
+}
+
 char	*get_var_name(char *str)
 {
 	int		i;
+	int		equal_flag;
 	char	*name;
 
 	i = 0;
-	while (str[i] && str[i] != '=')
+	equal_flag = 0;
+	if (str[i] == '=' || ft_isdigit(str[1]))
+		return (ft_export_error(str));
+	while (str[i] && str[i] != '=' && str[i] != '-')
 		i++;
+	if (str[i] == '=' && str[i + 1] != '\0')
+		equal_flag = 1;
+	else if (str[i] == '-')
+		return (ft_export_error(str));
 	name = malloc(sizeof(char) * (i + 1));
 	if (!name)
 	{
@@ -147,10 +92,10 @@ void	ft_export(t_vars *vars, char **split_cmds)
 	char	*name;
 	char	*value;
 
-	i = 1;
+	i = -1;
 	if (split_cmds[i])
 	{
-		while (split_cmds[i])
+		while (split_cmds[++i])
 		{
 			name = get_var_name(split_cmds[i]);
 			value = new_get_value(split_cmds[i]);
@@ -160,7 +105,6 @@ void	ft_export(t_vars *vars, char **split_cmds)
 				add_env_var(vars, name, "");
 			free(name);
 			free(value);
-			i++;
 		}
 	}
 	else

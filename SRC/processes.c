@@ -6,7 +6,7 @@
 /*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/16 17:45:29 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/16 17:46:15 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	execute_command(t_vars *vars, char **commands, char **envp)
 	vars->cmd1_path = check_valid_cmd(vars->cmd_flags[0], vars->my_environ);
 	if (vars->cmd1_path == NULL)
 	{
-		g_exit_status = 127;	
+		g_exit_status = 127;
 		exit(g_exit_status);
 	}
 	handle_io(vars, commands);
@@ -82,6 +82,9 @@ static void	cleanup_temp_file(t_vars *vars)
 		free(vars->temp);
 		vars->temp = NULL;
 	}
+	if (vars->cmd_flags)
+		ft_free(vars->cmd_flags);
+	vars->cmd_flags = NULL;
 }
 
 void	first_process(t_vars *vars, char **envp, char **commands, int *j)
@@ -104,7 +107,4 @@ void	first_process(t_vars *vars, char **envp, char **commands, int *j)
 	vars->p0 = vars->pipe_fd[0];
 
 	cleanup_temp_file(vars);
-	if (vars->cmd_flags)
-		ft_free(vars->cmd_flags);
-	vars->cmd_flags = NULL;
 }
