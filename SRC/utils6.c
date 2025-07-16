@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils6.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:59 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/08 17:02:38 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/16 19:29:12 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,22 @@
 
 char	*funcao_nova(char *str, char *delimiters)
 {
+	char	d;
+
+	d = '+';
 	while (*str && ft_strchr(delimiters, *str))
 		str++;
-	while (*str && !ft_strchr(delimiters, *str))
+	while (*str && (!ft_strchr(delimiters, *str) || d != '+'))
+	{
+		if (*str == '\"' || *str == '\'')
+		{
+			if (*str == d)
+				d = '+';
+			else if (d == '+')
+				d = *str;
+		}		
 		str++;
+	}
 	str--;
 	return (str);
 }

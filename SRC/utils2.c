@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:40 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/16 18:49:48 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/16 19:29:55 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ char	**ft_split_commands_no_redirection(char *str, char *delimiters)
 	if (str == NULL)
 		return (NULL);
 	num_words = count_words_no_redirection(str, delimiters);
+	// printf("ctp %i\n", num_words);
 	tokens = malloc((num_words + 1) * sizeof(char *));
 	if (!tokens)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:12 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/16 17:41:47 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/16 18:56:22 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	minishell_helper(char *input, char **env, t_vars *vars,
 	vars->i = 0;
 	vars->p0 = 0;
 	vars->j = 0;
-	// run_pipeline(vars, env, commands);
 	while (commands[vars->i])
 	{
 		first_process(vars, env, &commands[vars->i], &vars->j);
