@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:44 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/16 16:26:46 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/16 19:26:58 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,6 @@ void	ft_free_vars(t_vars *vars)
 
 void	ft_vars_init(t_vars *vars)
 {
-	vars->fd0 = 0;
-	vars->fd1 = 1;
-	vars->p0 = 0;
-	vars->pipe_fd[0] = -1;
-	vars->pipe_fd[1] = -1;
 	vars->num_env_vars = 0;
 	vars->here_doc_fd = NULL;
 	vars->my_environ = NULL;

@@ -6,7 +6,7 @@
 /*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:12 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/16 18:56:22 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/16 19:32:49 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	minishell_helper(char *input, char **env, t_vars *vars,
 	if (WIFEXITED(status))
 		g_exit_status = WEXITSTATUS(status);
 	else
-		g_exit_status = 1;
+		g_exit_status = 0;
 	free(commands);
 	commands = NULL;
 	return (vars->i);

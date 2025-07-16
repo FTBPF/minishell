@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:05 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/16 18:16:26 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/16 19:30:06 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 // Checks if the command received in ARGV is valid by
 // searching for it in the bin folder
+
+// Test 136?
 
 char	*check_executable(char *command, char **split_paths)
 {
