@@ -6,7 +6,7 @@
 /*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/17 19:16:00 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/17 19:17:34 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,12 @@ void	handle_file_opening(char *str, t_vars *vars, char *infile, int *j)
 		(*j)++;
 	}
 	else
+	{
 		vars->fd0 = open(infile, O_RDONLY);
-	free(infile);
+		vars->infile_name = remove_quotes_from_string(ft_strdup(infile));
+		free(infile);
+		return ;
+	}
 }
 
 static void	handle_io(t_vars *vars, char **commands)
@@ -39,8 +43,19 @@ static void	handle_io(t_vars *vars, char **commands)
 	close(vars->pipe_fd[0]);
 	if (vars->fd0 != 0)
 	{
-		dup2(vars->fd0, STDIN_FILENO);
-		close(vars->fd0);
+		if (vars->fd0 == -1)
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(vars->infile_name, 2);
+			ft_putstr_fd(": No such file or directory\n", 2);
+			g_exit_status = 1;
+			exit(g_exit_status);
+		}
+		else
+		{
+			dup2(vars->fd0, STDIN_FILENO);
+			close(vars->fd0);
+		}
 	}
 	else if (vars->p0 != 0)
 	{
@@ -82,7 +97,7 @@ void	execute_command(t_vars *vars, char **commands, char **envp)
 		}
 		else if (errno == ENOENT)
 		{
-			ft_putstr_fd(": No such file or directory\n", 2);
+			ft_putstr_fd(": EXEC_No such file or directory\n", 2);
 			g_exit_status = 127;
 		}
 		else

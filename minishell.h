@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/17 17:35:29 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:12:22 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <sys/wait.h>
 # include <sys/stat.h>
+# include <sys/wait.h>
 
 extern int	g_exit_status;
 
@@ -47,6 +47,7 @@ typedef struct s_vars
 	char	**my_environ;
 	int		num_env_vars;
 	int		in_child_process;
+	char	*infile_name;
 }			t_vars;
 
 // Input Sanitize.c

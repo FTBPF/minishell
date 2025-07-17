@@ -6,7 +6,7 @@
 /*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:31 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/17 18:23:36 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/17 19:17:22 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*get_var_name(char *str)
 	while (str[i] && str[i] != '=' && str[i] != '-')
 		i++;
 	if (str[i] == '-')
-			return (ft_export_error(str));
+		return (ft_export_error(str));
 	else if (str[i] != '=')
 		return (NULL);
 	name = malloc(sizeof(char) * (i + 1));
