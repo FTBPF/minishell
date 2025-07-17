@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:31 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/17 17:45:29 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:23:36 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,17 @@ char	*ft_export_error(char *str)
 char	*get_var_name(char *str)
 {
 	int		i;
-	int		equal_only;
 	char	*name;
 
 	i = 0;
-	equal_only = 0;
 	if (str[i] == '=' || ft_isdigit(str[1]))
 		return (ft_export_error(str));
 	while (str[i] && str[i] != '=' && str[i] != '-')
 		i++;
-	if (str[i] == '=' && str[i + 1] == '\0')
-		equal_only = 1;
-	else if (str[i] == '-')
-		return (ft_export_error(str));
+	if (str[i] == '-')
+			return (ft_export_error(str));
+	else if (str[i] != '=')
+		return (NULL);
 	name = malloc(sizeof(char) * (i + 1));
 	if (!name)
 	{
