@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:05 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/16 19:30:06 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/17 17:54:23 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,19 @@
 // Checks if the command received in ARGV is valid by
 // searching for it in the bin folder
 
-// Test 136?
-
 char	*check_executable(char *command, char **split_paths)
 {
-	if (access(command, X_OK) == 0)
+	if (access(command, X_OK) == 0 || access(command, F_OK) == 0)
 	{
 		ft_free(split_paths);
 		return (command);
 	}
 	else
 	{
-		perror(command);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(command, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		ft_free(split_paths);
 		return (NULL);
 	}
 }

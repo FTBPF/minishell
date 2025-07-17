@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/16 17:46:06 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/17 17:35:29 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "GNL/get_next_line.h"
 # include "ft_printf/ft_printf.h"
 # include "libft/libft.h"
+# include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -23,7 +24,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
-#include <errno.h>
+# include <sys/stat.h>
 
 extern int	g_exit_status;
 
@@ -45,6 +46,7 @@ typedef struct s_vars
 	char	*here_doc_fd;
 	char	**my_environ;
 	int		num_env_vars;
+	int		in_child_process;
 }			t_vars;
 
 // Input Sanitize.c
@@ -66,7 +68,6 @@ int			setup_input_redirection(char **commands, t_vars *vars, int *j);
 int			setup_output_redirection(char **commands, t_vars *vars);
 void		execute_command(t_vars *vars, char **commands, char **envp);
 void		first_process(t_vars *vars, char **envp, char **commands, int *j);
-void	run_pipeline(t_vars *vars, char **envp, char **commands);
 
 // utils.c
 char		*find_path(char **envp);

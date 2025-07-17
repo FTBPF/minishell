@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:19 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/16 16:27:54 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/17 17:15:52 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,22 @@ void	run_builtin(t_vars *vars)
 	cmd = vars->cmd_flags[0];
 	if (ft_strcmp(cmd, "echo") == 0)
 		return (ft_echo(vars->cmd_flags));
-	if (ft_strcmp(cmd, "cd") == 0)
+	else if (ft_strcmp(cmd, "cd") == 0)
 		return (ft_cd(vars->cmd_flags, vars));
-	if (ft_strcmp(cmd, "pwd") == 0)
+	else if (ft_strcmp(cmd, "pwd") == 0)
 		return (ft_pwd());
-	if (ft_strcmp(cmd, "export") == 0)
+	else if (ft_strcmp(cmd, "export") == 0)
 		return (ft_export(vars, vars->cmd_flags));
-	if (ft_strcmp(cmd, "unset") == 0)
+	else if (ft_strcmp(cmd, "unset") == 0)
 		return (ft_unset(vars, vars->cmd_flags));
-	if (ft_strcmp(cmd, "env") == 0)
+	else if (ft_strcmp(cmd, "env") == 0)
 		return (ft_env(vars));
-	if (ft_strcmp(cmd, "exit") == 0)
+	else if (ft_strcmp(cmd, "exit") == 0)
 		return (ft_exit(vars->cmd_flags));
+	else
+		g_exit_status = 1;
+	if (g_exit_status == -1)
+		g_exit_status = 0;
 	return ;
 }
 

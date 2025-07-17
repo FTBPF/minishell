@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/16 19:32:53 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/17 17:35:47 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,27 +51,45 @@ static void	handle_io(t_vars *vars, char **commands)
 
 void	execute_command(t_vars *vars, char **commands, char **envp)
 {
+	struct stat	info;
+
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
 	remove_quotes_from_array(vars->cmd_flags);
-	vars->cmd1_path = check_valid_cmd(vars->cmd_flags[0], vars->my_environ);
-	if (vars->cmd1_path == NULL)
-	{
-		g_exit_status = 127;
-		exit(g_exit_status);
-	}
 	handle_io(vars, commands);
 	if (check_if_builtin(vars))
 	{
 		run_builtin(vars);
 		exit(g_exit_status);
 	}
+	vars->cmd1_path = check_valid_cmd(vars->cmd_flags[0], vars->my_environ);
+	if (vars->cmd1_path == NULL)
+	{
+		g_exit_status = 127;
+		exit(g_exit_status);
+	}
 	if (execve(vars->cmd1_path, vars->cmd_flags, envp) == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(commands[0], 2);
-		ft_putstr_fd(": Is a directory\n", 2);
-		g_exit_status = 126;
+		if (errno == EACCES)
+		{
+			if (stat(vars->cmd1_path, &info) == 0 && S_ISDIR(info.st_mode))
+				ft_putstr_fd(": Is a directory\n", 2);
+			else
+				ft_putstr_fd(": Permission denied\n", 2);
+			g_exit_status = 126;
+		}
+		else if (errno == ENOENT)
+		{
+			ft_putstr_fd(": No such file or directory\n", 2);
+			g_exit_status = 127;
+		}
+		else
+		{
+			ft_putstr_fd(": Execution failed\n", 2);
+			g_exit_status = 1;
+		}
 		exit(g_exit_status);
 	}
 }

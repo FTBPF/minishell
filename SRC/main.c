@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:12 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/16 19:32:49 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/17 16:18:52 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int			g_exit_status = 0;
+int		g_exit_status = 0;
 
 // returns i so that the processes dont interrupt each other (while loop)
 int	minishell_helper(char *input, char **env, t_vars *vars,
@@ -98,7 +98,7 @@ void	run_shell(t_vars *vars, char **env)
 		{
 			g_exit_status = 1;
 			if (commands)
-				ft_free (commands);
+				ft_free(commands);
 			ft_free(vars->my_environ);
 			ft_free_vars(vars);
 			break ;
