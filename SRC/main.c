@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:12 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/17 16:18:52 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:16:54 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,9 @@ int	minishell_helper(char *input, char **env, t_vars *vars,
 void	minishell(char *input, char **env, t_vars *vars, char **commands)
 {
 	int		i;
-	int		status;
 
 	i = 0;
 	commands = NULL;
-	status = 0;
 	i = minishell_helper(input, env, vars, commands);
 	if (i == 0)
 		return ;
