@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/17 18:12:22 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/18 09:30:16 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/stat.h>
@@ -48,6 +49,9 @@ typedef struct s_vars
 	int		num_env_vars;
 	int		in_child_process;
 	char	*infile_name;
+	char	*outfile_name;
+	bool	redirection_failed;
+	bool	is_in_pipe;
 }			t_vars;
 
 // Input Sanitize.c

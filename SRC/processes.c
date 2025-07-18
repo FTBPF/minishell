@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/17 19:17:34 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/18 09:50:56 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	handle_file_opening(char *str, t_vars *vars, char *infile, int *j)
 {
+	char	*cleaned_filename;
+
 	if (*(ft_strrchr(str, '<') - 1) == '<')
 	{
 		vars->fd0 = vars->here_doc_fd[*j];
@@ -21,10 +23,19 @@ void	handle_file_opening(char *str, t_vars *vars, char *infile, int *j)
 	}
 	else
 	{
-		vars->fd0 = open(infile, O_RDONLY);
-		vars->infile_name = remove_quotes_from_string(ft_strdup(infile));
+		cleaned_filename = remove_quotes_from_string(ft_strdup(infile));
+		vars->infile_name = cleaned_filename;
+		vars->fd0 = open(cleaned_filename, O_RDONLY);
+		if (vars->fd0 == -1)
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(cleaned_filename, 2);
+			ft_putstr_fd(": ", 2);
+			ft_putendl_fd(strerror(errno), 2);
+			g_exit_status = 1;
+			vars->redirection_failed = true;
+		}
 		free(infile);
-		return ;
 	}
 }
 
@@ -44,18 +55,9 @@ static void	handle_io(t_vars *vars, char **commands)
 	if (vars->fd0 != 0)
 	{
 		if (vars->fd0 == -1)
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(vars->infile_name, 2);
-			ft_putstr_fd(": No such file or directory\n", 2);
-			g_exit_status = 1;
 			exit(g_exit_status);
-		}
-		else
-		{
-			dup2(vars->fd0, STDIN_FILENO);
-			close(vars->fd0);
-		}
+		dup2(vars->fd0, STDIN_FILENO);
+		close(vars->fd0);
 	}
 	else if (vars->p0 != 0)
 	{
@@ -68,6 +70,8 @@ void	execute_command(t_vars *vars, char **commands, char **envp)
 {
 	struct stat	info;
 
+	if (vars->redirection_failed)
+		exit(g_exit_status);
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
 	remove_quotes_from_array(vars->cmd_flags);
@@ -97,12 +101,14 @@ void	execute_command(t_vars *vars, char **commands, char **envp)
 		}
 		else if (errno == ENOENT)
 		{
-			ft_putstr_fd(": EXEC_No such file or directory\n", 2);
+			ft_putstr_fd(": ", 2);
+			ft_putendl_fd(strerror(errno), 2);
 			g_exit_status = 127;
 		}
 		else
 		{
-			ft_putstr_fd(": Execution failed\n", 2);
+			ft_putstr_fd(": ", 2);
+			ft_putendl_fd(strerror(errno), 2);
 			g_exit_status = 1;
 		}
 		exit(g_exit_status);

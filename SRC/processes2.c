@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processes2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:52:18 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/17 19:02:04 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/18 09:15:54 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,22 @@ int	setup_input_redirection(char **commands, t_vars *vars, int *j)
 	return (1);
 }
 
+void handle_output_redirection(t_vars *vars, char *outfile)
+{
+	vars->outfile_name = remove_quotes_from_string(ft_strdup(outfile));
+	free(outfile);
+	if (vars->fd1 < 0)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(vars->outfile_name, 2);
+		ft_putstr_fd(": ", 2);
+		ft_putendl_fd(strerror(errno), 2);
+		g_exit_status = 1;
+		vars->redirection_failed = true;
+		return ;
+	}
+}
+
 int	setup_output_redirection(char **commands, t_vars *vars)
 {
 	char	*outfile;
@@ -59,10 +75,6 @@ int	setup_output_redirection(char **commands, t_vars *vars)
 	if (in_quotes == 1)
 		return (0);
 	outfile = setup_output_redirection_help(commands, vars, temp, outfile);
-	if (vars->fd1 < 0)
-	{
-		perror(outfile);
-		return (0);
-	}
+	handle_output_redirection(vars, outfile);
 	return (1);
 }

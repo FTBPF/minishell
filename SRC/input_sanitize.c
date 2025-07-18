@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:05 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/17 17:54:23 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/18 09:18:31 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ char	*check_executable(char *command, char **split_paths)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(command, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
+		ft_putstr_fd(": ", 2);
+		ft_putendl_fd(strerror(errno), 2);
 		ft_free(split_paths);
 		return (NULL);
 	}

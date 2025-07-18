@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:19 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/17 17:15:52 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/18 09:44:11 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	ft_cd(char **commands, t_vars *vars)
 	if (commands[2])
 	{
 		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
-		exit(g_exit_status = 1);
+		g_exit_status = 1;
 	}
 	if (handle_cd_special_cases(commands, vars))
 		return ;

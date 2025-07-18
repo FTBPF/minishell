@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:27 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/15 17:50:48 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/18 08:45:14 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ char	**ft_split_commands(char *str, char *delimiters)
 
 void	setup_redirections(char **commands, t_vars *vars, int *j)
 {
+	vars->redirection_failed = false;
 	if (ft_strrchr(commands[0], '<'))
 		setup_input_redirection(commands, vars, j);
 	if (ft_strrchr(commands[0], '>'))
