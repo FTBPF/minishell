@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processes2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:52:18 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/18 12:21:22 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/18 17:10:54 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,44 @@ int	setup_input_redirection(char **commands, t_vars *vars, int *j)
 	char	*infile;
 	char	*temp;
 	int		i;
-	int		in_quotes;
+	char		in_quotes;
 
 	temp = commands[0];
-	in_quotes = -1;
-	while (temp && *temp && *temp != '>')
+	in_quotes = '+';
+	if (!temp)
+	return (0);
+	while (*temp && *temp != '<')
 	{
-		if (*temp == '"' || *temp == 39)
-			in_quotes *= -1;
+		if (*temp == '\"' || *temp == '\'')
+		{
+			if (*temp == in_quotes)
+			in_quotes = '+';
+			else if (in_quotes == '+')
+			in_quotes = *temp;
+		}
 		temp++;
 	}
-	if (in_quotes == 1)
+	if (*temp != '<')
 		return (0);
 	temp = ft_strrchr(commands[0], '<');
 	temp++;
-	while (*temp == ' ' || *temp == '	')
-		temp++;
+	if (in_quotes == '+')
+	{
+		while (*temp == ' ' || *temp == '	')
+			temp++;
+	}
 	i = 0;
+	while (temp[i] && ((temp[i] != '	' && temp[i] != ' ') || (in_quotes != '+')))
+	{
+		if (temp[i] == '\"' || temp[i] == '\'')
+		{
+			if (temp[i] == in_quotes)
+				in_quotes = '+';
+			else if (in_quotes == '+')
+				in_quotes = temp[i];
+		}
+		i++;
+	}
 	while (temp[i] != ' ' && temp[i] != '	' && temp[i])
 		i++;
 	infile = ft_strndup(temp, i);
