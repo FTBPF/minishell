@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:05 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/18 09:18:31 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:14:57 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 char	*check_executable(char *command, char **split_paths)
 {
-	if (access(command, X_OK) == 0 || access(command, F_OK) == 0)
+	if (access(command, X_OK) == 0 || access(command, F_OK) == 0 || access(command, R_OK) == 0)
 	{
 		ft_free(split_paths);
 		return (command);

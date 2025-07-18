@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/18 11:53:08 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:22:24 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	handle_file_opening(char *str, t_vars *vars, char *infile, int *j)
 		{
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(cleaned_filename, 2);
-			ft_putstr_fd("strerror(\n", 2);
+			ft_putstr_fd(": ", 2);
+			ft_putendl_fd(strerror(errno), 2);
 			g_exit_status = 1;
 			vars->redirection_failed = true;
 		}

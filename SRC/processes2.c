@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:52:18 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/18 11:41:18 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:21:22 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void handle_output_redirection(t_vars *vars, char *outfile)
 		ft_putendl_fd(strerror(errno), 2);
 		g_exit_status = 1;
 		vars->redirection_failed = true;
-		return ;
 	}
 }
 

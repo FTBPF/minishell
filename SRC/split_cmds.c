@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:27 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/18 11:10:06 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:17:44 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*get_next_token(char *str, char *delimiters)
 {
-	int			in_quotes;
-	char		current_quote;
+	int		in_quotes;
+	char	current_quote;
 
 	in_quotes = -1;
 	current_quote = '\0';
@@ -23,8 +23,8 @@ char	*get_next_token(char *str, char *delimiters)
 	{
 		if (in_quotes == -1 && !ft_strchr(delimiters, *str))
 			break ;
-		if ((*str == '\'' || *str == '\"')
-			&& (in_quotes == -1 || current_quote == *str))
+		if ((*str == '\'' || *str == '\"') && (in_quotes == -1
+				|| current_quote == *str))
 		{
 			in_quotes *= -1;
 			if (in_quotes == 1)
@@ -53,8 +53,8 @@ int	get_token_length(char *token_start, char *delimiters)
 	{
 		if (in_quotes == -1 && ft_strchr(delimiters, *token_start))
 			break ;
-		if ((*token_start == '\'' || *token_start == '\"')
-			&& (in_quotes == -1 || current_quote == *token_start))
+		if ((*token_start == '\'' || *token_start == '\"') && (in_quotes == -1
+				|| current_quote == *token_start))
 		{
 			in_quotes *= -1;
 			if (in_quotes == 1)
@@ -70,11 +70,11 @@ int	get_token_length(char *token_start, char *delimiters)
 
 char	**ft_split_commands(char *str, char *delimiters)
 {
-	int			num_words;
-	char		**words;
-	char		*token_start;
-	int			token_length;
-	int			i;
+	int		num_words;
+	char	**words;
+	char	*token_start;
+	int		token_length;
+	int		i;
 
 	num_words = count_words(str, delimiters);
 	words = (char **)malloc((num_words + 1) * sizeof(char *));
@@ -100,10 +100,15 @@ char	**ft_split_commands(char *str, char *delimiters)
 void	setup_redirections(char **commands, t_vars *vars, int *j)
 {
 	vars->redirection_failed = false;
+	here_doc(vars, vars->cmd_flags);
 	if (ft_strrchr(commands[0], '<'))
 		setup_input_redirection(commands, vars, j);
+	if (vars->redirection_failed)
+		return ;
 	if (ft_strrchr(commands[0], '>'))
 		setup_output_redirection(commands, vars);
+	if (vars->redirection_failed)
+		return ;
 	if (!setup_pipe(vars->pipe_fd))
 	{
 		g_exit_status = 1;
