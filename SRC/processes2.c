@@ -6,7 +6,7 @@
 /*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:52:18 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/18 17:10:54 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/19 20:27:28 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	setup_input_redirection(char **commands, t_vars *vars, int *j)
 			temp++;
 	}
 	i = 0;
-	while (temp[i] && ((temp[i] != '	' && temp[i] != ' ') || (in_quotes != '+')))
+	while (temp[i] && ((temp[i] != '	' && temp[i] != ' ' && temp[i] != '<' && temp[i] != '>') || (in_quotes != '+')))
 	{
 		if (temp[i] == '\"' || temp[i] == '\'')
 		{
@@ -55,8 +55,8 @@ int	setup_input_redirection(char **commands, t_vars *vars, int *j)
 		}
 		i++;
 	}
-	while (temp[i] != ' ' && temp[i] != '	' && temp[i])
-		i++;
+	// while (temp[i] != ' ' && temp[i] != '	' && temp[i])
+	// 	i++;
 	infile = ft_strndup(temp, i);
 	handle_file_opening(commands[0], vars, infile, j);
 	return (1);
@@ -86,6 +86,19 @@ int	setup_output_redirection(char **commands, t_vars *vars)
 	outfile = NULL;
 	temp = (commands[0]);
 	in_quotes = -1;
+	// while (*temp && *temp != '>')
+	// {
+	// 	if (*temp == '\"' || *temp == '\'')
+	// 	{
+	// 		if (*temp == in_quotes)
+	// 		in_quotes = '+';
+	// 		else if (in_quotes == '+')
+	// 		in_quotes = *temp;
+	// 	}
+	// 	temp++;
+	// }
+	// if (*temp != '>')
+	// 	return (0);
 	while (temp && *temp != '>')
 	{
 		if (*temp == '"' || *temp == 39)
