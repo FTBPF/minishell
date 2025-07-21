@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/18 17:29:25 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/21 15:10:54 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	handle_file_opening(char *str, t_vars *vars, char *infile, int *j)
 			ft_putstr_fd(": ", 2);
 			ft_putendl_fd(strerror(errno), 2);
 			g_exit_status = 1;
-			// vars->redirection_failed = true;
+			vars->redirection_failed = true;
 		}
 		free(infile);
 	}
@@ -101,7 +101,7 @@ void	execute_command(t_vars *vars, char **commands, char **envp)
 		}
 		else if (errno == ENOENT)
 		{
-			ft_putstr_fd(": EXEC_No such file or directory\n", 2);
+			ft_putstr_fd(": No such file or directory\n", 2);
 			g_exit_status = 127;
 		}
 		else

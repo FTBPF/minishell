@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processes2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:52:18 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/19 20:27:28 by marada           ###   ########.fr       */
+/*   Updated: 2025/07/21 15:09:18 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,19 +86,6 @@ int	setup_output_redirection(char **commands, t_vars *vars)
 	outfile = NULL;
 	temp = (commands[0]);
 	in_quotes = -1;
-	// while (*temp && *temp != '>')
-	// {
-	// 	if (*temp == '\"' || *temp == '\'')
-	// 	{
-	// 		if (*temp == in_quotes)
-	// 		in_quotes = '+';
-	// 		else if (in_quotes == '+')
-	// 		in_quotes = *temp;
-	// 	}
-	// 	temp++;
-	// }
-	// if (*temp != '>')
-	// 	return (0);
 	while (temp && *temp != '>')
 	{
 		if (*temp == '"' || *temp == 39)
