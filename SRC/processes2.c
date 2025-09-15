@@ -6,63 +6,113 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:52:18 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/21 15:09:18 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/15 16:14:32 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char	*find_unquoted_char(char *str, char c)
+{
+	int		in_quotes;
+	char	current_quote;
+	int		i;
+
+	in_quotes = 0;
+	current_quote = '\0';
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'' || str[i] == '"')
+		{
+			if (!in_quotes)
+			{
+				in_quotes = 1;
+				current_quote = str[i];
+			}
+			else if (str[i] == current_quote)
+			{
+				in_quotes = 0;
+				current_quote = '\0';
+			}
+		}
+		else if (!in_quotes && str[i] == c)
+			return (&str[i]);
+		i++;
+	}
+	return (NULL);
+}
 
 int	setup_input_redirection(char **commands, t_vars *vars, int *j)
 {
 	char	*infile;
 	char	*temp;
 	int		i;
-	char		in_quotes;
+	int		in_quotes;
+	char	cur_quote;
+	int		fd;
 
 	temp = commands[0];
-	in_quotes = '+';
-	if (!temp)
-	return (0);
-	while (*temp && *temp != '<')
+	vars->fd0 = -1;
+	infile = NULL;
+
+	while ((temp = find_unquoted_char(temp, '<')))
 	{
-		if (*temp == '\"' || *temp == '\'')
-		{
-			if (*temp == in_quotes)
-			in_quotes = '+';
-			else if (in_quotes == '+')
-			in_quotes = *temp;
-		}
 		temp++;
-	}
-	if (*temp != '<')
-		return (0);
-	temp = ft_strrchr(commands[0], '<');
-	temp++;
-	if (in_quotes == '+')
-	{
-		while (*temp == ' ' || *temp == '	')
+		while (*temp == ' ' || *temp == '\t')
 			temp++;
-	}
-	i = 0;
-	while (temp[i] && ((temp[i] != '	' && temp[i] != ' ' && temp[i] != '<' && temp[i] != '>') || (in_quotes != '+')))
-	{
-		if (temp[i] == '\"' || temp[i] == '\'')
+		i = 0;
+		in_quotes = 0;
+		cur_quote = '\0';
+		while (temp[i] && ((temp[i] != ' ' && temp[i] != '\t'
+				&& temp[i] != '<' && temp[i] != '>') || in_quotes))
 		{
-			if (temp[i] == in_quotes)
-				in_quotes = '+';
-			else if (in_quotes == '+')
-				in_quotes = temp[i];
+			if (temp[i] == '\'' || temp[i] == '"')
+			{
+				if (!in_quotes)
+				{
+					in_quotes = 1;
+					cur_quote = temp[i];
+				}
+				else if (temp[i] == cur_quote)
+				{
+					in_quotes = 0;
+					cur_quote = '\0';
+				}
+			}
+			i++;
 		}
-		i++;
+		if (infile)
+			free(infile);
+		infile = ft_strndup(temp, i);
+		fd = open(remove_quotes_from_string(ft_strdup(infile)), O_RDONLY);
+		if (fd == -1)
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(infile, 2);
+			ft_putstr_fd(": ", 2);
+			ft_putendl_fd(strerror(errno), 2);
+			g_exit_status = 1;
+			vars->redirection_failed = true;
+			free(infile);
+			return (0);
+		}
+		if (vars->fd0 != -1)
+			close(vars->fd0);
+		vars->fd0 = fd;
+		temp += i;
 	}
-	// while (temp[i] != ' ' && temp[i] != '	' && temp[i])
-	// 	i++;
-	infile = ft_strndup(temp, i);
-	handle_file_opening(commands[0], vars, infile, j);
-	return (1);
+	if (infile)
+	{
+		vars->infile_name = infile;
+		handle_file_opening(commands[0], vars, infile, j);
+		return (1);
+	}
+	return (0);
 }
 
-void handle_output_redirection(t_vars *vars, char *outfile)
+
+void	handle_output_redirection(t_vars *vars, char *outfile)
 {
 	vars->outfile_name = remove_quotes_from_string(ft_strdup(outfile));
 	free(outfile);
