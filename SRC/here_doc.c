@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:52 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/18 11:42:02 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/16 18:33:45 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@ void	open_doc(t_vars *vars, char *commands, int *j)
 	commands += 2;
 	while (*commands == ' ' || *commands == '	')
 		commands++;
+	if (*commands == '\0')
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n",
+			2);
+		g_exit_status = 2;
+		vars->redirection_failed = true;
+		return ;
+	}
 	ft_open_helper(&i, commands);
 	doc_file = ft_strndup_aspas(commands, i);
 	vars->temp = doc_file;
@@ -83,12 +91,13 @@ void	here_doc(t_vars *vars, char **commands)
 	j = 0;
 	while (commands[i])
 	{
-		if (ft_strrchr(commands[i], '<') && *(ft_strrchr(commands[i], '<')
-				- 1) == '<')
+		if (has_unquoted_heredoc(commands[i]))
 			j++;
 		i++;
 	}
-	vars->here_doc_fd = malloc(sizeof(char) * j + 1);
+	vars->here_doc_fd = malloc(sizeof(char *) * j + 1);
+	if (!vars->here_doc_fd)
+		return ;
 	vars->here_doc_fd[j] = '\0';
 	i = 0;
 	j = 0;
@@ -103,8 +112,21 @@ void	here_doc(t_vars *vars, char **commands)
 
 void	handle_heredoc(t_vars *vars, char *tmp, int *j)
 {
-	while (ft_strchr(tmp, '<') && *(ft_strchr(tmp, '<') + 1) == '<')
+	char	*after;
+
+	while (has_unquoted_heredoc(tmp))
 	{
+		after = ft_strchr(tmp, '<') + 2;
+		while (*after == ' ' || *after == '\t')
+			after++;
+		if (*after == '\0')
+		{
+			ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n",
+				2);
+			g_exit_status = 2;
+			vars->redirection_failed = true;
+			return ;
+		}
 		open_doc(vars, tmp, j);
 		tmp = ft_strchr(tmp, '<') + 2;
 		if (ft_strchr(tmp, '<') && *(ft_strchr(tmp, '<') + 1) == '<')
@@ -113,5 +135,6 @@ void	handle_heredoc(t_vars *vars, char *tmp, int *j)
 			unlink(vars->temp);
 			free(vars->temp);
 		}
+		(*j)++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:27 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/15 17:03:27 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/16 18:34:44 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,48 @@ char	**ft_split_commands(char *str, char *delimiters)
 	return (words);
 }
 
+static int  has_unquoted_inredir(const char *s)
+{
+    int in_squotes = 0;
+    int in_dquotes = 0;
+
+    while (*s)
+    {
+        if (*s == '\'' && !in_dquotes)
+            in_squotes = !in_squotes;
+        else if (*s == '"' && !in_squotes)
+            in_dquotes = !in_dquotes;
+        else if (*s == '<' && !in_squotes && !in_dquotes)
+            return (1);
+        s++;
+    }
+    return (0);
+}
+
+int  has_unquoted_heredoc(const char *s)
+{
+    int in_squotes = 0;
+    int in_dquotes = 0;
+
+    while (*s)
+    {
+        if (*s == '\'' && !in_dquotes)
+            in_squotes = !in_squotes;
+        else if (*s == '"' && !in_squotes)
+            in_dquotes = !in_dquotes;
+        else if (*s == '<' && *(s + 1) == '<' && !in_squotes && !in_dquotes)
+            return (1);
+        s++;
+    }
+    return (0);
+}
+
 void	setup_redirections(char **commands, t_vars *vars, int *j)
 {
 	vars->redirection_failed = false;
-	here_doc(vars, vars->cmd_flags);
-	if (ft_strrchr(commands[0], '<'))
+	if (has_unquoted_heredoc(commands[0]))
+		here_doc(vars, vars->cmd_flags);
+	if (has_unquoted_inredir(commands[0]))
 		setup_input_redirection(commands, vars, j);
 	if (vars->redirection_failed)
 		return ;

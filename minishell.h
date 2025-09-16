@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/16 14:54:05 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/16 18:33:49 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ char		*check_valid_cmd(char *argv, char **envp);
 int			check_flag_n(char *str);
 
 // split_cmds.c
+int			has_unquoted_heredoc(const char *s);
 char		*get_next_token(char *str, char *delimiters);
 int			get_token_length(char *str, char *delimiters);
 char		**ft_split_commands(char *str, char *delimiters);

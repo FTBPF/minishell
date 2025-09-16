@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:43:06 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/16 18:35:45 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:04:35 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ int	ft_replace_helper(char *commands, int j, char **tmp)
 	*tmp = ft_strdup("");
 	i = 0;
 	while (commands[j + i] && ((commands[j + i] >= 'a' && commands[j
-					+ i] <= 'z') || (commands[j + i] >= 'A' && commands[j
-					+ i] <= 'Z')))
+				+ i] <= 'z') || (commands[j + i] >= 'A' && commands[j
+				+ i] <= 'Z')))
 	{
 		fre = *tmp;
 		*tmp = ft_strjoin_char(*tmp, commands[j + i]);

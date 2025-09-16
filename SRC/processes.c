@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/16 14:37:57 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/16 18:33:24 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	handle_io(t_vars *vars, char **commands)
 	}
 	close(vars->pipe_fd[0]);
 	if (vars->fd0 != 0)
-	{	
+	{
 		if (vars->fd0 == -1)
 			exit(g_exit_status);
 		dup2(vars->fd0, STDIN_FILENO);
