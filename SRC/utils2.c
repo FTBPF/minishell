@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:40 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/15 17:11:55 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/16 14:38:08 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ char	*get_next_token_no_redirection(char *str, char *delimiters)
 		{
 			if (*str == '>' || *str == '<')
 				str = funcao_nova(str, delimiters);
-			str++;
+			else
+				str++;
 		}
 		else
 			break ;
@@ -101,7 +102,8 @@ void	process_token(char **tokens, char **token_start, char *delimiters,
  *
  * @return the split commands as an array of strings.
  */
-char	**ft_split_commands_no_redirection(char *str, char *delimiters)
+
+ char **ft_split_commands_no_redirection(char *str, char *delimiters)
 {
 	char	**tokens;
 	int		num_words;

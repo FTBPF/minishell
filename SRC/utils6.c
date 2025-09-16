@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:59 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/21 15:09:03 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/16 15:10:52 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,15 @@ char	*funcao_nova(char *str, char *delimiters)
 		str++;
 	while (*str && (!ft_strchr(delimiters, *str) || d != '+'))
 	{
-		if (*str == '\"' || *str == '\'')
+		if (*str == '"' || *str == '\'')
 		{
 			if (*str == d)
 				d = '+';
 			else if (d == '+')
 				d = *str;
-		}		
+		}
 		str++;
 	}
-	str--;
 	return (str);
 }
 
@@ -52,7 +51,8 @@ char	*setup_output_redirection_help(char **commands, t_vars *vars,
 	temp++;
 	while (*temp == ' ' || *temp == '	')
 		temp++;
-	while (temp[i] && ((temp[i] != '	' && temp[i] != ' ' && temp[i] != '<' && temp[i] != '>') || (in_quotes != '+')))
+	while (temp[i] && ((temp[i] != '	' && temp[i] != ' ' && temp[i] != '<'
+					&& temp[i] != '>') || (in_quotes != '+')))
 	{
 		if (temp[i] == '\"' || temp[i] == '\'')
 		{
