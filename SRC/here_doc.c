@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:52 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/16 18:33:45 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/17 14:58:35 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@ void	open_doc(t_vars *vars, char *commands, int *j)
 		commands++;
 	if (*commands == '\0')
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n",
-			2);
-		g_exit_status = 2;
 		vars->redirection_failed = true;
 		return ;
 	}
@@ -105,36 +102,41 @@ void	here_doc(t_vars *vars, char **commands)
 	{
 		tmp = commands[i];
 		handle_heredoc(vars, tmp, &j);
-		j++;
 		i++;
 	}
 }
 
 void	handle_heredoc(t_vars *vars, char *tmp, int *j)
 {
-	char	*after;
+	char		*after;
+	char		*next;
+	static int	printed = 0;
 
 	while (has_unquoted_heredoc(tmp))
 	{
-		after = ft_strchr(tmp, '<') + 2;
+		after = ft_strchr(tmp, '<');
+		if (!after || *(after + 1) != '<')
+			break ;
+		after += 2;
 		while (*after == ' ' || *after == '\t')
 			after++;
-		if (*after == '\0')
+		open_doc(vars, tmp, j);
+		if (vars->redirection_failed && printed == 0)
 		{
+			printed++;
 			ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n",
 				2);
 			g_exit_status = 2;
-			vars->redirection_failed = true;
 			return ;
 		}
-		open_doc(vars, tmp, j);
-		tmp = ft_strchr(tmp, '<') + 2;
-		if (ft_strchr(tmp, '<') && *(ft_strchr(tmp, '<') + 1) == '<')
+		next = ft_strchr(after, '<');
+		if (next && *(next + 1) == '<')
 		{
 			close(vars->here_doc_fd[*j]);
 			unlink(vars->temp);
 			free(vars->temp);
 		}
 		(*j)++;
+		tmp = after;
 	}
 }
