@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/17 15:29:59 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/17 18:24:21 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_vars
 	char	*infile_name;
 	char	*outfile_name;
 	bool	redirection_failed;
-	bool	is_in_pipe;
+	bool	in_pipeline;
 }			t_vars;
 
 // Input Sanitize.c

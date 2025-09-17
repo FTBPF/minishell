@@ -6,37 +6,20 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/17 15:30:26 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/17 18:35:05 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handle_file_opening(char *str, t_vars *vars, char *infile, int *j)
+void handle_file_opening(char *str, t_vars *vars, char *infile, int *j)
 {
-	char	*cleaned_filename;
-
+    (void) infile;
 	if (*(ft_strrchr(str, '<') - 1) == '<')
-	{
-		vars->fd0 = vars->here_doc_fd[*j];
-		(*j)++;
-	}
-	else
-	{
-		cleaned_filename = remove_quotes_from_string(ft_strdup(infile));
-		vars->infile_name = cleaned_filename;
-		vars->fd0 = open(cleaned_filename, O_RDONLY);
-		if (vars->fd0 == -1)
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(cleaned_filename, 2);
-			ft_putstr_fd(": ", 2);
-			ft_putendl_fd(strerror(errno), 2);
-			g_exit_status = 1;
-			vars->redirection_failed = true;
-		}
-		free(infile);
-	}
+    {
+        vars->fd0 = vars->here_doc_fd[*j];
+        (*j)++;
+    }
 }
 
 static void	handle_io(t_vars *vars, char **commands)
