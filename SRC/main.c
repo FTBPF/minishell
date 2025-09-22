@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:12 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/17 15:29:48 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/22 16:38:50 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,41 +15,45 @@
 int		g_exit_status = 0;
 
 // returns i so that the processes dont interrupt each other (while loop)
-int	minishell_helper(char *input, char **env, t_vars *vars,
-		char **commands)
+int minishell_helper(char *input, char **env, t_vars *vars, char **commands)
 {
-	int	status;
-
-	if (str_is_spaces_only(input))
-		return (0);
-	commands = ft_split_commands(input, "|");
-	if (ft_strchr(input, '$'))
-		var_expander(vars, commands);
-	if (check_cd_ex_uns(commands, vars))
+    int status;
+    int last_status = 0;
+    
+    if (str_is_spaces_only(input))
+        return (0);
+    commands = ft_split_commands(input, "|");
+    if (!commands)
+        return (0);
+    if (ft_strchr(input, '$'))
+        var_expander(vars, commands);
+    if (check_cd_ex_uns(commands, vars))
 	{
-		ft_free_vars(vars);
-		ft_free(commands);
-		return (0);
-	}
-	here_doc(vars, commands);
-	vars->i = 0;
-	vars->p0 = 0;
-	vars->j = 0;
-	while (commands[vars->i])
+        ft_free_vars(vars);
+        ft_free(commands);
+        return (0);
+    }
+    here_doc(vars, commands);
+    vars->i = 0;
+    vars->p0 = 0;
+    vars->j = 0;
+    while (commands[vars->i])
 	{
-		first_process(vars, env, &commands[vars->i], &vars->j);
-		free(commands[vars->i]);
-		(vars->i)++;
-	}
-	while (wait(&status) > 0)
-		;
-	if (WIFEXITED(status))
-		g_exit_status = WEXITSTATUS(status);
-	else
-		g_exit_status = 0;
-	free(commands);
-	commands = NULL;
-	return (vars->i);
+        first_process(vars, env, &commands[vars->i], &vars->j);
+        free(commands[vars->i]);
+        (vars->i)++;
+    }
+    while (wait(&status) > 0) {
+        if (WIFEXITED(status))
+            last_status = WEXITSTATUS(status);
+        else if (WIFSIGNALED(status))
+			last_status = 0;
+    }
+    g_exit_status = last_status;
+    if (vars->p0 != 0)
+        close(vars->p0);
+    free(commands);
+    return (vars->i);
 }
 
 void	minishell(char *input, char **env, t_vars *vars, char **commands)
@@ -81,33 +85,36 @@ void	setup_shell(t_vars *vars, char **env)
 	copy_environ(env, vars);
 }
 
-void	run_shell(t_vars *vars, char **env)
-{
-	char	*input;
-	char	**commands;
 
-	commands = NULL;
-	while (1)
+static void setup_signals_parent(void)
+{
+    signal(SIGINT, signal_handler);
+    signal(SIGQUIT, SIG_IGN);
+}
+
+void run_shell(t_vars *vars, char **env)
+{
+    char *input;
+    char **commands;
+    
+    commands = NULL;
+    while (1)
 	{
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, signal_handler);
-		input = readline("myshell> ");
-		if (!ft_exit_ctrl_d(input))
-		{
-			g_exit_status = 1;
-			if (commands)
-				ft_free(commands);
-			ft_free(vars->my_environ);
-			ft_free_vars(vars);
-			break ;
-		}
-		if (ft_strlen(input) != 0)
-			add_history(input);
-		if (ft_strlen(input) != 0)
-			minishell(input, env, vars, commands);
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, signal_handler);
-	}
+        setup_signals_parent();
+        input = readline("myshell> ");
+        if (!ft_exit_ctrl_d(input)) {
+            g_exit_status = 1;
+            if (commands)
+                ft_free(commands);
+            ft_free(vars->my_environ);
+            ft_free_vars(vars);
+            break;
+        }
+        if (ft_strlen(input) != 0)
+            add_history(input);
+        if (ft_strlen(input) != 0)
+            minishell(input, env, vars, commands);
+    }
 }
 
 int	main(int ac, char **av, char **env)

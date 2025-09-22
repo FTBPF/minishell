@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:52:18 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/17 18:35:01 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/22 16:38:05 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,9 @@ int setup_input_redirection(char **commands, t_vars *vars, int *j)
     int fd;
     
     temp = commands[0];
-    vars->fd0 = -1;
+    vars->fd0 = 0; // Initialize to 0, not -1
     infile = NULL;
+    
     while ((temp = find_unquoted_char(temp, '<')))
     {
         if (*(temp + 1) == '<')
@@ -63,11 +64,9 @@ int setup_input_redirection(char **commands, t_vars *vars, int *j)
             temp += 2;
             continue;
         }
-        
         temp++;
         while (*temp == ' ' || *temp == '\t')
             temp++;
-            
         if (*temp == '\0')
         {
             ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
@@ -75,11 +74,9 @@ int setup_input_redirection(char **commands, t_vars *vars, int *j)
             vars->redirection_failed = true;
             return (0);
         }
-        
         i = 0;
         in_quotes = 0;
         cur_quote = '\0';
-        
         while (temp[i] && ((temp[i] != ' ' && temp[i] != '\t'
                 && temp[i] != '<' && temp[i] != '>') || in_quotes))
         {
@@ -98,11 +95,9 @@ int setup_input_redirection(char **commands, t_vars *vars, int *j)
             }
             i++;
         }
-        
         if (infile)
             free(infile);
         infile = ft_strndup(temp, i);
-        
         if (!infile || infile[0] == '\0')
         {
             ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
@@ -111,11 +106,10 @@ int setup_input_redirection(char **commands, t_vars *vars, int *j)
             free(infile);
             return (0);
         }
-        if (vars->fd0 != -1)
+        if (vars->fd0 > 0)
             close(vars->fd0);
         char *cleaned_filename = remove_quotes_from_string(ft_strdup(infile));
         fd = open(cleaned_filename, O_RDONLY);
-        
         if (fd == -1)
         {
             ft_putstr_fd("minishell: ", 2);
@@ -128,12 +122,10 @@ int setup_input_redirection(char **commands, t_vars *vars, int *j)
             free(infile);
             return (0);
         }
-        
         vars->fd0 = fd;
         vars->infile_name = cleaned_filename;
         temp += i;
     }
-    
     if (infile)
     {
         free(infile);
@@ -197,7 +189,7 @@ int setup_output_redirection(char **commands, t_vars *vars)
     int last_valid_fd = -1;
     
     temp = commands[0];
-    vars->fd1 = -1;
+    vars->fd1 = 1;
     vars->redirection_failed = false;
     while ((temp = find_next_output_redirect(temp)) != NULL)
     {
@@ -208,7 +200,6 @@ int setup_output_redirection(char **commands, t_vars *vars)
             temp++;
         while (*temp == ' ' || *temp == '\t')
             temp++;
-            
         if (*temp == '\0')
         {
             ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
@@ -219,7 +210,6 @@ int setup_output_redirection(char **commands, t_vars *vars)
         i = 0;
         in_quotes = 0;
         quote_char = '\0';
-        
         while (temp[i] && ((temp[i] != ' ' && temp[i] != '\t' 
                 && temp[i] != '<' && temp[i] != '>') || in_quotes))
         {
@@ -238,16 +228,14 @@ int setup_output_redirection(char **commands, t_vars *vars)
             }
             i++;
         }
-        
         outfile = ft_strndup(temp, i);
         outfile = remove_quotes_from_string(outfile);
-        if (vars->fd1 != -1)
+        if (vars->fd1 > 1)
             close(vars->fd1);
         if (is_append)
             vars->fd1 = open(outfile, O_CREAT | O_RDWR | O_APPEND, 0644);
         else
             vars->fd1 = open(outfile, O_TRUNC | O_CREAT | O_RDWR, 0644);
-            
         if (vars->fd1 == -1)
         {
             ft_putstr_fd("minishell: ", 2);
@@ -259,7 +247,6 @@ int setup_output_redirection(char **commands, t_vars *vars)
             free(outfile);
             return (0);
         }
-        
         last_valid_fd = vars->fd1;
         vars->outfile_name = outfile;
         temp += i;
