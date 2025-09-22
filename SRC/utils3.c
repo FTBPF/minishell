@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:44 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/16 19:26:58 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/22 17:22:31 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	ft_vars_init(t_vars *vars)
 	vars->temp = NULL;
 }
 
-int	setup_pipe(int	*pipe_fd)
+int	setup_pipe(int *pipe_fd)
 {
 	if (pipe(pipe_fd) < 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:59 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/17 15:30:05 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/22 17:25:12 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*setup_output_redirection_help(char **commands, t_vars *vars,
 	while (*temp == ' ' || *temp == '	')
 		temp++;
 	while (temp[i] && ((temp[i] != '	' && temp[i] != ' ' && temp[i] != '<'
-					&& temp[i] != '>') || (in_quotes != '+')))
+				&& temp[i] != '>') || (in_quotes != '+')))
 	{
 		if (temp[i] == '\"' || temp[i] == '\'')
 		{
@@ -63,8 +63,6 @@ char	*setup_output_redirection_help(char **commands, t_vars *vars,
 		}
 		i++;
 	}
-	// while (temp[i] != ' ' && temp[i] != '	' && temp[i])
-	// 	i++;
 	outfile = ft_strndup(temp, i);
 	outfile = remove_quotes_from_string(ft_strdup(outfile));
 	if (*(ft_strrchr(commands[0], '>') - 1) == '>')

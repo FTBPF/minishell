@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:40 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/16 16:05:24 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/22 17:24:35 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	process_token(char **tokens, char **token_start, char *delimiters,
  * @return the split commands as an array of strings.
  */
 
-char **ft_split_commands_no_redirection(char *str, char *delimiters)
+char	**ft_split_commands_no_redirection(char *str, char *delimiters)
 {
 	char	**tokens;
 	int		num_words;
@@ -114,7 +114,6 @@ char **ft_split_commands_no_redirection(char *str, char *delimiters)
 	if (str == NULL)
 		return (NULL);
 	num_words = count_words_no_redirection(str, delimiters);
-	// printf("ctp %i\n", num_words);
 	tokens = malloc((num_words + 1) * sizeof(char *));
 	if (!tokens)
 		return (NULL);
