@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:27 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/16 18:34:44 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/22 16:56:16 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,12 +138,12 @@ void	setup_redirections(char **commands, t_vars *vars, int *j)
 	vars->redirection_failed = false;
 	if (has_unquoted_heredoc(commands[0]))
 		here_doc(vars, vars->cmd_flags);
-	if (has_unquoted_inredir(commands[0]))
-		setup_input_redirection(commands, vars, j);
-	if (vars->redirection_failed)
-		return ;
 	if (ft_strrchr(commands[0], '>'))
 		setup_output_redirection(commands, vars);
+	if (vars->redirection_failed)
+		return ;
+	if (has_unquoted_inredir(commands[0]))
+		setup_input_redirection(commands, vars, j);
 	if (vars->redirection_failed)
 		return ;
 	if (!setup_pipe(vars->pipe_fd))
