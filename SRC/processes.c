@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/22 16:36:07 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/22 16:50:19 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,19 +174,23 @@ void first_process(t_vars *vars, char **envp, char **commands, int *j)
     vars->fd1 = 1;
     vars->cmd_flags = ft_split_commands_no_redirection(commands[0], " |<>");
     setup_redirections(commands, vars, j);
-    if (commands[1]) {
-        if (pipe(vars->pipe_fd) < 0) {
+    if (commands[1])
+	{
+        if (pipe(vars->pipe_fd) < 0)
+		{
             g_exit_status = 1;
             perror("pipe");
             return;
         }
     }
     vars->pid1 = fork();
-    if (vars->pid1 < 0) {
+    if (vars->pid1 < 0)
+	{
         perror("fork");
         return;
     }
-    if (vars->pid1 == 0) {
+    if (vars->pid1 == 0)
+	{
         signal(SIGQUIT, SIG_DFL);
         signal(SIGINT, SIG_DFL);
         if (vars->fd0 != 0)

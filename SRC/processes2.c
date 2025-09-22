@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:52:18 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/22 16:38:05 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/22 16:50:46 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int setup_input_redirection(char **commands, t_vars *vars, int *j)
     int fd;
     
     temp = commands[0];
-    vars->fd0 = 0; // Initialize to 0, not -1
+    vars->fd0 = 0;
     infile = NULL;
     
     while ((temp = find_unquoted_char(temp, '<')))
