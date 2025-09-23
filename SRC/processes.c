@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/22 17:27:29 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/23 14:43:25 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,48 +22,14 @@ void	handle_file_opening(char *str, t_vars *vars, char *infile, int *j)
 	}
 }
 
-/* static void	handle_io(t_vars *vars, char **commands)
-{
-	struct stat	info;
-
-	if (vars->fd1 != 1)
-	{
-		dup2(vars->fd1, STDOUT_FILENO);
-		close(vars->fd1);
-	}
-	else if (commands[1])
-	{
-		dup2(vars->pipe_fd[1], STDOUT_FILENO);
-		close(vars->pipe_fd[1]);
-	}
-	close(vars->pipe_fd[0]);
-	if (vars->fd0 != 0)
-	{
-		if (vars->fd0 == -1)
-			exit(g_exit_status);
-		dup2(vars->fd0, STDIN_FILENO);
-		close(vars->fd0);
-	}
-	else if (vars->p0 != 0)
-	{
-		dup2(vars->p0, STDIN_FILENO);
-		close(vars->p0);
-	}
-} */
-/* static void setup_signals_child(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-} */
-// Add this to your execute_command function at the beginning:
 void	execute_command(t_vars *vars, char **commands, char **envp)
 {
 	struct stat	info;
 	
 	if (vars->redirection_failed)
 		exit(1);
-	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	remove_quotes_from_array(vars->cmd_flags);
 	if (check_if_builtin(vars))
 	{
@@ -115,57 +81,7 @@ static void	cleanup_temp_file(t_vars *vars)
 	vars->cmd_flags = NULL;
 }
 
-/* static void close_pipe_fds(int *pipe_fd)
-{
-	int	prev_read_fd;
-	int	prev_read_fd;
-
-	if (pipe_fd[0] != -1) {
-		close(pipe_fd[0]);
-		pipe_fd[0] = -1;
-	}
-	if (pipe_fd[1] != -1) {
-		close(pipe_fd[1]);
-		pipe_fd[1] = -1;
-	}
-} */
-/* static int setup_pipes_for_command(t_vars *vars, char **commands,
-	int cmd_index)
-{
-	// If not the last command, create a new pipe
-	if (commands[cmd_index + 1]) {
-		if (pipe(vars->pipe_fd) < 0) {
-			perror("pipe");
-			return (0);
-		}
-	} else {
-		vars->pipe_fd[0] = -1;
-		vars->pipe_fd[1] = -1;
-	}
-	return (1);
-} */
-/* static void handle_pipe_io(t_vars *vars, char **commands, int cmd_index,
-	int prev_pipe_read)
-{
-	// Handle input from previous pipe
-	if (cmd_index > 0 && prev_pipe_read != -1) {
-		dup2(prev_pipe_read, STDIN_FILENO);
-		close(prev_pipe_read);
-	} else if (vars->fd0 != 0) {
-		dup2(vars->fd0, STDIN_FILENO);
-		close(vars->fd0);
-	}
-	// Handle output to next pipe or file
-	if (commands[cmd_index + 1]) {
-		dup2(vars->pipe_fd[1], STDOUT_FILENO);
-		close(vars->pipe_fd[1]);
-		close(vars->pipe_fd[0]); // Close read end in child
-	} else if (vars->fd1 != 1) {
-		dup2(vars->fd1, STDOUT_FILENO);
-		close(vars->fd1);
-	}
-} */
-// FIXED FIRST_PROCESS FUNCTION - Replace your current one
+// FIXED FIRST_PROCESS FUNCTION
 void	first_process(t_vars *vars, char **envp, char **commands, int *j)
 {
 	int	prev_read_fd;
@@ -191,8 +107,8 @@ void	first_process(t_vars *vars, char **envp, char **commands, int *j)
 	}
 	if (vars->pid1 == 0)
 	{
-		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if (vars->fd0 != 0)
 		{
 			if (vars->fd0 == -1)

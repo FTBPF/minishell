@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/22 17:07:00 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/23 15:02:06 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_vars
 	char	*cmd2_path;
 	char	**cmd_flags;
 	char	**cmd2_flags;
-	char	*here_doc_fd;
+	int		*here_doc_fd;
 	char	**my_environ;
 	int		num_env_vars;
 	int		in_child_process;
@@ -76,6 +76,7 @@ void		execute_command(t_vars *vars, char **commands, char **envp);
 void		first_process(t_vars *vars, char **envp, char **commands, int *j);
 
 // utils.c
+char		*ft_strstr(const char *haystack, const char *needle);
 char		*find_path(char **envp);
 int			count_words(char *str, char *delimiters);
 void		handler_quit(int signal);

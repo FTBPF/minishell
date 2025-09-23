@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:52:18 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/22 17:22:18 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/23 15:01:12 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,14 @@ int	setup_input_redirection(char **commands, t_vars *vars, int *j)
 			ft_putstr_fd(": ", 2);
 			ft_putendl_fd(strerror(errno), 2);
 			g_exit_status = 1;
-			vars->redirection_failed = true;
+			// NEW: Don't set redirection_failed = true for missing input files
+			// if there are output redirections - let the command run with /dev/null as input
+			if (!ft_strrchr(commands[0], '>')) {
+				vars->redirection_failed = true;
+			} else {
+				// Set fd0 to /dev/null so command can run and create output file
+				vars->fd0 = open("/dev/null", O_RDONLY);
+			}
 			free(cleaned_filename);
 			free(infile);
 			return (0);

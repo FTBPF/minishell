@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:12 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/22 17:22:11 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/23 14:59:25 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	minishell_helper(char *input, char **env, t_vars *vars, char **commands)
 	commands = ft_split_commands(input, "|");
 	if (!commands)
 		return (0);
+	vars->in_pipeline = (commands[1] != NULL);
 	if (ft_strchr(input, '$'))
 		var_expander(vars, commands);
 	if (check_cd_ex_uns(commands, vars))

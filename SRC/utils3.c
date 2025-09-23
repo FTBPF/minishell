@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:44 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/22 17:22:31 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/23 15:02:37 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	ft_vars_init(t_vars *vars)
 	vars->cmd_flags = NULL;
 	vars->cmd1_path = NULL;
 	vars->temp = NULL;
+	vars->in_pipeline = false;
 }
 
 int	setup_pipe(int *pipe_fd)
