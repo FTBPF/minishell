@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/25 16:24:42 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/25 16:50:00 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,19 @@ typedef struct s_vars
 	bool	in_pipeline;
 }			t_vars;
 
+typedef struct s_redirection_context
+{
+	char	**temp;
+	int		*i;
+	int		*j;
+	char	**infile;
+}			t_redirection_context;
+
 typedef struct s_redir
 {
 	char	type;
 	int		index;
 }			t_redir;
-
-typedef struct s_inredir_state
-{
-	char	*temp;
-	int		i;
-	char	*infile;
-}			t_inredir_state;
 
 // Input Sanitize.c
 char		*check_executable(char *command, char **split_paths);
@@ -83,12 +84,17 @@ char		**ft_split_commands(char *str, char *delimiters);
 void		setup_redirections(char **commands, t_vars *vars, int *j);
 
 // Processes.c
+char		*find_unquoted_char(char *str, char c);
 void		cleanup_temp_file(t_vars *vars);
 void		handle_file_opening(char *str, t_vars *vars, char *infile, int *j);
 int			setup_input_redirection(char **commands, t_vars *vars, int *j);
 int			setup_output_redirection(char **commands, t_vars *vars);
 void		execute_command(t_vars *vars, char **commands, char **envp);
 void		first_process(t_vars *vars, char **envp, char **commands, int *j);
+
+// Processes2.c
+char		*parse_infile_name(char *temp, int *i);
+int			open_and_assign_fd(t_vars *vars, char *infile);
 
 // utils.c
 char		*ft_strstr(const char *haystack, const char *needle);

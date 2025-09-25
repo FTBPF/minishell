@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/25 15:22:36 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/25 16:47:09 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,33 @@ void	cleanup_temp_file(t_vars *vars)
 	if (vars->cmd_flags)
 		ft_free(vars->cmd_flags);
 	vars->cmd_flags = NULL;
+}
+
+char	*find_unquoted_char(char *str, char c)
+{
+	int		in_quotes;
+	char	quote_char;
+
+	in_quotes = 0;
+	quote_char = '\0';
+	while (*str)
+	{
+		if (*str == '\'' || *str == '"')
+		{
+			if (!in_quotes)
+			{
+				in_quotes = 1;
+				quote_char = *str;
+			}
+			else if (*str == quote_char)
+			{
+				in_quotes = 0;
+				quote_char = '\0';
+			}
+		}
+		else if (!in_quotes && *str == c)
+			return (str);
+		str++;
+	}
+	return (NULL);
 }

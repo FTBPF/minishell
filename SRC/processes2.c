@@ -6,40 +6,11 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:52:18 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/25 16:33:30 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/25 16:48:55 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	*find_unquoted_char(char *str, char c)
-{
-	int		in_quotes;
-	char	quote_char;
-
-	in_quotes = 0;
-	quote_char = '\0';
-	while (*str)
-	{
-		if (*str == '\'' || *str == '"')
-		{
-			if (!in_quotes)
-			{
-				in_quotes = 1;
-				quote_char = *str;
-			}
-			else if (*str == quote_char)
-			{
-				in_quotes = 0;
-				quote_char = '\0';
-			}
-		}
-		else if (!in_quotes && *str == c)
-			return (str);
-		str++;
-	}
-	return (NULL);
-}
 
 static void	update_quote_state(char c, int *in_quotes, char *cur_quote)
 {
@@ -79,7 +50,7 @@ char	*extract_filename_adjacent(char *start, int *len)
 	return (ft_strndup(start, i));
 }
 
-static char	*parse_infile_name(char *temp, int *i)
+char	*parse_infile_name(char *temp, int *i)
 {
 	int		in_quotes;
 	char	cur_quote;
@@ -108,7 +79,7 @@ static char	*parse_infile_name(char *temp, int *i)
 	return (ft_strndup(temp, *i));
 }
 
-static int	open_and_assign_fd(t_vars *vars, char *infile)
+int	open_and_assign_fd(t_vars *vars, char *infile)
 {
 	char	*cleaned_filename;
 	int		fd;
@@ -129,92 +100,6 @@ static int	open_and_assign_fd(t_vars *vars, char *infile)
 	vars->fd0 = fd;
 	vars->infile_name = cleaned_filename;
 	return (0);
-}
-
-static int	handle_redirection_error(void)
-{
-	ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n",
-		2);
-	g_exit_status = 2;
-	return (0);
-}
-
-static char	*skip_whitespace(char *str)
-{
-	while (*str == ' ' || *str == '\t')
-		str++;
-	return (str);
-}
-
-static int	handle_single_redirection(t_vars *vars, char *temp, int *i,
-		char **infile)
-{
-	if (*infile)
-		free(*infile);
-	*infile = parse_infile_name(temp, i);
-	if (!*infile || (*infile)[0] == '\0')
-	{
-		vars->redirection_failed = true;
-		free(*infile);
-		return (handle_redirection_error());
-	}
-	if (vars->fd0 > 0)
-		close(vars->fd0);
-	if (open_and_assign_fd(vars, *infile) == -1)
-	{
-		free(*infile);
-		return (0);
-	}
-	return (1);
-}
-
-static int	process_infile_token(t_vars *vars, char **temp, int *j, int *i,
-		char **infile)
-{
-	if (*(*temp + 1) == '<')
-	{
-		handle_heredoc(vars, *temp, j);
-		if (vars->redirection_failed)
-			return (0);
-		*temp += 2;
-		return (2);
-	}
-	(*temp)++;
-	*temp = skip_whitespace(*temp);
-	if (**temp == '\0')
-	{
-		vars->redirection_failed = true;
-		return (handle_redirection_error());
-	}
-	if (!handle_single_redirection(vars, *temp, i, infile))
-		return (0);
-	*temp += *i;
-	return (1);
-}
-
-int	setup_input_redirection(char **commands, t_vars *vars, int *j)
-{
-	char	*infile;
-	char	*temp;
-	int		i;
-	int		result;
-
-	temp = commands[0];
-	vars->fd0 = 0;
-	infile = NULL;
-	temp = find_unquoted_char(temp, '<');
-	while (temp)
-	{
-		result = process_infile_token(vars, &temp, j, &i, &infile);
-		if (result == 0)
-			return (0);
-		if (result == 2)
-			continue ;
-		temp = find_unquoted_char(temp, '<');
-	}
-	if (infile)
-		free(infile);
-	return (vars->fd0 > 0);
 }
 
 void	handle_output_redirection(t_vars *vars, char *outfile)
