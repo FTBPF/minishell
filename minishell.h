@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/25 15:54:02 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/25 16:24:42 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,13 @@ typedef struct s_redir
 	int		index;
 }			t_redir;
 
+typedef struct s_inredir_state
+{
+	char	*temp;
+	int		i;
+	char	*infile;
+}			t_inredir_state;
+
 // Input Sanitize.c
 char		*check_executable(char *command, char **split_paths);
 char		*check_command(char *command, char **split_paths);
@@ -68,6 +75,7 @@ char		*check_valid_cmd(char *argv, char **envp);
 int			check_flag_n(char *str);
 
 // split_cmds.c
+t_redir		*find_redirections(const char *str, int *count);
 int			has_unquoted_heredoc(const char *s);
 char		*get_next_token(char *str, char *delimiters);
 int			get_token_length(char *str, char *delimiters);

@@ -6,80 +6,11 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:27 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/25 15:54:37 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/25 16:21:23 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	*get_next_token(char *str, char *delimiters)
-{
-	int		in_quotes;
-	char	current_quote;
-
-	in_quotes = -1;
-	current_quote = '\0';
-	while (*str)
-	{
-		if (in_quotes == -1 && !ft_strchr(delimiters, *str))
-			break ;
-		if ((*str == '\'' || *str == '\"') && (in_quotes == -1
-				|| current_quote == *str))
-		{
-			in_quotes *= -1;
-			if (in_quotes == 1)
-				current_quote = *str;
-			else
-				current_quote = '\0';
-		}
-		str++;
-	}
-	if (*str)
-		return (str);
-	else
-		return (NULL);
-}
-
-int	get_token_length(char *token_start, char *delimiters)
-{
-	int		length;
-	int		in_quotes;
-	char	current_quote;
-
-	length = 0;
-	in_quotes = -1;
-	current_quote = '\0';
-	while (*token_start)
-	{
-		if (in_quotes == -1 && ft_strchr(delimiters, *token_start))
-			break ;
-		if ((*token_start == '\'' || *token_start == '\"') && (in_quotes == -1
-				|| current_quote == *token_start))
-		{
-			in_quotes *= -1;
-			if (in_quotes == 1)
-				current_quote = *token_start;
-			else
-				current_quote = '\0';
-		}
-		token_start++;
-		length++;
-	}
-	return (length);
-}
-/* static void	debug_print_tokens(char **tokens)
-{
-	int		i;
-
-	i = 0;
-	printf("DEBUG: Tokens found:\n");
-	while (tokens && tokens[i])
-	{
-		printf("  [%d]: '%s'\n", i, tokens[i]);
-		i++;
-	}
-	printf("  Total tokens: %d\n", i);
-} */
 
 char	**ft_split_commands(char *str, char *delimiters)
 {
@@ -107,7 +38,6 @@ char	**ft_split_commands(char *str, char *delimiters)
 		token_start = get_next_token(token_start + token_length, delimiters);
 	}
 	words[num_words] = NULL;
-	// debug_print_tokens(words);
 	return (words);
 }
 
@@ -145,20 +75,17 @@ static bool	is_escaped(const char *str, int pos)
 	return ((backslashes % 2) == 1);
 }
 
-t_redir	*find_redirections(const char *str, int *count)
+static void	scan_redirections(const char *str, t_redir *results, int *count)
 {
-	int		capacity;
-	t_redir	*results;
 	bool	in_single;
 	bool	in_double;
+	int		i;
 	char	c;
 
-	capacity = 8;
-	results = malloc(capacity * sizeof(t_redir));
-	*count = 0;
 	in_single = false;
 	in_double = false;
-	for (int i = 0; str[i] != '\0'; i++)
+	i = 0;
+	while (str[i] != '\0')
 	{
 		c = str[i];
 		if (c == '\'' && !in_double && !is_escaped(str, i))
@@ -167,80 +94,34 @@ t_redir	*find_redirections(const char *str, int *count)
 			in_double = !in_double;
 		if (!in_single && !in_double && (c == '<' || c == '>'))
 		{
-			if (*count >= capacity)
-			{
-				capacity *= 2;
-				results = realloc(results, capacity * sizeof(t_redir));
-				if (!results)
-				{
-					perror("realloc");
-					exit(1);
-				}
-			}
 			results[*count].type = c;
 			results[*count].index = i;
 			(*count)++;
 		}
+		i++;
 	}
-	return (results);
 }
 
-bool	output_then_input(const char *str)
+t_redir	*find_redirections(const char *str, int *count)
 {
-	int		count;
-	t_redir	*redirs;
-	bool	result;
-	int		first_output;
-	int		first_input;
+	int		capacity;
+	t_redir	*results;
 
-	count = 0;
-	redirs = find_redirections(str, &count);
-	if (!redirs)
-		return (false);
-	result = false;
-	first_output = -1;
-	first_input = -1;
-	for (int i = 0; i < count; i++)
+	capacity = 8;
+	*count = 0;
+	results = malloc(capacity * sizeof(t_redir));
+	if (!results)
+		return (NULL);
+	scan_redirections(str, results, count);
+	if (*count >= capacity)
 	{
-		if (redirs[i].type == '>' && first_output == -1)
-			first_output = redirs[i].index;
-		if (redirs[i].type == '<' && first_input == -1)
-			first_input = redirs[i].index;
-	}
-	if (first_output != -1 && first_input != -1 && first_output < first_input)
-		result = true;
-	free(redirs);
-	return (result);
-}
-
-void	setup_redirections(char **commands, t_vars *vars, int *j)
-{
-	int		count;
-	t_redir	*redirs;
-
-	// printf("DEBUG: setup_redirections called with commands[0] = '%s'\n",
-	// 		commands[0]);
-	vars->redirection_failed = false;
-	count = 0;
-	redirs = find_redirections(commands[0], &count);
-	if (has_unquoted_heredoc(commands[0]))
-		here_doc(vars, vars->cmd_flags);
-	for (int i = 0; i < count; i++)
-	{
-		if (redirs[i].type == '<')
-			setup_input_redirection(commands, vars, j);
-		else if (redirs[i].type == '>')
-			setup_output_redirection(commands, vars);
-		if (vars->redirection_failed)
+		capacity *= 2;
+		results = realloc(results, capacity * sizeof(t_redir));
+		if (!results)
 		{
-			free(redirs);
-			return ;
+			perror("realloc");
+			exit(1);
 		}
 	}
-	free(redirs);
-	if (!setup_pipe(vars->pipe_fd))
-	{
-		g_exit_status = 1;
-		exit(g_exit_status);
-	}
+	return (results);
 }
