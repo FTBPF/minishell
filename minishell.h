@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/23 15:02:06 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/25 12:03:24 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,12 @@ typedef struct s_vars
 	bool	redirection_failed;
 	bool	in_pipeline;
 }			t_vars;
+
+typedef struct s_redir
+{
+	char type;
+	int index;
+}			t_redir;
 
 // Input Sanitize.c
 char		*check_executable(char *command, char **split_paths);

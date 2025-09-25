@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:52:18 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/23 15:08:41 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/25 11:33:35 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,43 @@ char	*find_unquoted_char(char *str, char c)
 		str++;
 	}
 	return (NULL);
+}
+
+// Function to extract filename that may be adjacent to redirection operators
+char	*extract_filename_adjacent(char *start, int *len)
+{
+	int		i;
+	int		in_quotes;
+	char	cur_quote;
+
+	i = 0;
+	in_quotes = 0;
+	cur_quote = '\0';
+	
+	while (start[i])
+	{
+		if (start[i] == '\'' || start[i] == '"')
+		{
+			if (!in_quotes)
+			{
+				in_quotes = 1;
+				cur_quote = start[i];
+			}
+			else if (start[i] == cur_quote)
+			{
+				in_quotes = 0;
+				cur_quote = '\0';
+			}
+		}
+		else if (!in_quotes && (start[i] == ' ' || start[i] == '\t' || 
+				 start[i] == '<' || start[i] == '>'))
+		{
+			break;
+		}
+		i++;
+	}
+	*len = i;
+	return (ft_strndup(start, i));
 }
 
 int	setup_input_redirection(char **commands, t_vars *vars, int *j)
@@ -121,10 +158,7 @@ int	setup_input_redirection(char **commands, t_vars *vars, int *j)
 			ft_putstr_fd(": ", 2);
 			ft_putendl_fd(strerror(errno), 2);
 			g_exit_status = 1;
-			if (!ft_strrchr(commands[0], '>'))
-				vars->redirection_failed = true;
-			else
-				vars->fd0 = open("/dev/null", O_RDONLY);
+			vars->redirection_failed = true;
 			free(cleaned_filename);
 			free(infile);
 			return (0);
