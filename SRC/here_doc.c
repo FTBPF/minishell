@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:52 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/17 14:58:35 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/25 12:12:37 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,8 @@ void	handle_heredoc(t_vars *vars, char *tmp, int *j)
 		if (vars->redirection_failed && printed == 0)
 		{
 			printed++;
-			ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n",
-				2);
+			ft_putstr_fd("minishell: syntax error near", 2);
+			ft_putstr_fd(" unexpected token `newline'\n", 2);
 			g_exit_status = 2;
 			return ;
 		}

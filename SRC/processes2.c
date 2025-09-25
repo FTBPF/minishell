@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 17:52:18 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/25 11:33:35 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/25 12:22:19 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,7 @@ char	*find_unquoted_char(char *str, char c)
 			}
 		}
 		else if (!in_quotes && *str == c)
-		{
 			return (str);
-		}
 		str++;
 	}
 	return (NULL);
@@ -53,7 +51,6 @@ char	*extract_filename_adjacent(char *start, int *len)
 	i = 0;
 	in_quotes = 0;
 	cur_quote = '\0';
-	
 	while (start[i])
 	{
 		if (start[i] == '\'' || start[i] == '"')
@@ -69,11 +66,9 @@ char	*extract_filename_adjacent(char *start, int *len)
 				cur_quote = '\0';
 			}
 		}
-		else if (!in_quotes && (start[i] == ' ' || start[i] == '\t' || 
-				 start[i] == '<' || start[i] == '>'))
-		{
-			break;
-		}
+		else if (!in_quotes && (start[i] == ' ' || start[i] == '\t'
+				|| start[i] == '<' || start[i] == '>'))
+			break ;
 		i++;
 	}
 	*len = i;

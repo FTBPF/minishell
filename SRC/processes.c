@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/23 14:43:25 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/25 12:18:07 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	handle_file_opening(char *str, t_vars *vars, char *infile, int *j)
 void	execute_command(t_vars *vars, char **commands, char **envp)
 {
 	struct stat	info;
-	
+
 	if (vars->redirection_failed)
 		exit(1);
 	signal(SIGINT, SIG_DFL);
@@ -85,6 +85,7 @@ static void	cleanup_temp_file(t_vars *vars)
 void	first_process(t_vars *vars, char **envp, char **commands, int *j)
 {
 	int	prev_read_fd;
+
 	prev_read_fd = vars->p0;
 	vars->fd0 = 0;
 	vars->fd1 = 1;

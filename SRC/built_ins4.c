@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:37 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/23 14:58:54 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/25 12:21:15 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ int	check_cd_ex_uns(char **commands, t_vars *vars)
 {
 	char	**split_cmds;
 
-	if (vars->in_pipeline && (ft_strstr(commands[0], "export") || ft_strstr(commands[0], "unset")))
+	if (vars->in_pipeline && (ft_strstr(commands[0], "export")
+			|| ft_strstr(commands[0], "unset")))
 		return (0);
 	split_cmds = ft_split_novo_e_melhorado(commands[0], ' ');
 	if (!split_cmds || !split_cmds[0])
