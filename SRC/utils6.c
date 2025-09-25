@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:59 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/22 17:25:12 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/25 13:39:16 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,11 @@ char	*setup_output_redirection_help(char **commands, t_vars *vars,
 
 	i = 0;
 	in_quotes = '+';
-	temp = ft_strrchr(commands[0], '>');
-	temp++;
+	temp = ft_strrchr(commands[0], '>') + 1;
 	while (*temp == ' ' || *temp == '	')
 		temp++;
 	while (temp[i] && ((temp[i] != '	' && temp[i] != ' ' && temp[i] != '<'
-				&& temp[i] != '>') || (in_quotes != '+')))
+				&& temp[i++] != '>') || (in_quotes != '+')))
 	{
 		if (temp[i] == '\"' || temp[i] == '\'')
 		{
@@ -61,10 +60,8 @@ char	*setup_output_redirection_help(char **commands, t_vars *vars,
 			else if (in_quotes == '+')
 				in_quotes = temp[i];
 		}
-		i++;
 	}
-	outfile = ft_strndup(temp, i);
-	outfile = remove_quotes_from_string(ft_strdup(outfile));
+	outfile = remove_quotes_from_string(ft_strndup(temp, i));
 	if (*(ft_strrchr(commands[0], '>') - 1) == '>')
 		vars->fd1 = open(outfile, O_CREAT | O_RDWR | O_APPEND, 0000644);
 	else

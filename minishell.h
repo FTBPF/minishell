@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/25 12:11:07 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/25 15:54:02 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ char		**ft_split_commands(char *str, char *delimiters);
 void		setup_redirections(char **commands, t_vars *vars, int *j);
 
 // Processes.c
+void		cleanup_temp_file(t_vars *vars);
 void		handle_file_opening(char *str, t_vars *vars, char *infile, int *j);
 int			setup_input_redirection(char **commands, t_vars *vars, int *j);
 int			setup_output_redirection(char **commands, t_vars *vars);
@@ -167,6 +168,9 @@ void		ctp_helper(char const *s, char c, char *d, size_t *i);
 void		put_matrix_helper(char const **s, char c, char *d, char *str);
 void		change_directory(char *path, t_vars *vars);
 
+// Built_ins10.c
+void		print_exported_vars(t_vars *vars);
+
 // here_doc.c
 void		open_doc(t_vars *vars, char *commands, int *j);
 void		open_doc_file(t_vars *vars, char *doc_file, int *j);
@@ -178,6 +182,10 @@ void		handle_heredoc(t_vars *vars, char *tmp, int *j);
 void		ft_open_helper(int *i, char *commands);
 void		ft_aspas_helper(int len, int *i, char *new_str, char *commands);
 char		*ft_strndup_aspas(char *commands, int len);
+
+// Main
+int			minishell_helper(char *input, char **env, t_vars *vars,
+				char **commands);
 
 // var_expander.c
 void		ft_replace_helper2(char *commands, int j, char *tmp, char **freee);

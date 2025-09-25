@@ -6,58 +6,13 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:12 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/23 14:59:25 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/25 15:12:24 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 int			g_exit_status = 0;
-
-// returns i so that the processes dont interrupt each other (while loop)
-int	minishell_helper(char *input, char **env, t_vars *vars, char **commands)
-{
-	int	status;
-	int	last_status;
-
-	last_status = 0;
-	if (str_is_spaces_only(input))
-		return (0);
-	commands = ft_split_commands(input, "|");
-	if (!commands)
-		return (0);
-	vars->in_pipeline = (commands[1] != NULL);
-	if (ft_strchr(input, '$'))
-		var_expander(vars, commands);
-	if (check_cd_ex_uns(commands, vars))
-	{
-		ft_free_vars(vars);
-		ft_free(commands);
-		return (0);
-	}
-	here_doc(vars, commands);
-	vars->i = 0;
-	vars->p0 = 0;
-	vars->j = 0;
-	while (commands[vars->i])
-	{
-		first_process(vars, env, &commands[vars->i], &vars->j);
-		free(commands[vars->i]);
-		(vars->i)++;
-	}
-	while (wait(&status) > 0)
-	{
-		if (WIFEXITED(status))
-			last_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			last_status = 0;
-	}
-	g_exit_status = last_status;
-	if (vars->p0 != 0)
-		close(vars->p0);
-	free(commands);
-	return (vars->i);
-}
 
 void	minishell(char *input, char **env, t_vars *vars, char **commands)
 {

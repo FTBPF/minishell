@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:34 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/23 15:01:54 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/25 13:17:26 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,6 @@ int	count_words(char *str, char *delimiters)
 		token_start = get_next_token(token_start + token_length, delimiters);
 	}
 	return (count);
-}
-
-void	handler_quit(int signal)
-{
-	if (signal == SIGQUIT)
-		write(2, "Quit (core dumped)\n", 20);
-	return ;
 }
 
 int	ft_strcmp(char *s1, char *s2)

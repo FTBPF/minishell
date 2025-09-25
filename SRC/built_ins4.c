@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:37 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/25 12:21:15 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/25 13:57:55 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,6 @@ void	ft_pwd(void)
 	exit(g_exit_status);
 }
 
-// Helps determine the number of env variables that need to be unset.
-// Used to adjust the size of the new environment variable array
-// after unsetting the variables.
 int	env_num(t_vars *vars, char **commands)
 {
 	int	i;
@@ -54,7 +51,6 @@ int	env_num(t_vars *vars, char **commands)
 	return (j);
 }
 
-// Clears value from env variables, otherwise does nothing
 int	is_command_in_env(char *env_var, char **commands)
 {
 	int	x;
@@ -121,6 +117,5 @@ int	check_cd_ex_uns(char **commands, t_vars *vars)
 		ft_export(vars, split_cmds);
 	else
 		return (ft_free(split_cmds), 0);
-	ft_free(split_cmds);
-	return (1);
+	return (ft_free(split_cmds), 1);
 }

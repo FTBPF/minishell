@@ -6,11 +6,49 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:59 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/08 16:04:16 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/25 13:34:46 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	open_doc(t_vars *vars, char *commands, int *j)
+{
+	char	*doc_file;
+	int		i;
+
+	i = 0;
+	commands = ft_strchr(commands, '<');
+	commands += 2;
+	while (*commands == ' ' || *commands == '	')
+		commands++;
+	if (*commands == '\0')
+	{
+		vars->redirection_failed = true;
+		return ;
+	}
+	ft_open_helper(&i, commands);
+	doc_file = ft_strndup_aspas(commands, i);
+	vars->temp = doc_file;
+	doc_file = ft_strjoin(doc_file, "\n");
+	open_doc_file(vars, doc_file, j);
+}
+
+void	open_doc_file(t_vars *vars, char *doc_file, int *j)
+{
+	int	id;
+
+	vars->here_doc_fd[*j] = open(vars->temp, O_CREAT | O_TRUNC | O_RDWR,
+			0000644);
+	if (vars->here_doc_fd[*j] == -1)
+		perror(vars->temp);
+	id = fork();
+	if (id == 0)
+		process_heredoc(vars, doc_file, vars->here_doc_fd[*j]);
+	wait(NULL);
+	free(doc_file);
+	vars->here_doc_fd[*j] = open(vars->temp, O_RDONLY, 0000644);
+}
 
 void	ft_open_helper(int *i, char *commands)
 {

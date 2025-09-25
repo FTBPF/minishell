@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:44 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/23 15:02:37 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/09/25 15:11:42 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	ft_free(char **array)
 // Receives the signal and handles it if it is CTRL+C
 // RL_on_new_line() moves the cursor to the next line
 // RL_redisplays() redisplays the prompt "myshell> "
-
 void	signal_handler(int sig)
 {
 	if (sig == SIGINT)
