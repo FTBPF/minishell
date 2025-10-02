@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 16:07:07 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/25 16:07:40 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/02 13:53:39 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,35 +39,6 @@ static char	*find_next_output_redirect(char *str)
 		str++;
 	}
 	return (NULL);
-}
-
-static char	*parse_outfile_token(char *temp, int *i)
-{
-	int		in_quotes;
-	char	quote_char;
-
-	*i = 0;
-	in_quotes = 0;
-	quote_char = '\0';
-	while (temp[*i] && ((temp[*i] != ' ' && temp[*i] != '\t' && temp[*i] != '<'
-				&& temp[*i] != '>') || in_quotes))
-	{
-		if (temp[*i] == '\'' || temp[*i] == '"')
-		{
-			if (!in_quotes)
-			{
-				in_quotes = 1;
-				quote_char = temp[*i];
-			}
-			else if (temp[*i] == quote_char)
-			{
-				in_quotes = 0;
-				quote_char = '\0';
-			}
-		}
-		(*i)++;
-	}
-	return (remove_quotes_from_string(ft_strndup(temp, *i)));
 }
 
 static int	open_outfile(t_vars *vars, char *outfile, bool is_append)

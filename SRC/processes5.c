@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 16:47:57 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/25 16:48:07 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/02 13:51:42 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,6 @@ static int	handle_redirection_error(void)
 		2);
 	g_exit_status = 2;
 	return (0);
-}
-
-static char	*skip_whitespace(char *str)
-{
-	while (*str == ' ' || *str == '\t')
-		str++;
-	return (str);
 }
 
 static int	handle_single_redirection(t_vars *vars, char *temp, int *i,

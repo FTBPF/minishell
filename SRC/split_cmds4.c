@@ -1,0 +1,100 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   split_cmds4.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/02 13:50:01 by frteixei          #+#    #+#             */
+/*   Updated: 2025/10/02 13:53:14 by frteixei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
+
+char	*parse_outfile_token(char *temp, int *i)
+{
+	int		in_quotes;
+	char	quote_char;
+
+	*i = 0;
+	in_quotes = 0;
+	quote_char = '\0';
+	while (temp[*i] && ((temp[*i] != ' ' && temp[*i] != '\t' && temp[*i] != '<'
+				&& temp[*i] != '>') || in_quotes))
+	{
+		if (temp[*i] == '\'' || temp[*i] == '"')
+		{
+			if (!in_quotes)
+			{
+				in_quotes = 1;
+				quote_char = temp[*i];
+			}
+			else if (temp[*i] == quote_char)
+			{
+				in_quotes = 0;
+				quote_char = '\0';
+			}
+		}
+		(*i)++;
+	}
+	return (remove_quotes_from_string(ft_strndup(temp, *i)));
+}
+
+static int	open_input_file(t_vars *vars, char *infile)
+{
+	if (vars->fd0 > 0)
+		close(vars->fd0);
+	if (open_and_assign_fd(vars, infile) == -1)
+		return (free(infile), 0);
+	free(infile);
+	return (1);
+}
+
+static char	*get_input_filename(char *temp, t_vars *vars, int *i)
+{
+	char	*infile;
+
+	temp = skip_whitespace(temp);
+	if (*temp == '\0')
+	{
+		vars->redirection_failed = true;
+		ft_putstr_fd("minishell: syntax error near unexpected ", 2);
+		ft_putstr_fd("token `newline'\n", 2);
+		g_exit_status = 2;
+		return (NULL);
+	}
+	infile = parse_infile_name(temp, i);
+	if (!infile || infile[0] == '\0')
+	{
+		vars->redirection_failed = true;
+		free(infile);
+		ft_putstr_fd("minishell: syntax error near unexpected ", 2);
+		ft_putstr_fd("token `newline'\n", 2);
+		g_exit_status = 2;
+		return (NULL);
+	}
+	return (infile);
+}
+
+int	process_single_input_redir(char *cmd, int redir_pos, t_vars *vars,
+		int *j)
+{
+	char	*temp;
+	char	*infile;
+	int		i;
+
+	temp = cmd + redir_pos;
+	if (*(temp + 1) == '<')
+	{
+		handle_heredoc(vars, temp, j);
+		if (vars->redirection_failed)
+			return (0);
+		return (1);
+	}
+	temp++;
+	infile = get_input_filename(temp, vars, &i);
+	if (!infile)
+		return (0);
+	return (open_input_file(vars, infile));
+}

@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/25 16:50:00 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/02 13:53:23 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,10 @@ char		*check_valid_cmd(char *argv, char **envp);
 int			check_flag_n(char *str);
 
 // split_cmds.c
+int			process_single_input_redir(char *cmd, int redir_pos, t_vars *vars,
+				int *j);
+char		*parse_outfile_token(char *temp, int *i);
+char		*skip_whitespace(char *str);
 t_redir		*find_redirections(const char *str, int *count);
 int			has_unquoted_heredoc(const char *s);
 char		*get_next_token(char *str, char *delimiters);
