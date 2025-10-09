@@ -6,13 +6,13 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:59 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/25 13:39:16 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/09 14:17:45 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*funcao_nova(char *str, char *delimiters)
+char	*skip_redirection_token(char *str, char *delimiters)
 {
 	char	d;
 

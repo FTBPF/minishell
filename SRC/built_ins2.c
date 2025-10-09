@@ -6,12 +6,15 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:27 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/15 18:08:20 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:06:16 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+// Handles various combinations of NULL or empty strings, joining
+// only the non-empty ones. If all three strings exist and are non-empty,
+// calls ft_strjoin_three_help.
 char	*ft_strjoin_three(char *s1, char *s2, char *s3)
 {
 	char	*str;
@@ -38,6 +41,10 @@ char	*ft_strjoin_three(char *s1, char *s2, char *s3)
 	return (str);
 }
 
+// Creates a new environment variable in the format "name=value" and
+// adds it to the my_environ array. Reallocates the array to accommodate
+// the new variable and increments num_env_vars.
+
 void	add_env_var(t_vars *vars, char *name, char *value)
 {
 	int		i;
@@ -60,6 +67,9 @@ void	add_env_var(t_vars *vars, char *name, char *value)
 	vars->my_environ = new_environ;
 	vars->num_env_vars++;
 }
+
+// Searches for the variable by name. If found, replaces its value.
+// If not found, calls add_env_var to create a new variable.
 
 void	modify_env_var(t_vars *vars, char *name, char *new_value)
 {
@@ -84,6 +94,9 @@ void	modify_env_var(t_vars *vars, char *name, char *new_value)
 	add_env_var(vars, name, new_value);
 }
 
+// Searches in my_environ by the name. If found returns a pointer 
+// to the value part of the environment variable, returns NULL if not found
+
 char	*get_env_var(t_vars *vars, char *name)
 {
 	int	i;
@@ -101,6 +114,9 @@ char	*get_env_var(t_vars *vars, char *name)
 	return (NULL);
 }
 
+// Creates a deep copy of the environment variables array and stores it
+// in vars->my_environ. Sets vars->num_env_vars to the count of variables.
+ 
 void	copy_environ(char **environ, t_vars *vars)
 {
 	int	i;

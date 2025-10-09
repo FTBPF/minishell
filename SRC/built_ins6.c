@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 20:15:18 by marada            #+#    #+#             */
-/*   Updated: 2025/07/16 19:18:30 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:28:39 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ void	new_improved_strcpy(char *dst, char *src)
 	dst[i] = '\0';
 }
 
+// Counts characters in the value portion, accounting for quotes that
+// should be removed versus quotes that should be kept.
+
 int	get_value_helper(char *str, int j)
 {
 	int		x;
@@ -61,6 +64,9 @@ int	get_value_helper(char *str, int j)
 	}
 	return (x);
 }
+
+// Locates the '=' character, calculates the cleaned value length,
+// and uses new_improved_strcpy to extract the value with quotes removed.
 
 char	*new_get_value(char *str)
 {

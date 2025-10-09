@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:37 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/25 13:57:55 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:18:14 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ void	ft_pwd(void)
 	g_exit_status = 0;
 	exit(g_exit_status);
 }
+
+// Counts how many environment variables start with any of the
+// strings in the commands array (starting from index 1).
 
 int	env_num(t_vars *vars, char **commands)
 {
@@ -67,6 +70,9 @@ int	is_command_in_env(char *env_var, char **commands)
 	return (flag);
 }
 
+// Creates a new environment array excluding variables that match
+// any of the commands. Updates num_env_vars and replaces my_environ.
+
 void	ft_unset(t_vars *vars, char **commands)
 {
 	int		i;
@@ -90,6 +96,10 @@ void	ft_unset(t_vars *vars, char **commands)
 	ft_free(vars->my_environ);
 	vars->my_environ = new_environ;
 }
+
+// Special handler for built-in commands that need to run in the parent
+// process. Splits the first command and executes if it's cd, exit, unset,
+// or export. Skips export/unset if in a pipeline.
 
 int	check_cd_ex_uns(char **commands, t_vars *vars)
 {

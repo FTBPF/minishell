@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/02 13:53:23 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:10:00 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ int			str_is_spaces_only(char *input);
 int			find_env_line_nbr(t_vars *vars, char *name);
 
 // utils6.c
-char		*funcao_nova(char *str, char *delimiters);
+char		*skip_redirection_token(char *str, char *delimiters);
 void		handler_quit_ctrlc(int sig);
 char		*ft_strjoin_three_help(char *s1, char *s2, char *s3, char *str);
 char		*setup_output_redirection_help(char **commands, t_vars *vars,
@@ -164,7 +164,6 @@ void		copy_environ(char **environ, t_vars *vars);
 // Built_ins3.c
 void		ft_exit(char **split_cmds);
 void		ft_env(t_vars *vars);
-char		*get_var_name(char *str);
 char		*get_value(char *str);
 void		ft_export(t_vars *vars, char **split_cmds);
 

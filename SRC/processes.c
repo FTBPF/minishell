@@ -6,11 +6,15 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/25 16:47:09 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/09 16:24:33 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+// Checks if the last '<' is part of a heredoc ("<<").
+// If so, sets fd0 to the corresponding heredoc file descriptor
+// and increments j.
 
 void	handle_file_opening(char *str, t_vars *vars, char *infile, int *j)
 {

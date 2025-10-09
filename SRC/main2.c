@@ -6,11 +6,19 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 15:11:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/25 15:12:28 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/09 16:23:59 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+// Performs command setup:
+// * Checks for whitespace-only input
+// * Splits input by pipes
+// * Marks if in pipeline
+// * Expands variables
+// * Handles parent-only built-ins
+// * Processes heredocs
 
 static int	setup_commands(char *input, t_vars *vars, char ***commands)
 {
@@ -32,6 +40,10 @@ static int	setup_commands(char *input, t_vars *vars, char ***commands)
 	return (1);
 }
 
+// Iterates through all commands, executing each by calling
+// first_process. Frees each command string after execution.
+// Initializes pipeline state variables.
+
 static void	execute_commands(t_vars *vars, char **env, char **commands)
 {
 	vars->i = 0;
@@ -44,6 +56,10 @@ static void	execute_commands(t_vars *vars, char **env, char **commands)
 		(vars->i)++;
 	}
 }
+
+// Waits for all child processes to complete. If a process exited
+// normally, stores its exit status. If terminated by signal,
+// stores 0. Returns the last collected status.
 
 static int	collect_status(void)
 {
@@ -60,6 +76,10 @@ static int	collect_status(void)
 	}
 	return (last_status);
 }
+
+// Waits for all child processes to complete. If a process exited
+// normally, stores its exit status. If terminated by signal,
+// stores 0. Returns the last collected status.
 
 int	minishell_helper(char *input, char **env, t_vars *vars, char **commands)
 {
