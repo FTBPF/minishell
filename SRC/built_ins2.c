@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:27 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/09 15:06:16 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/13 16:15:00 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ char	*get_env_var(t_vars *vars, char *name)
 
 // Creates a deep copy of the environment variables array and stores it
 // in vars->my_environ. Sets vars->num_env_vars to the count of variables.
- 
+
 void	copy_environ(char **environ, t_vars *vars)
 {
 	int	i;

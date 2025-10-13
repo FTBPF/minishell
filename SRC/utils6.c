@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:59 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/13 15:14:36 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/13 16:12:05 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ void	handler_quit_ctrlc(int sig)
 		return ;
 }
 
+// Calculates total length and allocates memory for joined string.
+// Copies all three strings sequentially using ft_strlcpy and ft_strlcat.
+
 char	*ft_strjoin_three_help(char *s1, char *s2, char *s3, char *str)
 {
 	size_t	len;
@@ -57,13 +60,9 @@ char	*ft_strjoin_three_help(char *s1, char *s2, char *s3, char *str)
 	return (str);
 }
 
-void	first_process_helper(t_vars *vars)
+void	handler_quit(int signal)
 {
-	if (vars->fd1 != 1)
-		close(vars->fd1);
-	if (vars->fd0 != 0)
-		close(vars->fd0);
-	close(vars->pipe_fd[1]);
-	if (vars->p0 != 0)
-		close(vars->p0);
+	if (signal == SIGQUIT)
+		write(2, "Quit (core dumped)\n", 20);
+	return ;
 }

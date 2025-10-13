@@ -6,11 +6,14 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:43:06 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/22 17:25:39 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/13 16:13:47 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+// Creates a string containing everything before the variable reference.
+// Frees previous freee value and builds new string character by character.
 
 void	ft_replace_helper2(char *commands, int j, char *tmp, char **freee)
 {
@@ -29,6 +32,9 @@ void	ft_replace_helper2(char *commands, int j, char *tmp, char **freee)
 	}
 	free(tmp);
 }
+
+// Extracts the variable name (consecutive letters) after the $.
+// Allocates and builds the name string character by character.
 
 int	ft_replace_helper(char *commands, int j, char **tmp)
 {
@@ -49,6 +55,10 @@ int	ft_replace_helper(char *commands, int j, char **tmp)
 	}
 	return (i);
 }
+
+// Extracts variable name, finds its value in environment,
+// and constructs new string with the value substituted.
+// Frees the original command string.
 
 char	*replace_var(t_vars *vars, char *commands, int j)
 {
