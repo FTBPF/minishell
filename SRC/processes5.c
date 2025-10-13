@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 16:47:57 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/02 13:51:42 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/13 14:59:49 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ static int	handle_redirection_error(void)
 	g_exit_status = 2;
 	return (0);
 }
+
+// Extracts the filename, validates it's not empty, closes previous fd0,
+// and opens the new input file. Updates *infile with new filename.
 
 static int	handle_single_redirection(t_vars *vars, char *temp, int *i,
 		char **infile)
@@ -42,6 +45,10 @@ static int	handle_single_redirection(t_vars *vars, char *temp, int *i,
 	return (1);
 }
 
+// Determines if redirection is heredoc (<<) or regular input (<).
+// For heredoc, calls handle_heredoc. For regular input, validates
+// filename exists and calls handle_single_redirection.
+
 static int	process_infile_token(t_vars *vars, t_redirection_context *ctx)
 {
 	if (*(*(ctx->temp) + 1) == '<')
@@ -64,6 +71,10 @@ static int	process_infile_token(t_vars *vars, t_redirection_context *ctx)
 	*(ctx->temp) += *(ctx->i);
 	return (1);
 }
+
+// Finds all input redirections (< and <<) in the command and
+// processes them in order. Only the last redirection takes effect.
+// Uses a context structure to pass multiple values to helper function.
 
 int	setup_input_redirection(char **commands, t_vars *vars, int *j)
 {

@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/09 16:24:33 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/13 14:31:01 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,15 @@ static void	execute_error(t_vars *vars, char **commands)
 	exit(g_exit_status);
 }
 
+// In the child process:
+//  * Exits if redirection failed
+//  * Sets up default signal handlers
+//  * Removes quotes from arguments
+//  * Executes built-ins directly
+//  * Validates and locates external commands
+//  * Calls execve to execute the command
+// Exits on error with appropriate status.
+
 void	execute_command(t_vars *vars, char **commands, char **envp)
 {
 	if (vars->redirection_failed)
@@ -87,6 +96,10 @@ void	cleanup_temp_file(t_vars *vars)
 		ft_free(vars->cmd_flags);
 	vars->cmd_flags = NULL;
 }
+
+// Searches for character c in str, but only when not inside
+// single or double quotes. Tracks quote state to handle
+// nested quoting properly.
 
 char	*find_unquoted_char(char *str, char c)
 {

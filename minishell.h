@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/09 15:10:00 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:13:21 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,8 +143,6 @@ int			find_env_line_nbr(t_vars *vars, char *name);
 char		*skip_redirection_token(char *str, char *delimiters);
 void		handler_quit_ctrlc(int sig);
 char		*ft_strjoin_three_help(char *s1, char *s2, char *s3, char *str);
-char		*setup_output_redirection_help(char **commands, t_vars *vars,
-				char *temp, char *outfile);
 void		first_process_helper(t_vars *vars);
 
 // Built_ins.c

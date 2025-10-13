@@ -6,11 +6,15 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:59 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/09 14:17:45 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:14:36 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+// Advanced tokenization helper that skips over complete redirection
+// tokens (including their filenames) while respecting quotes.
+// Used when parsing commands to ignore redirections.
 
 char	*skip_redirection_token(char *str, char *delimiters)
 {
@@ -37,36 +41,6 @@ void	handler_quit_ctrlc(int sig)
 {
 	if (sig == SIGINT || sig == SIGQUIT)
 		return ;
-}
-
-char	*setup_output_redirection_help(char **commands, t_vars *vars,
-		char *temp, char *outfile)
-{
-	int		i;
-	char	in_quotes;
-
-	i = 0;
-	in_quotes = '+';
-	temp = ft_strrchr(commands[0], '>') + 1;
-	while (*temp == ' ' || *temp == '	')
-		temp++;
-	while (temp[i] && ((temp[i] != '	' && temp[i] != ' ' && temp[i] != '<'
-				&& temp[i++] != '>') || (in_quotes != '+')))
-	{
-		if (temp[i] == '\"' || temp[i] == '\'')
-		{
-			if (temp[i] == in_quotes)
-				in_quotes = '+';
-			else if (in_quotes == '+')
-				in_quotes = temp[i];
-		}
-	}
-	outfile = remove_quotes_from_string(ft_strndup(temp, i));
-	if (*(ft_strrchr(commands[0], '>') - 1) == '>')
-		vars->fd1 = open(outfile, O_CREAT | O_RDWR | O_APPEND, 0000644);
-	else
-		vars->fd1 = open(outfile, O_TRUNC | O_CREAT | O_RDWR, 0000644);
-	return (outfile);
 }
 
 char	*ft_strjoin_three_help(char *s1, char *s2, char *s3, char *str)

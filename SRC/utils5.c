@@ -6,11 +6,14 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:55 by frteixei          #+#    #+#             */
-/*   Updated: 2025/07/08 16:04:29 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:10:42 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+// Helper for tracking quote state in tokenization.
+// Toggles in_quotes when matching quote is found.
 
 void	ft_get_next_token_noredirection_helper(char chr, int *in_quotes,
 		char *current_quote)
@@ -27,6 +30,9 @@ void	ft_get_next_token_noredirection_helper(char chr, int *in_quotes,
 		}
 	}
 }
+
+// Calculates the length of a token while tracking quote state.
+// Stops at delimiters when not inside quotes.
 
 void	ft_get_token_l_noredirection_helper(int *len, char *token_start,
 		char *delimiters, char current_quote)

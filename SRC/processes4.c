@@ -6,11 +6,14 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 16:07:07 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/02 13:53:39 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/13 14:47:50 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+// Searches for the '>' character outside of quotes.
+// Tracks quote state with flags to handle nested quotes.
 
 static char	*find_next_output_redirect(char *str)
 {
@@ -41,6 +44,10 @@ static char	*find_next_output_redirect(char *str)
 	return (NULL);
 }
 
+// Closes previous fd1 if open. Opens file in append or truncate mode.
+// On success, sets vars->fd1 and stores filename.
+// On failure, prints error and sets redirection_failed flag.
+
 static int	open_outfile(t_vars *vars, char *outfile, bool is_append)
 {
 	int	fd;
@@ -66,6 +73,10 @@ static int	open_outfile(t_vars *vars, char *outfile, bool is_append)
 	vars->outfile_name = outfile;
 	return (0);
 }
+
+// Determines if redirection is append (>>) or truncate (>).
+// Skips whitespace, validates filename exists, extracts filename,
+// and opens the file. Updates temp_ptr to position after filename.
 
 static int	handle_output_redirect(t_vars *vars, char **temp_ptr, int *last_fd)
 {
@@ -95,6 +106,10 @@ static int	handle_output_redirect(t_vars *vars, char **temp_ptr, int *last_fd)
 		return (0);
 	return (*last_fd = vars->fd1, *temp_ptr = temp + i, 1);
 }
+
+// Finds all output redirections (> and >>) in the command and
+// processes them in order. Only the last redirection takes effect.
+// Sets redirection_failed flag if any redirection fails.
 
 int	setup_output_redirection(char **commands, t_vars *vars)
 {

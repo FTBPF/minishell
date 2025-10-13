@@ -6,11 +6,15 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 16:21:01 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/02 13:50:39 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:05:17 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+// Skips past delimiters (respecting quotes) until a non-delimiter
+// is found. Tracks quote state to avoid treating quoted delimiters
+// as actual delimiters.
 
 char	*get_next_token(char *str, char *delimiters)
 {
@@ -40,6 +44,9 @@ char	*get_next_token(char *str, char *delimiters)
 		return (NULL);
 }
 
+// Counts characters until a delimiter is found outside of quotes.
+// Respects quote boundaries when determining token end.
+
 int	get_token_length(char *token_start, char *delimiters)
 {
 	int		length;
@@ -68,6 +75,9 @@ int	get_token_length(char *token_start, char *delimiters)
 	return (length);
 }
 
+// Scans through redirections to find the first occurrence of each type.
+// Sets pointers to -1 if type not found.
+
 static void	get_first_redir_positions(t_redir *redirs, int count,
 		int *first_output, int *first_input)
 {
@@ -85,6 +95,9 @@ static void	get_first_redir_positions(t_redir *redirs, int count,
 		i++;
 	}
 }
+
+// Finds all redirections and checks if the first '>' comes before
+// the first '<' in the command. Useful for determining redirection order.
 
 bool	output_then_input(const char *str)
 {

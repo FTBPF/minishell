@@ -6,11 +6,15 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:27 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/25 16:21:23 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:01:09 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+// Splits str into tokens separated by any character in delimiters,
+// respecting quotes. Allocates and returns an array of strings.
+// Handles memory allocation errors by freeing partial results.
 
 char	**ft_split_commands(char *str, char *delimiters)
 {
@@ -40,6 +44,9 @@ char	**ft_split_commands(char *str, char *delimiters)
 	words[num_words] = NULL;
 	return (words);
 }
+
+// Searches for "<<" that is not inside single or double quotes.
+// Tracks quote state while iterating through the string.
 
 int	has_unquoted_heredoc(const char *s)
 {
@@ -75,6 +82,10 @@ static bool	is_escaped(const char *str, int pos)
 	return ((backslashes % 2) == 1);
 }
 
+// Iterates through str, tracking quote state and recording positions
+// and types of '<' and '>' characters found outside quotes and not escaped.
+// Updates *count with the number of redirections found.
+
 static void	scan_redirections(const char *str, t_redir *results, int *count)
 {
 	bool	in_single;
@@ -101,6 +112,10 @@ static void	scan_redirections(const char *str, t_redir *results, int *count)
 		i++;
 	}
 }
+
+// Allocates an array to store redirection information, calls
+// scan_redirections to find them, and reallocates if necessary.
+// Sets *count to the number of redirections found.
 
 t_redir	*find_redirections(const char *str, int *count)
 {

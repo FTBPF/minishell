@@ -6,13 +6,14 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:34 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/25 13:17:26 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:06:50 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 // Finds the PATH string in the "envp" text
+
 char	*find_path(char **envp)
 {
 	while (ft_strncmp("PATH=", *envp, 5))

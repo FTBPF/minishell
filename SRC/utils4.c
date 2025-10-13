@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:51 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/16 16:56:56 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:10:15 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ char	*ft_strjoin_char(char *str1, char c)
 	new_str[i] = '\0';
 	return (new_str);
 }
+
+// Locates the '=' and extracts everything after it as the value.
+// Returns empty string if no '=' or no value after '='.
 
 char	*get_value_for_expand(char *str)
 {

@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 15:22:05 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/25 15:54:20 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/13 14:41:43 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@ static void	close_pipe_read_if_needed(t_vars *vars, char **commands)
 	if (commands[1])
 		close(vars->pipe_fd[0]);
 }
+
+// In the child process:
+//  * Sets up default signal handlers
+//  * Redirects stdin from fd0 (if set) or prev_read_fd
+//  * Redirects stdout to fd1 (if set) or pipe_fd[1]
+//  * Closes unused file descriptors
+// Exits with status 1 if fd0 is -1 (redirection error).
 
 static void	prepare_child_io(t_vars *vars, int prev_read_fd, char **commands)
 {
@@ -47,6 +54,9 @@ static void	prepare_child_io(t_vars *vars, int prev_read_fd, char **commands)
 	close_pipe_read_if_needed(vars, commands);
 }
 
+// If there's a next command, creates a pipe. Then forks a child
+// process and stores the PID in vars->pid1.
+
 static int	setup_pipe_and_fork(t_vars *vars, char **commands)
 {
 	if (commands[1] && pipe(vars->pipe_fd) < 0)
@@ -64,6 +74,12 @@ static int	setup_pipe_and_fork(t_vars *vars, char **commands)
 	return (0);
 }
 
+//  In the parent process:
+//  * Closes previous read fd
+//  * Closes custom fd1 and fd0
+//  * If more commands, closes write end and stores read end
+//  * Cleans up temporary heredoc files
+
 static void	handle_parent_cleanup(t_vars *vars, int prev_read_fd,
 		char **commands)
 {
@@ -80,6 +96,14 @@ static void	handle_parent_cleanup(t_vars *vars, int prev_read_fd,
 	}
 	cleanup_temp_file(vars);
 }
+
+// Main function for executing a command:
+//  * Initializes file descriptors
+//  * Splits command into arguments
+//  * Sets up input/output redirections
+//  * Creates pipe and forks
+//  * In child: sets up I/O and executes
+//  * In parent: cleans up resources
 
 void	first_process(t_vars *vars, char **envp, char **commands, int *j)
 {

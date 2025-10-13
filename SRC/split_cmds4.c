@@ -6,11 +6,15 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 13:50:01 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/02 13:53:14 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:06:31 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+// Extracts a filename token, respecting quote boundaries.
+// Stops at whitespace or redirection operators when not quoted.
+// Removes quotes from the extracted filename.
 
 char	*parse_outfile_token(char *temp, int *i)
 {
@@ -41,6 +45,9 @@ char	*parse_outfile_token(char *temp, int *i)
 	return (remove_quotes_from_string(ft_strndup(temp, *i)));
 }
 
+// Closes previous fd0, opens the new input file using
+// open_and_assign_fd, and frees the infile string.
+
 static int	open_input_file(t_vars *vars, char *infile)
 {
 	if (vars->fd0 > 0)
@@ -50,6 +57,9 @@ static int	open_input_file(t_vars *vars, char *infile)
 	free(infile);
 	return (1);
 }
+
+// Skips whitespace, validates filename is not empty, and extracts
+// the filename token. Prints syntax error if validation fails.
 
 static char	*get_input_filename(char *temp, t_vars *vars, int *i)
 {
@@ -76,6 +86,10 @@ static char	*get_input_filename(char *temp, t_vars *vars, int *i)
 	}
 	return (infile);
 }
+
+// Determines if redirection is heredoc (<<) or regular input (<).
+// For heredoc, calls handle_heredoc. For regular input, extracts
+// and opens the input file.
 
 int	process_single_input_redir(char *cmd, int redir_pos, t_vars *vars,
 		int *j)

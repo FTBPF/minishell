@@ -6,11 +6,14 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:40 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/09 14:17:45 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:08:24 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+// Similar to get_token_length, but used in context where redirections
+// are handled separately. Respects quotes and stops at delimiters.
 
 int	get_token_length_no_redirection(char *token_start, char *delimiters)
 {
@@ -23,6 +26,9 @@ int	get_token_length_no_redirection(char *token_start, char *delimiters)
 		current_quote);
 	return (length);
 }
+
+// Advances past delimiters and redirection sequences using funcao_nova.
+// Tracks quote state to handle quoted content properly.
 
 char	*get_next_token_no_redirection(char *str, char *delimiters)
 {
@@ -51,6 +57,9 @@ char	*get_next_token_no_redirection(char *str, char *delimiters)
 		return (NULL);
 }
 
+// Counts tokens while treating redirections and their arguments
+// as non-tokens. Used to extract just the command and its arguments.
+
 int	count_words_no_redirection(char *str, char *delimiters)
 {
 	int		count;
@@ -69,14 +78,9 @@ int	count_words_no_redirection(char *str, char *delimiters)
 	return (count);
 }
 
-/**
- * The function "process_token" takes in an array of tokens, a pointer to the
- * start of a token, a string of delimiters, and a pointer to an integer. It
- * extracts the next token from the token start, checks if it is not a
- * redirection symbol, gets the length of the token, duplicates the token
- * and stores it in the tokens array, updates the token start pointer,
- * and increments the integer pointer.
- */
+// Gets next token, validates it's not a redirection operator,
+// extracts and duplicates it, and stores in tokens array.
+
 void	process_token(char **tokens, char **token_start, char *delimiters,
 		int *i)
 {
@@ -92,16 +96,9 @@ void	process_token(char **tokens, char **token_start, char *delimiters,
 	}
 }
 
-/**
- * Splits a string into tokens based on a set of delimiters, excluding any
- * tokens that contain redirection symbols.
- *
- * @param str - string containing the input commands.
- * @param delimiters - string containing the characters used as
- * delimiters to split the input string.
- *
- * @return the split commands as an array of strings.
- */
+// Splits the command into tokens but excludes redirection operators
+// and their arguments. Returns only the actual command arguments.
+// Used to prepare cmd_flags for execution.
 
 char	**ft_split_commands_no_redirection(char *str, char *delimiters)
 {
