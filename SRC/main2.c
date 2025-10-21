@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 15:11:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/21 13:09:34 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/21 13:30:51 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int setup_commands(char *input, t_vars *vars, char ***commands)
         return (0);
     if (input[0] == '|' )
     {
-        ft_printf("myshell: syntax error near unexpected token `|`\n");
+        ft_printf("minishell: syntax error near unexpected token `|'\n");
         return (0);
     }
     *commands = ft_split_commands(input, "|");
@@ -39,7 +39,7 @@ static int setup_commands(char *input, t_vars *vars, char ***commands)
     {
         if (str_is_spaces_only((*commands)[i]))
         {
-            ft_printf("myshell: syntax error near unexpected token `|`\n");
+            ft_printf("minishell: syntax error near unexpected token `|'\n");
             ft_free(*commands);
             return (0);
         }
@@ -88,7 +88,6 @@ int ft_has_invalid_pipe(char **commands)
 
     if (commands[0][0] == '|')
         return (1);
-
     i = 0;
     while (commands[i])
     {
@@ -111,12 +110,6 @@ static void	execute_commands(t_vars *vars, char **env, char **commands)
 	vars->i = 0;
 	vars->p0 = 0;
 	vars->j = 0;
-	if (ft_has_invalid_pipe(commands))
-	{
-   		ft_printf("myshell: syntax error near unexpected token `|`\n");
-		free(commands[vars->i]);
-		return ;
-	}
 	while (commands[vars->i])
 	{	
 		first_process(vars, env, &commands[vars->i], &vars->j);
