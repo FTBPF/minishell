@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:27 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/13 16:15:00 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/21 11:53:28 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	add_env_var(t_vars *vars, char *name, char *value)
 {
 	int		i;
 	char	**new_environ;
-	char	*new_env_var;
+	char	*new_env_var = NULL;
 
 	new_environ = malloc((vars->num_env_vars + 2) * sizeof(char *));
 	if (!new_environ)
@@ -60,12 +60,15 @@ void	add_env_var(t_vars *vars, char *name, char *value)
 		new_environ[i] = vars->my_environ[i];
 		i++;
 	}
-	new_env_var = ft_strjoin_three(name, "=", value);
+	if (value)
+		new_env_var = ft_strjoin_three(name, "=", value);
+	else if (!value)
+		new_env_var = ft_strjoin_three(name, "", "");
 	new_environ[i] = new_env_var;
 	new_environ[i + 1] = NULL;
 	free(vars->my_environ);
 	vars->my_environ = new_environ;
-	vars->num_env_vars++;
+	vars->num_env_vars++;	
 }
 
 // Searches for the variable by name. If found, replaces its value.
@@ -81,8 +84,14 @@ void	modify_env_var(t_vars *vars, char *name, char *new_value)
 	i = 0;
 	while (vars->my_environ[i])
 	{
-		if (ft_strncmp(vars->my_environ[i], name, name_len) == 0
-			&& vars->my_environ[i][name_len] == '=')
+		if (new_value == NULL)
+		{
+			free(vars->my_environ[i]);
+			new_env_var = ft_strjoin_three(name, "", "");
+			vars->my_environ[i] = new_env_var;
+			return ;
+		}
+		if (ft_strncmp(vars->my_environ[i], name, name_len) == 0)
 		{
 			free(vars->my_environ[i]);
 			new_env_var = ft_strjoin_three(name, "=", new_value);

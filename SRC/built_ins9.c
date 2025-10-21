@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 13:57:29 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/09 15:40:59 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/21 11:52:21 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ static void	handle_export_var(t_vars *vars, char *arg)
 		modify_env_var(vars, name, value);
 		free(value);
 	}
+	else
+		modify_env_var(vars, name, NULL);
 	free(name);
 }
 
