@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 15:11:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/09 16:23:59 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/21 13:09:34 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,37 +20,105 @@
 // * Handles parent-only built-ins
 // * Processes heredocs
 
-static int	setup_commands(char *input, t_vars *vars, char ***commands)
+static int setup_commands(char *input, t_vars *vars, char ***commands)
 {
-	if (str_is_spaces_only(input))
-		return (0);
-	*commands = ft_split_commands(input, "|");
-	if (!*commands)
-		return (0);
-	vars->in_pipeline = ((*commands)[1] != NULL);
-	if (ft_strchr(input, '$'))
-		var_expander(vars, *commands);
-	if (check_cd_ex_uns(*commands, vars))
-	{
-		ft_free_vars(vars);
-		ft_free(*commands);
-		return (0);
-	}
-	here_doc(vars, *commands);
-	return (1);
+    int i;
+
+    if (str_is_spaces_only(input))
+        return (0);
+    if (input[0] == '|' )
+    {
+        ft_printf("myshell: syntax error near unexpected token `|`\n");
+        return (0);
+    }
+    *commands = ft_split_commands(input, "|");
+    if (!*commands)
+        return (0);
+    i = 0;
+    while ((*commands)[i])
+    {
+        if (str_is_spaces_only((*commands)[i]))
+        {
+            ft_printf("myshell: syntax error near unexpected token `|`\n");
+            ft_free(*commands);
+            return (0);
+        }
+        i++;
+    }
+    vars->in_pipeline = ((*commands)[1] != NULL);
+    if (ft_strchr(input, '$'))
+        var_expander(vars, *commands);
+    if (check_cd_ex_uns(*commands, vars))
+    {
+        ft_free_vars(vars);
+        ft_free(*commands);
+        return (0);
+    }
+    here_doc(vars, *commands);
+    return (1);
 }
 
 // Iterates through all commands, executing each by calling
 // first_process. Frees each command string after execution.
 // Initializes pipeline state variables.
 
+int ft_is_empty_command(const char *cmd)
+{
+    char *trimmed;
+
+    if (!cmd)
+        return (1);
+
+    trimmed = skip_whitespace((char *)cmd);
+    while (*trimmed)
+    {
+        if (*trimmed != '|')
+            return (0);
+        trimmed++;
+    }
+    return (1);
+}
+
+int ft_has_invalid_pipe(char **commands)
+{
+    int i, j;
+
+    if (!commands || !commands[0])
+        return (1);
+
+    if (commands[0][0] == '|')
+        return (1);
+
+    i = 0;
+    while (commands[i])
+    {
+        j = 0;
+        while (commands[i][j])
+        {
+            if (commands[i][j] != ' ' && commands[i][j] != '\t' && commands[i][j] != '|')
+                break;
+            j++;
+        }
+		if (commands[i][j] == '\0')
+            return (1);
+        i++;
+    }
+    return (0);
+}
+
 static void	execute_commands(t_vars *vars, char **env, char **commands)
 {
 	vars->i = 0;
 	vars->p0 = 0;
 	vars->j = 0;
-	while (commands[vars->i])
+	if (ft_has_invalid_pipe(commands))
 	{
+   		ft_printf("myshell: syntax error near unexpected token `|`\n");
+		free(commands[vars->i]);
+		return ;
+	}
+	while (commands[vars->i])
+	{	
 		first_process(vars, env, &commands[vars->i], &vars->j);
 		free(commands[vars->i]);
 		(vars->i)++;
