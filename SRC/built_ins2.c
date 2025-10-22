@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:27 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/21 11:53:28 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/22 12:15:41 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,9 @@ void	add_env_var(t_vars *vars, char *name, char *value)
 {
 	int		i;
 	char	**new_environ;
-	char	*new_env_var = NULL;
+	char	*new_env_var;
 
+	new_env_var = NULL;
 	new_environ = malloc((vars->num_env_vars + 2) * sizeof(char *));
 	if (!new_environ)
 		exit(EXIT_FAILURE);
@@ -68,7 +69,7 @@ void	add_env_var(t_vars *vars, char *name, char *value)
 	new_environ[i + 1] = NULL;
 	free(vars->my_environ);
 	vars->my_environ = new_environ;
-	vars->num_env_vars++;	
+	vars->num_env_vars++;
 }
 
 // Searches for the variable by name. If found, replaces its value.
@@ -103,7 +104,7 @@ void	modify_env_var(t_vars *vars, char *name, char *new_value)
 	add_env_var(vars, name, new_value);
 }
 
-// Searches in my_environ by the name. If found returns a pointer 
+// Searches in my_environ by the name. If found returns a pointer
 // to the value part of the environment variable, returns NULL if not found
 
 char	*get_env_var(t_vars *vars, char *name)

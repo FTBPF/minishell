@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:43:06 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/21 13:28:15 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/22 12:16:43 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	*replace_var(t_vars *vars, char *commands, int j)
 	if (line_nbr != -1 && vars->my_environ[line_nbr])
 		tmp2 = get_value_for_expand(vars->my_environ[line_nbr]);
 	else
-		tmp2 = ft_strdup("");	
+		tmp2 = ft_strdup("");
 	ft_replace_helper2(commands, j, NULL, &tmp);
 	if (tmp2 && commands)
 		tmp3 = ft_strjoin_three(tmp, tmp2, &commands[i + j]);

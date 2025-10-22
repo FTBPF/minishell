@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 16:20:08 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/13 15:03:22 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/22 12:16:05 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,16 @@ static int	process_single_output_redir(char *cmd, int redir_pos, t_vars *vars)
 	bool	is_append;
 
 	temp = cmd + redir_pos;
-	is_append = (*(temp + 1) == '>');
-	if (is_append)
+	is_append = false;
+	if (*temp == '>' && *(temp + 1) == '>')
+	{
+		is_append = true;
 		temp += 2;
-	else
+	}
+	else if (*temp == '>')
 		temp += 1;
+	else
+		return (0);
 	outfile = get_output_filename(temp, vars, &i);
 	if (!outfile)
 		return (0);
@@ -119,14 +124,23 @@ void	setup_redirections(char **commands, t_vars *vars, int *j)
 	vars->fd1 = 1;
 	count = 0;
 	redirs = find_redirections(commands[0], &count);
+	if (!redirs && count > 0)
+	{
+		vars->redirection_failed = true;
+		return ;
+	}
 	i = 0;
 	while (i < count && !vars->redirection_failed)
 	{
 		if (!process_redirection(commands[0], &redirs[i], vars, j))
-			return ((void)free(redirs));
+		{
+			free(redirs);
+			return ;
+		}
 		i++;
 	}
-	free(redirs);
+	if (redirs)
+		free(redirs);
 	if (vars->redirection_failed)
 		return ;
 	if (!setup_pipe(vars->pipe_fd))

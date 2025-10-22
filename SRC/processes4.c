@@ -1,133 +1,106 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   processes4.c                                       :+:      :+:    :+:   */
+/*   processes5.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/25 16:07:07 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/21 12:06:07 by frteixei         ###   ########.fr       */
+/*   Created: 2025/09/25 16:47:57 by frteixei          #+#    #+#             */
+/*   Updated: 2025/10/13 14:59:49 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// Searches for the '>' character outside of quotes.
-// Tracks quote state with flags to handle nested quotes.
-
-static char	*find_next_output_redirect(char *str)
+static int	handle_redirection_error(void)
 {
-	int		in_quotes;
-	char	quote_char;
-
-	in_quotes = 0;
-	quote_char = '\0';
-	while (*str)
-	{
-		if (*str == '\'' || *str == '"')
-		{
-			if (!in_quotes)
-			{
-				in_quotes = 1;
-				quote_char = *str;
-			}
-			else if (*str == quote_char)
-			{
-				in_quotes = 0;
-				quote_char = '\0';
-			}
-		}
-		else if (!in_quotes && *str == '>')
-			return (str);
-		str++;
-	}
-	return (NULL);
-}
-
-// Closes previous fd1 if open. Opens file in append or truncate mode.
-// On success, sets vars->fd1 and stores filename.
-// On failure, prints error and sets redirection_failed flag.
-
-static int	open_outfile(t_vars *vars, char *outfile, bool is_append)
-{
-	int	fd;
-
-	if (vars->fd1 > 1)
-		close(vars->fd1);
-	if (is_append)
-		fd = open(outfile, O_CREAT | O_RDWR | O_APPEND, 0644);
-	else
-		fd = open(outfile, O_TRUNC | O_CREAT | O_RDWR, 0644);
-	if (fd == -1)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(outfile, 2);
-		ft_putstr_fd(": ", 2);
-		ft_putendl_fd(strerror(errno), 2);
-		g_exit_status = 1;
-		vars->redirection_failed = true;
-		free(outfile);
-		return (-1);
-	}
-	vars->fd1 = fd;
-	vars->outfile_name = outfile;
+	ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n",
+		2);
+	g_exit_status = 2;
 	return (0);
 }
 
-// Determines if redirection is append (>>) or truncate (>).
-// Skips whitespace, validates filename exists, extracts filename,
-// and opens the file. Updates temp_ptr to position after filename.
+// Extracts the filename, validates it's not empty, closes previous fd0,
+// and opens the new input file. Updates *infile with new filename.
 
-static int	handle_output_redirect(t_vars *vars, char **temp_ptr, int *last_fd)
+static int	handle_single_redirection(t_vars *vars, char *temp, int *i,
+		char **infile)
 {
-	char	*outfile;
-	int		i;
-	bool	is_append;
-	char	*temp;
-
-	temp = *temp_ptr;
-	is_append = (*(temp + 1) == '>');
-	if (is_append)
-		temp += 2;
-	else
-		temp += 1;
-	while (*temp == ' ' || *temp == '\t')
-		temp++;
-	if (*temp == '\0')
+	if (*infile)
+		free(*infile);
+	*infile = parse_infile_name(temp, i);
+	if (!*infile || (*infile)[0] == '\0')
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token ", 2);
-		ft_putendl_fd("`newline'", 2);
-		g_exit_status = 2;
 		vars->redirection_failed = true;
+		free(*infile);
+		return (handle_redirection_error());
+	}
+	if (vars->fd0 > 0)
+		close(vars->fd0);
+	if (open_and_assign_fd(vars, *infile) == -1)
+	{
+		free(*infile);
 		return (0);
 	}
-	outfile = parse_outfile_token(temp, &i);
-	if (open_outfile(vars, outfile, is_append) == -1)
-		return (0);
-	return (*last_fd = vars->fd1, *temp_ptr = temp + i, 1);
+	return (1);
 }
 
-// Finds all output redirections (> and >>) in the command and
-// processes them in order. Only the last redirection takes effect.
-// Sets redirection_failed flag if any redirection fails.
+// Determines if redirection is heredoc (<<) or regular input (<).
+// For heredoc, calls handle_heredoc. For regular input, validates
+// filename exists and calls handle_single_redirection.
 
-int	setup_output_redirection(char **commands, t_vars *vars)
+static int	process_infile_token(t_vars *vars, t_redirection_context *ctx)
 {
-	char	*temp;
-	int		last_valid_fd;
+	if (*(*(ctx->temp) + 1) == '<')
+	{
+		handle_heredoc(vars, *(ctx->temp), ctx->j);
+		if (vars->redirection_failed)
+			return (0);
+		*(ctx->temp) += 2;
+		return (2);
+	}
+	(*(ctx->temp))++;
+	*(ctx->temp) = skip_whitespace(*(ctx->temp));
+	if (**(ctx->temp) == '\0')
+	{
+		vars->redirection_failed = true;
+		return (handle_redirection_error());
+	}
+	if (!handle_single_redirection(vars, *(ctx->temp), ctx->i, ctx->infile))
+		return (0);
+	*(ctx->temp) += *(ctx->i);
+	return (1);
+}
 
-	last_valid_fd = -1;
+// Finds all input redirections (< and <<) in the command and
+// processes them in order. Only the last redirection takes effect.
+// Uses a context structure to pass multiple values to helper function.
+
+int	setup_input_redirection(char **commands, t_vars *vars, int *j)
+{
+	char					*infile;
+	char					*temp;
+	int						i;
+	int						result;
+	t_redirection_context	ctx;
+
+	infile = NULL;
 	temp = commands[0];
-	vars->fd1 = 1;
-	vars->redirection_failed = false;
-	temp = find_next_output_redirect(temp);
+	vars->fd0 = 0;
+	temp = find_unquoted_char(temp, '<');
+	ctx.temp = &temp;
+	ctx.i = &i;
+	ctx.j = j;
+	ctx.infile = &infile;
 	while (temp)
 	{
-		if (!handle_output_redirect(vars, &temp, &last_valid_fd))
+		result = process_infile_token(vars, &ctx);
+		if (result == 0)
 			return (0);
-		temp = find_next_output_redirect(temp);
+		if (result != 2)
+			temp = find_unquoted_char(temp, '<');
 	}
-	if (last_valid_fd != -1)
-		return (1);
-	return (0);
+	if (infile)
+		free(infile);
+	return (vars->fd0 > 0);
 }

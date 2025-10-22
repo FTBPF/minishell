@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:19 by frteixei          #+#    #+#             */
-/*   Updated: 2025/09/16 14:53:54 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/22 12:19:08 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,18 @@ void	ft_cd(char **commands, t_vars *vars)
 	if (handle_cd_special_cases(commands, vars))
 		return ;
 	change_directory(commands[1], vars);
+}
+
+void	ft_env(t_vars *vars)
+{
+	int	i;
+
+	i = 0;
+	while (vars->my_environ[i])
+	{
+		if (ft_strchr(vars->my_environ[i], '='))
+			ft_printf("%s\n", vars->my_environ[i]);
+		i++;
+	}
+	g_exit_status = 0;
 }

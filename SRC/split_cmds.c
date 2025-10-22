@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:27 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/13 15:01:09 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/22 12:16:13 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,12 @@ static void	scan_redirections(const char *str, t_redir *results, int *count)
 			in_double = !in_double;
 		if (!in_single && !in_double && (c == '<' || c == '>'))
 		{
-			results[*count].type = c;
-			results[*count].index = i;
-			(*count)++;
+			if (i == 0 || str[i - 1] != c)
+			{
+				results[*count].type = c;
+				results[*count].index = i;
+				(*count)++;
+			}
 		}
 		i++;
 	}
@@ -122,7 +125,7 @@ t_redir	*find_redirections(const char *str, int *count)
 	int		capacity;
 	t_redir	*results;
 
-	capacity = 8;
+	capacity = 16;
 	*count = 0;
 	results = malloc(capacity * sizeof(t_redir));
 	if (!results)

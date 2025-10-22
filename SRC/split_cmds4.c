@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 13:50:01 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/13 15:06:31 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/22 12:06:43 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,24 +91,27 @@ static char	*get_input_filename(char *temp, t_vars *vars, int *i)
 // For heredoc, calls handle_heredoc. For regular input, extracts
 // and opens the input file.
 
-int	process_single_input_redir(char *cmd, int redir_pos, t_vars *vars,
-		int *j)
+int	process_single_input_redir(char *cmd, int redir_pos, t_vars *vars, int *j)
 {
 	char	*temp;
 	char	*infile;
 	int		i;
 
 	temp = cmd + redir_pos;
-	if (*(temp + 1) == '<')
+	if (*temp == '<' && *(temp + 1) == '<')
 	{
 		handle_heredoc(vars, temp, j);
 		if (vars->redirection_failed)
 			return (0);
 		return (1);
 	}
-	temp++;
-	infile = get_input_filename(temp, vars, &i);
-	if (!infile)
-		return (0);
-	return (open_input_file(vars, infile));
+	else if (*temp == '<')
+	{
+		temp++;
+		infile = get_input_filename(temp, vars, &i);
+		if (!infile)
+			return (0);
+		return (open_input_file(vars, infile));
+	}
+	return (0);
 }

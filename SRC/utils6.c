@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:59 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/13 16:12:05 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/22 12:22:38 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,20 @@ void	handler_quit(int signal)
 	if (signal == SIGQUIT)
 		write(2, "Quit (core dumped)\n", 20);
 	return ;
+}
+
+int	ft_is_empty_command(const char *cmd)
+{
+	char	*trimmed;
+
+	if (!cmd)
+		return (1);
+	trimmed = skip_whitespace((char *)cmd);
+	while (*trimmed)
+	{
+		if (*trimmed != '|')
+			return (0);
+		trimmed++;
+	}
+	return (1);
 }
