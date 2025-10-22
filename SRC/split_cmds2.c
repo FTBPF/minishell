@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:22:12 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 13:22:13 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/22 17:12:37 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,18 +104,12 @@ void	setup_redirections(char **commands, t_vars *vars, int *j)
 	count = 0;
 	redirs = find_redirections(commands[0], &count);
 	if (!redirs && count > 0)
-	{
-		vars->redirection_failed = true;
-		return ;
-	}
+		return (vars->redirection_failed = true, (void)0);
 	i = 0;
 	while (i < count && !vars->redirection_failed)
 	{
 		if (!process_redirection(commands[0], &redirs[i], vars, j))
-		{
-			free(redirs);
-			return ;
-		}
+			return (free(redirs));
 		i++;
 	}
 	if (redirs)
@@ -123,8 +117,5 @@ void	setup_redirections(char **commands, t_vars *vars, int *j)
 	if (vars->redirection_failed)
 		return ;
 	if (!setup_pipe(vars->pipe_fd))
-	{
-		g_exit_status = 1;
-		exit(g_exit_status);
-	}
+		exit(1);
 }

@@ -6,20 +6,17 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:22:21 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 14:24:29 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/22 17:20:02 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*parse_outfile_token(char *temp, int *i)
+static void	skip_token_with_quotes(const char *temp, int *i)
 {
 	int		in_quotes;
 	char	quote_char;
-	char	*temp_str;
-	char	*result;
 
-	*i = 0;
 	in_quotes = 0;
 	quote_char = '\0';
 	while (temp[*i] && ((temp[*i] != ' ' && temp[*i] != '\t' && temp[*i] != '<'
@@ -40,6 +37,15 @@ char	*parse_outfile_token(char *temp, int *i)
 		}
 		(*i)++;
 	}
+}
+
+char	*parse_outfile_token(char *temp, int *i)
+{
+	char	*temp_str;
+	char	*result;
+
+	*i = 0;
+	skip_token_with_quotes(temp, i);
 	temp_str = ft_strndup(temp, *i);
 	result = remove_quotes_from_string(temp_str);
 	free(temp_str);

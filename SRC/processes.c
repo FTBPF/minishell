@@ -6,21 +6,11 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:31 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 13:21:33 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/22 17:27:21 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	handle_file_opening(char *str, t_vars *vars, char *infile, int *j)
-{
-	(void)infile;
-	if (*(ft_strrchr(str, '<') - 1) == '<')
-	{
-		vars->fd0 = vars->here_doc_fd[*j];
-		(*j)++;
-	}
-}
 
 static void	execute_error(t_vars *vars, char **commands)
 {

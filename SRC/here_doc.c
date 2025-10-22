@@ -6,33 +6,11 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:20:57 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 17:08:00 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/22 17:23:41 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	process_heredoc(t_vars *vars, char *doc_file, int fd)
-{
-	char	*str;
-
-	write(1, "> ", 2);
-	str = get_next_line(0);
-	while (ft_strncmp(str, doc_file, ft_strlen(str)) != 0)
-	{
-		write(fd, str, ft_strlen(str));
-		free(str);
-		write(1, "> ", 2);
-		str = get_next_line(0);
-	}
-	free(str);
-	str = NULL;
-	get_next_line(-1);
-	free(doc_file);
-	ft_free_vars(vars);
-	g_exit_status = 0;
-	exit(g_exit_status);
-}
 
 void	here_doc(t_vars *vars, char **commands)
 {
@@ -77,6 +55,21 @@ static void	cleanup_heredoc(t_vars *vars, int j)
 	vars->temp = NULL;
 }
 
+static void	handle_redirection_failure(t_vars *vars, int *printed)
+{
+	if (vars->redirection_failed && *printed == 0)
+	{
+		(*printed)++;
+		if (vars->temp)
+		{
+			unlink(vars->temp);
+			free(vars->temp);
+			vars->temp = NULL;
+		}
+		print_heredoc_error();
+	}
+}
+
 void	handle_heredoc(t_vars *vars, char *tmp, int *j)
 {
 	char		*after;
@@ -92,17 +85,9 @@ void	handle_heredoc(t_vars *vars, char *tmp, int *j)
 		while (*after == ' ' || *after == '\t')
 			after++;
 		open_doc(vars, tmp, j);
-		if (vars->redirection_failed && printed == 0)
-		{
-			printed++;
-			if (vars->temp)
-			{
-				unlink(vars->temp);
-				free(vars->temp);
-				vars->temp = NULL;
-			}
-			return (print_heredoc_error());
-		}
+		handle_redirection_failure(vars, &printed);
+		if (vars->redirection_failed)
+			return ;
 		next = ft_strchr(after, '<');
 		if (next && *(next + 1) == '<')
 			cleanup_heredoc(vars, *j);

@@ -6,60 +6,11 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:27 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 13:22:04 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/22 17:21:03 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	**ft_split_commands(char *str, char *delimiters)
-{
-	int		num_words;
-	char	**words;
-	char	*token_start;
-	int		token_length;
-	int		i;
-
-	num_words = count_words(str, delimiters);
-	words = (char **)malloc((num_words + 1) * sizeof(char *));
-	if (!words)
-		return (NULL);
-	i = 0;
-	token_start = get_next_token(str, delimiters);
-	while (token_start)
-	{
-		token_length = get_token_length(token_start, delimiters);
-		words[i] = ft_strndup(token_start, token_length);
-		if (!words[i++])
-		{
-			ft_free(words);
-			return (NULL);
-		}
-		token_start = get_next_token(token_start + token_length, delimiters);
-	}
-	words[num_words] = NULL;
-	return (words);
-}
-
-int	has_unquoted_heredoc(const char *s)
-{
-	int	in_squotes;
-	int	in_dquotes;
-
-	in_squotes = 0;
-	in_dquotes = 0;
-	while (*s)
-	{
-		if (*s == '\'' && !in_dquotes)
-			in_squotes = !in_squotes;
-		else if (*s == '"' && !in_squotes)
-			in_dquotes = !in_dquotes;
-		else if (*s == '<' && *(s + 1) == '<' && !in_squotes && !in_dquotes)
-			return (1);
-		s++;
-	}
-	return (0);
-}
 
 static bool	is_escaped(const char *str, int pos)
 {

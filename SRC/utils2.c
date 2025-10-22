@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:22:32 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 13:22:34 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/22 17:30:37 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,6 @@ int	count_words_no_redirection(char *str, char *delimiters)
 				delimiters);
 	}
 	return (count);
-}
-
-void	process_token(char **tokens, char **token_start, char *delimiters,
-		int *i)
-{
-	int	token_length;
-
-	*token_start = get_next_token_no_redirection(*token_start, delimiters);
-	if (*token_start && **token_start != '>' && **token_start != '<')
-	{
-		token_length = get_token_length(*token_start, delimiters);
-		tokens[*i] = ft_strndup(*token_start, token_length);
-		*token_start += token_length;
-		(*i)++;
-	}
 }
 
 char	**ft_split_commands_no_redirection(char *str, char *delimiters)

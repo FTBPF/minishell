@@ -6,22 +6,11 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:51 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 14:33:12 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/22 17:31:58 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	is_delimiter(char c, char *delimiters)
-{
-	while (*delimiters)
-	{
-		if (c == *delimiters)
-			return (1);
-		delimiters++;
-	}
-	return (0);
-}
 
 char	*remove_quotes_from_string(char *str)
 {

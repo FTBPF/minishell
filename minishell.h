@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/13 16:11:46 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/22 17:33:27 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,6 @@ void		setup_redirections(char **commands, t_vars *vars, int *j);
 // Processes.c
 char		*find_unquoted_char(char *str, char c);
 void		cleanup_temp_file(t_vars *vars);
-void		handle_file_opening(char *str, t_vars *vars, char *infile, int *j);
-int			setup_input_redirection(char **commands, t_vars *vars, int *j);
-int			setup_output_redirection(char **commands, t_vars *vars);
 void		execute_command(t_vars *vars, char **commands, char **envp);
 void		first_process(t_vars *vars, char **envp, char **commands, int *j);
 
@@ -104,7 +101,6 @@ int			open_and_assign_fd(t_vars *vars, char *infile);
 char		*ft_strstr(const char *haystack, const char *needle);
 char		*find_path(char **envp);
 int			count_words(char *str, char *delimiters);
-void		handler_quit(int signal);
 int			ft_strcmp(char *s1, char *s2);
 int			ft_exit_ctrl_d(char *input);
 
@@ -112,8 +108,6 @@ int			ft_exit_ctrl_d(char *input);
 int			get_token_length_no_redirection(char *str, char *delimiters);
 char		*get_next_token_no_redirection(char *str, char *delimiters);
 int			count_words_no_redirection(char *str, char *delimiters);
-void		process_token(char **tokens, char **token_start, char *delimiters,
-				int *i);
 char		**ft_split_commands_no_redirection(char *str, char *delimiters);
 
 // utils3.c
@@ -124,7 +118,6 @@ void		ft_vars_init(t_vars *vars);
 int			setup_pipe(int *pipe_fd);
 
 // utils4.c
-int			is_delimiter(char c, char *delimiters);
 char		*remove_quotes_from_string(char *str);
 void		remove_quotes_from_array(char **arr);
 char		*ft_strjoin_char(char *str1, char c);
@@ -141,7 +134,6 @@ int			find_env_line_nbr(t_vars *vars, char *name);
 
 // utils6.c
 char		*skip_redirection_token(char *str, char *delimiters);
-void		handler_quit_ctrlc(int sig);
 char		*ft_strjoin_three_help(char *s1, char *s2, char *s3, char *str);
 
 // Built_ins.c
@@ -161,7 +153,6 @@ void		copy_environ(char **environ, t_vars *vars);
 // Built_ins3.c
 void		ft_exit(char **split_cmds);
 void		ft_env(t_vars *vars);
-char		*get_value(char *str);
 void		ft_export(t_vars *vars, char **split_cmds);
 
 // Built_ins4.c
@@ -198,6 +189,7 @@ void		ft_aspas_helper(int len, int *i, char *new_str, char *commands);
 char		*ft_strndup_aspas(char *commands, int len);
 
 // Main
+int			setup_commands(char *input, t_vars *vars, char ***commands);
 int			minishell_helper(char *input, char **env, t_vars *vars,
 				char **commands);
 
