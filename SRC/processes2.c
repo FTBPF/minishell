@@ -1,21 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   processes2.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/14 17:52:18 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/21 12:06:12 by frteixei         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "../minishell.h"
-
-// When a quote character is encountered:
-//  * If not in quotes, enters quote mode with that character
-//  * If in quotes and matches current quote, exits quote mode
-//  * If in quotes but different quote, treats as regular character
 
 static void	update_quote_state(char c, int *in_quotes, char *cur_quote)
 {
@@ -33,10 +18,6 @@ static void	update_quote_state(char c, int *in_quotes, char *cur_quote)
 		}
 	}
 }
-
-// Extracts a filename that immediately follows a redirection operator.
-// Stops at whitespace or another redirection when not in quotes.
-// Respects quote boundaries.
 
 char	*extract_filename_adjacent(char *start, int *len)
 {
@@ -58,9 +39,6 @@ char	*extract_filename_adjacent(char *start, int *len)
 	*len = i;
 	return (ft_strndup(start, i));
 }
-
-// Parses the filename for input redirection, handling quotes.
-// Stops at whitespace or redirection operators when not quoted.
 
 char	*parse_infile_name(char *temp, int *i)
 {
@@ -91,10 +69,6 @@ char	*parse_infile_name(char *temp, int *i)
 	return (ft_strndup(temp, *i));
 }
 
-// Removes quotes from filename, attempts to open in read-only mode.
-// On success, assigns to vars->fd0 and stores cleaned filename.
-// On failure, prints error and sets redirection_failed flag.
-
 int	open_and_assign_fd(t_vars *vars, char *infile)
 {
 	char	*cleaned_filename;
@@ -117,10 +91,6 @@ int	open_and_assign_fd(t_vars *vars, char *infile)
 	vars->infile_name = cleaned_filename;
 	return (0);
 }
-
-// Removes quotes from outfile and stores cleaned name.
-// If fd1 indicates an error (< 0), prints error message
-// and sets redirection_failed flag.
 
 void	handle_output_redirection(t_vars *vars, char *outfile)
 {

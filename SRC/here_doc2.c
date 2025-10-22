@@ -5,16 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 19:41:59 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/09 16:14:04 by frteixei         ###   ########.fr       */
+/*   Created: 2025/10/22 13:21:04 by frteixei          #+#    #+#             */
+/*   Updated: 2025/10/22 13:21:06 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// Locates the heredoc delimiter after "<<", extracts it while
-// handling quotes, and calls open_doc_file to create the temporary
-// file and process the heredoc input.
 
 void	open_doc(t_vars *vars, char *commands, int *j)
 {
@@ -38,10 +34,6 @@ void	open_doc(t_vars *vars, char *commands, int *j)
 	open_doc_file(vars, doc_file, j);
 }
 
-// Creates a temporary file, forks a child process to read heredoc
-// input using process_heredoc, waits for the child, and reopens
-// the file in read-only mode.
-
 void	open_doc_file(t_vars *vars, char *doc_file, int *j)
 {
 	int	id;
@@ -57,10 +49,6 @@ void	open_doc_file(t_vars *vars, char *doc_file, int *j)
 	free(doc_file);
 	vars->here_doc_fd[*j] = open(vars->temp, O_RDONLY, 0000644);
 }
-
-// Calculates the length of the heredoc delimiter, respecting quotes.
-// Stops at whitespace or redirection characters when not in quotes.
-// Tracks quote state to handle nested quotes properly.
 
 void	ft_open_helper(int *i, char *commands)
 {
@@ -113,9 +101,6 @@ void	ft_aspas_helper(int len, int *i, char *new_str, char *commands)
 		j++;
 	}
 }
-
-// Allocates memory and copies up to len characters from commands,
-// removing outer quotes using ft_aspas_helper.
 
 char	*ft_strndup_aspas(char *commands, int len)
 {

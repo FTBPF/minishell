@@ -5,16 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 19:42:59 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 12:22:38 by frteixei         ###   ########.fr       */
+/*   Created: 2025/10/22 13:23:00 by frteixei          #+#    #+#             */
+/*   Updated: 2025/10/22 13:23:02 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// Advanced tokenization helper that skips over complete redirection
-// tokens (including their filenames) while respecting quotes.
-// Used when parsing commands to ignore redirections.
 
 char	*skip_redirection_token(char *str, char *delimiters)
 {
@@ -42,9 +38,6 @@ void	handler_quit_ctrlc(int sig)
 	if (sig == SIGINT || sig == SIGQUIT)
 		return ;
 }
-
-// Calculates total length and allocates memory for joined string.
-// Copies all three strings sequentially using ft_strlcpy and ft_strlcat.
 
 char	*ft_strjoin_three_help(char *s1, char *s2, char *s3, char *str)
 {

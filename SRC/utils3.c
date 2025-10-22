@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:44 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/13 15:09:23 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/22 13:22:40 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,6 @@ void	ft_free(char **array)
 	}
 	free(array);
 }
-
-// When SIGINT is received:
-//  * Prints "^C" and newline
-//  * Clears the current line buffer
-//  * Moves to new line
-//  * Redisplays the prompt
 
 void	signal_handler(int sig)
 {

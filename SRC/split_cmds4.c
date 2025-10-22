@@ -5,21 +5,19 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/02 13:50:01 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 12:06:43 by frteixei         ###   ########.fr       */
+/*   Created: 2025/10/22 13:22:21 by frteixei          #+#    #+#             */
+/*   Updated: 2025/10/22 14:24:29 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// Extracts a filename token, respecting quote boundaries.
-// Stops at whitespace or redirection operators when not quoted.
-// Removes quotes from the extracted filename.
-
 char	*parse_outfile_token(char *temp, int *i)
 {
 	int		in_quotes;
 	char	quote_char;
+	char	*temp_str;
+	char	*result;
 
 	*i = 0;
 	in_quotes = 0;
@@ -42,11 +40,11 @@ char	*parse_outfile_token(char *temp, int *i)
 		}
 		(*i)++;
 	}
-	return (remove_quotes_from_string(ft_strndup(temp, *i)));
+	temp_str = ft_strndup(temp, *i);
+	result = remove_quotes_from_string(temp_str);
+	free(temp_str);
+	return (result);
 }
-
-// Closes previous fd0, opens the new input file using
-// open_and_assign_fd, and frees the infile string.
 
 static int	open_input_file(t_vars *vars, char *infile)
 {
@@ -57,9 +55,6 @@ static int	open_input_file(t_vars *vars, char *infile)
 	free(infile);
 	return (1);
 }
-
-// Skips whitespace, validates filename is not empty, and extracts
-// the filename token. Prints syntax error if validation fails.
 
 static char	*get_input_filename(char *temp, t_vars *vars, int *i)
 {
@@ -86,10 +81,6 @@ static char	*get_input_filename(char *temp, t_vars *vars, int *i)
 	}
 	return (infile);
 }
-
-// Determines if redirection is heredoc (<<) or regular input (<).
-// For heredoc, calls handle_heredoc. For regular input, extracts
-// and opens the input file.
 
 int	process_single_input_redir(char *cmd, int redir_pos, t_vars *vars, int *j)
 {

@@ -5,16 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 19:41:52 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/09 16:12:05 by frteixei         ###   ########.fr       */
+/*   Created: 2025/10/22 13:20:57 by frteixei          #+#    #+#             */
+/*   Updated: 2025/10/22 13:32:16 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// Prompts for input with "> " and reads lines using get_next_line.
-// Writes each line to fd until a line matching doc_file is found.
-// Frees resources and exits with g_exit_status.
 
 void	process_heredoc(t_vars *vars, char *doc_file, int fd)
 {
@@ -38,10 +34,6 @@ void	process_heredoc(t_vars *vars, char *doc_file, int fd)
 	exit(g_exit_status);
 }
 
-// Counts heredocs by scanning for unquoted "<<" sequences.
-// Allocates the here_doc_fd array and processes each heredoc
-// by calling handle_heredoc.
-
 void	here_doc(t_vars *vars, char **commands)
 {
 	char	*tmp;
@@ -56,10 +48,10 @@ void	here_doc(t_vars *vars, char **commands)
 			j++;
 		i++;
 	}
-	vars->here_doc_fd = malloc(sizeof(char *) * j + 1);
+	vars->here_doc_fd = malloc(sizeof(char *) * (j + 1));
 	if (!vars->here_doc_fd)
 		return ;
-	vars->here_doc_fd[j] = '\0';
+	vars->here_doc_fd[j] = -1;
 	i = 0;
 	j = 0;
 	while (commands[i])
@@ -83,10 +75,6 @@ static void	cleanup_heredoc(t_vars *vars, int j)
 	unlink(vars->temp);
 	free(vars->temp);
 }
-
-// Searches for unquoted "<<" sequences in the command. For each one,
-// calls open_doc to create and process the heredoc. If multiple
-// heredocs exist, closes and removes intermediate ones.
 
 void	handle_heredoc(t_vars *vars, char *tmp, int *j)
 {

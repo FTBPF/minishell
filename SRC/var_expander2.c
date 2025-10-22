@@ -5,15 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 19:43:12 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/13 16:14:24 by frteixei         ###   ########.fr       */
+/*   Created: 2025/10/22 13:23:09 by frteixei          #+#    #+#             */
+/*   Updated: 2025/10/22 13:23:13 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// Extracts the parts before and after $?, converts g_exit_status
-// to string, and joins them together. Frees the original command.
 
 char	*replace_exit_status(char *commands, int j)
 {
@@ -43,10 +40,6 @@ int	check_if_exit_stat(char **commands, int i, int j)
 	}
 	return (0);
 }
-
-// Iterates through command character by character, tracking quote state.
-// When $ is found outside single quotes, expands the variable or exit status.
-// Handles quote state to prevent expansion in single quotes.
 
 void	ft_expander_helper2(char **commands, t_vars *vars, int i)
 {

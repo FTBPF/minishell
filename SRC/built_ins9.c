@@ -5,16 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/25 13:57:29 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/21 11:52:21 by frteixei         ###   ########.fr       */
+/*   Created: 2025/10/22 13:20:52 by frteixei          #+#    #+#             */
+/*   Updated: 2025/10/22 13:20:54 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// Checks if the string is a valid variable name:
-// - Must start with a letter or underscore
-// - Can contain letters, digits, and underscores before '='
 
 static int	is_valid_identifier(char *str)
 {
@@ -45,9 +41,6 @@ static void	print_export_error(char *str)
 	ft_putendl_fd("': not a valid identifier", 2);
 }
 
-// Validates that the string is a valid identifier and extracts
-// the portion before the '=' sign. Prints error if invalid.
-
 static char	*get_var_name_fixed(char *str)
 {
 	int		i;
@@ -73,9 +66,6 @@ static char	*get_var_name_fixed(char *str)
 	return (name);
 }
 
-// Extracts the variable name and value (if present) from the argument.
-// If a value is provided, modifies the variable.
-
 static void	handle_export_var(t_vars *vars, char *arg)
 {
 	char	*name;
@@ -94,10 +84,6 @@ static void	handle_export_var(t_vars *vars, char *arg)
 		modify_env_var(vars, name, NULL);
 	free(name);
 }
-
-// With no arguments, prints all exported variables in sorted order.
-// With arguments, processes each one by calling handle_export_var
-// to add or modify environment variables.
 
 void	ft_export(t_vars *vars, char **split_cmds)
 {

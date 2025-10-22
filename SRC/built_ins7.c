@@ -5,16 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/13 19:06:41 by marada            #+#    #+#             */
-/*   Updated: 2025/10/09 15:29:53 by frteixei         ###   ########.fr       */
+/*   Created: 2025/10/22 13:20:40 by frteixei          #+#    #+#             */
+/*   Updated: 2025/10/22 13:20:42 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// Advances the index through a word until the delimiter is found,
-// tracking quote state. Updates the quote character when quotes
-// are encountered.
 
 void	ctp_helper(char const *s, char c, char *d, size_t *i)
 {
@@ -30,9 +26,6 @@ void	ctp_helper(char const *s, char c, char *d, size_t *i)
 		(*i)++;
 	}
 }
-
-// Copies characters into str until the delimiter is found,
-// respecting quotes. Updates the source pointer and quote state.
 
 void	put_matrix_helper(char const **s, char c, char *d, char *str)
 {

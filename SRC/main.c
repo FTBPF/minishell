@@ -5,23 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 19:42:12 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/09 16:21:45 by frteixei         ###   ########.fr       */
+/*   Created: 2025/10/22 13:21:20 by frteixei          #+#    #+#             */
+/*   Updated: 2025/10/22 13:21:22 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 int			g_exit_status = 0;
-
-// Processes the input by:
-// * Checking for whitespace-only input
-// * Splitting into commands
-// * Expanding variables
-// * Handling built-ins that need parent process
-// * Processing heredocs
-// * Executing commands via minishell_helper
-// Cleans up resources before returning.
 
 void	minishell(char *input, char **env, t_vars *vars, char **commands)
 {
@@ -41,10 +32,6 @@ void	minishell(char *input, char **env, t_vars *vars, char **commands)
 	input = NULL;
 }
 
-// Sets up signal handling by disabling readline's default signals
-// and using custom handlers. Initializes vars structure and copies
-// environment variables.
-
 void	setup_shell(t_vars *vars, char **env)
 {
 	rl_catch_signals = 0;
@@ -53,23 +40,11 @@ void	setup_shell(t_vars *vars, char **env)
 	copy_environ(env, vars);
 }
 
-// Configures signal handling:
-// * SIGINT (Ctrl+C): handled by signal_handler
-// * SIGQUIT (Ctrl+\): ignored
-
 static void	setup_signals_parent(void)
 {
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
-
-// Runs the interactive shell loop:
-// * Sets up signals
-// * Reads input with readline
-// * Handles Ctrl+D (EOF)
-// * Adds non-empty input to history
-// * Processes commands
-// Continues until Ctrl+D or exit. Cleans up on exit.
 
 void	run_shell(t_vars *vars, char **env)
 {

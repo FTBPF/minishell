@@ -5,16 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 19:42:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/13 14:31:01 by frteixei         ###   ########.fr       */
+/*   Created: 2025/10/22 13:21:31 by frteixei          #+#    #+#             */
+/*   Updated: 2025/10/22 13:21:33 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// Checks if the last '<' is part of a heredoc ("<<").
-// If so, sets fd0 to the corresponding heredoc file descriptor
-// and increments j.
 
 void	handle_file_opening(char *str, t_vars *vars, char *infile, int *j)
 {
@@ -53,15 +49,6 @@ static void	execute_error(t_vars *vars, char **commands)
 	exit(g_exit_status);
 }
 
-// In the child process:
-//  * Exits if redirection failed
-//  * Sets up default signal handlers
-//  * Removes quotes from arguments
-//  * Executes built-ins directly
-//  * Validates and locates external commands
-//  * Calls execve to execute the command
-// Exits on error with appropriate status.
-
 void	execute_command(t_vars *vars, char **commands, char **envp)
 {
 	if (vars->redirection_failed)
@@ -96,10 +83,6 @@ void	cleanup_temp_file(t_vars *vars)
 		ft_free(vars->cmd_flags);
 	vars->cmd_flags = NULL;
 }
-
-// Searches for character c in str, but only when not inside
-// single or double quotes. Tracks quote state to handle
-// nested quoting properly.
 
 char	*find_unquoted_char(char *str, char c)
 {

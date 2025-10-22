@@ -5,62 +5,74 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/25 15:11:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 12:22:56 by frteixei         ###   ########.fr       */
+/*   Created: 2025/10/22 13:21:26 by frteixei          #+#    #+#             */
+/*   Updated: 2025/10/22 13:21:27 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// Performs command setup:
-// * Checks for whitespace-only input
-// * Splits input by pipes
-// * Marks if in pipeline
-// * Expands variables
-// * Handles parent-only built-ins
-// * Processes heredocs
+static int	check_pipe_syntax(char *input)
+{
+	if (str_is_spaces_only(input))
+		return (1);
+	if (input[0] == '|')
+	{
+		ft_printf("minishell: syntax error near unexpected token |'\n");
+		return (1);
+	}
+	return (0);
+}
 
-static int	setup_commands(char *input, t_vars *vars, char ***commands)
+static int	validate_commands(char **cmds)
 {
 	int	i;
 
-	if (str_is_spaces_only(input))
-		return (0);
-	if (input[0] == '|')
-	{
-		ft_printf("minishell: syntax error near unexpected token `|'\n");
-		return (0);
-	}
-	*commands = ft_split_commands(input, "|");
-	if (!*commands)
-		return (0);
 	i = 0;
-	while ((*commands)[i])
+	while (cmds[i])
 	{
-		if (str_is_spaces_only((*commands)[i]))
+		if (str_is_spaces_only(cmds[i]))
 		{
-			ft_printf("minishell: syntax error near unexpected token `|'\n");
-			ft_free(*commands);
+			ft_printf("minishell: syntax error near unexpected token |'\n");
+			ft_free(cmds);
 			return (0);
 		}
 		i++;
 	}
-	vars->in_pipeline = ((*commands)[1] != NULL);
-	if (ft_strchr(input, '$'))
-		var_expander(vars, *commands);
-	if (check_cd_ex_uns(*commands, vars))
-	{
-		ft_free_vars(vars);
-		ft_free(*commands);
-		return (0);
-	}
-	here_doc(vars, *commands);
 	return (1);
 }
 
-// Iterates through all commands, executing each by calling
-// first_process. Frees each command string after execution.
-// Initializes pipeline state variables.
+static int	handle_cd_and_expansion(t_vars *vars, char **cmds, char *input)
+{
+	if (ft_strchr(input, '$'))
+		var_expander(vars, cmds);
+	if (check_cd_ex_uns(cmds, vars))
+	{
+		ft_free_vars(vars);
+		ft_free(cmds);
+		return (1);
+	}
+	return (0);
+}
+
+int	setup_commands(char *input, t_vars *vars, char ***commands)
+{
+	int	invalid;
+
+	invalid = check_pipe_syntax(input);
+	if (invalid)
+		return (0);
+	*commands = ft_split_commands(input, "|");
+	if (!*commands)
+		return (0);
+	if (!validate_commands(*commands))
+		return (0);
+	vars->in_pipeline = ((*commands)[1] != NULL);
+	if (handle_cd_and_expansion(vars, *commands, input))
+		return (0);
+	here_doc(vars, *commands);
+	return (1);
+}
 
 int	ft_has_invalid_pipe(char **commands)
 {
@@ -102,10 +114,6 @@ static void	execute_commands(t_vars *vars, char **env, char **commands)
 	}
 }
 
-// Waits for all child processes to complete. If a process exited
-// normally, stores its exit status. If terminated by signal,
-// stores 0. Returns the last collected status.
-
 static int	collect_status(void)
 {
 	int	status;
@@ -121,10 +129,6 @@ static int	collect_status(void)
 	}
 	return (last_status);
 }
-
-// Waits for all child processes to complete. If a process exited
-// normally, stores its exit status. If terminated by signal,
-// stores 0. Returns the last collected status.
 
 int	minishell_helper(char *input, char **env, t_vars *vars, char **commands)
 {

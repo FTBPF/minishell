@@ -5,15 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/09 02:41:50 by marada            #+#    #+#             */
-/*   Updated: 2025/10/09 15:26:11 by frteixei         ###   ########.fr       */
+/*   Created: 2025/10/22 13:20:31 by frteixei          #+#    #+#             */
+/*   Updated: 2025/10/22 13:20:32 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// Counts characters until the delimiter is found, but ignores delimiters
-// inside quotes (single or double). Tracks quote state with a flag.
 
 static size_t	ft_tamnhoplavra(char const *s, char c)
 {
@@ -36,8 +33,6 @@ static size_t	ft_tamnhoplavra(char const *s, char c)
 	return (i);
 }
 
-// Counts words separated by the delimiter, respecting quotes.
-
 static size_t	ft_ctp(char const *s, char c)
 {
 	size_t	i;
@@ -58,9 +53,6 @@ static size_t	ft_ctp(char const *s, char c)
 	}
 	return (ctp);
 }
-
-// Allocates memory for each word and copies it into the matrix,
-// respecting quotes. Uses put_matrix_helper for the actual copying.
 
 static char	**ft_putmatrix(char **matrix, char const *s, char c, size_t ctp)
 {

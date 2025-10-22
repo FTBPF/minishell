@@ -5,16 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/25 16:20:08 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 12:16:05 by frteixei         ###   ########.fr       */
+/*   Created: 2025/10/22 13:22:12 by frteixei          #+#    #+#             */
+/*   Updated: 2025/10/22 13:22:13 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// Closes previous fd1 if open. Opens the file in the appropriate mode
-// (append or truncate with create). On success, sets vars->fd1 and
-// stores the filename. On failure, prints error and sets redirection_failed.
 
 static int	open_output_file(t_vars *vars, char *outfile, bool is_append)
 {
@@ -42,9 +38,6 @@ static int	open_output_file(t_vars *vars, char *outfile, bool is_append)
 	return (1);
 }
 
-// Skips whitespace, checks for empty filename (syntax error),
-// and parses the filename token using parse_outfile_token.
-
 static char	*get_output_filename(char *temp, t_vars *vars, int *i)
 {
 	temp = skip_whitespace(temp);
@@ -58,9 +51,6 @@ static char	*get_output_filename(char *temp, t_vars *vars, int *i)
 	}
 	return (parse_outfile_token(temp, i));
 }
-
-// Determines redirection type (> or >>), extracts the filename,
-// and opens the output file with the appropriate mode.
 
 static int	process_single_output_redir(char *cmd, int redir_pos, t_vars *vars)
 {
@@ -86,10 +76,6 @@ static int	process_single_output_redir(char *cmd, int redir_pos, t_vars *vars)
 	return (open_output_file(vars, outfile, is_append));
 }
 
-// Routes to the appropriate handler based on redirection type:
-//  - '<': calls process_single_input_redir
-//  - '>': calls process_single_output_redir
-
 static int	process_redirection(char *command, t_redir *redir, t_vars *vars,
 		int *j)
 {
@@ -105,13 +91,6 @@ static int	process_redirection(char *command, t_redir *redir, t_vars *vars,
 	}
 	return (1);
 }
-
-// Main redirection setup function:
-//  * Initializes fd0 and fd1
-//  * Finds all redirections in the command
-//  * Processes each redirection in order
-//  * Sets up pipe if needed
-// Stops early if redirection_failed is set.
 
 void	setup_redirections(char **commands, t_vars *vars, int *j)
 {

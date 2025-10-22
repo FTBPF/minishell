@@ -3,3 +3,6 @@
 minishell
 .vscode/
 *_tester
+file
+*.log
+*.sh

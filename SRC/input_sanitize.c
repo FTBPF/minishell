@@ -5,16 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 19:42:05 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/09 16:18:46 by frteixei         ###   ########.fr       */
+/*   Created: 2025/10/22 13:21:09 by frteixei          #+#    #+#             */
+/*   Updated: 2025/10/22 13:21:17 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// Checks if the command is executable, exists, or is readable.
-// If yes, frees split_paths and returns the command.
-// If no, prints an error with strerror and returns NULL.
 
 char	*check_executable(char *command, char **split_paths)
 {
@@ -34,10 +30,6 @@ char	*check_executable(char *command, char **split_paths)
 		return (NULL);
 	}
 }
-
-// Iterates through PATH directories, constructing full paths
-// and checking if the command exists. Frees split_paths.
-// Prints "command not found" if not located.
 
 char	*check_command(char *command, char **split_paths)
 {
@@ -64,9 +56,6 @@ char	*check_command(char *command, char **split_paths)
 	ft_putstr_fd(": command not found\n", 2);
 	return (NULL);
 }
-
-// Compares the command against a list of built-in commands.
-// If the command contains '/', extracts the basename first.
 
 char	*check_valid_cmd_builtin(char *command)
 {
@@ -95,12 +84,6 @@ char	*check_valid_cmd_builtin(char *command)
 	return (NULL);
 }
 
-// Checks if command is:
-// * A built-in command
-// * An absolute/relative path (contains '/')
-// * A command in PATH directories
-// Handles missing PATH by printing error.
-
 char	*check_valid_cmd(char *command, char **envp)
 {
 	char	*path_var;
@@ -123,9 +106,6 @@ char	*check_valid_cmd(char *command, char **envp)
 	valid_cmd = check_command(command, split_paths);
 	return (valid_cmd);
 }
-
-// Validates echo's -n flag. Accepts "-n" or "-n" followed by
-// any number of 'n' characters (e.g., "-nnn").
 
 int	check_flag_n(char *str)
 {

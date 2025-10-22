@@ -5,16 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/16 16:26:23 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/09 15:31:18 by frteixei         ###   ########.fr       */
+/*   Created: 2025/10/22 13:20:47 by frteixei          #+#    #+#             */
+/*   Updated: 2025/10/22 13:20:48 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// Uses chdir to change directory. On success, updates OLDPWD with
-// the previous PWD value and updates PWD with the new directory.
-// On failure, prints an error message using perror.
 
 void	change_directory(char *path, t_vars *vars)
 {

@@ -1,19 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_ins10.c                                      :+:      :+:    :+:   */
+/*   built_ins3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/25 13:58:44 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/09 15:41:37 by frteixei         ###   ########.fr       */
+/*   Created: 2025/10/22 13:19:58 by frteixei          #+#    #+#             */
+/*   Updated: 2025/10/22 13:19:59 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// Performs a bubble sort on the environment array, comparing
-// strings with ft_strcmp. Sorts in ascending alphabetical order.
 
 static void	sort_env(char **env, int count)
 {

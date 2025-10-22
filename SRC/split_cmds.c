@@ -6,15 +6,11 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:27 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 12:16:13 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/22 13:22:04 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// Splits str into tokens separated by any character in delimiters,
-// respecting quotes. Allocates and returns an array of strings.
-// Handles memory allocation errors by freeing partial results.
 
 char	**ft_split_commands(char *str, char *delimiters)
 {
@@ -44,9 +40,6 @@ char	**ft_split_commands(char *str, char *delimiters)
 	words[num_words] = NULL;
 	return (words);
 }
-
-// Searches for "<<" that is not inside single or double quotes.
-// Tracks quote state while iterating through the string.
 
 int	has_unquoted_heredoc(const char *s)
 {
@@ -82,11 +75,25 @@ static bool	is_escaped(const char *str, int pos)
 	return ((backslashes % 2) == 1);
 }
 
-// Iterates through str, tracking quote state and recording positions
-// and types of '<' and '>' characters found outside quotes and not escaped.
-// Updates *count with the number of redirections found.
+static void	update_quotes(const char *s, int i, bool *sq, bool *dq)
+{
+	if (s[i] == '\'' && !*dq && !is_escaped(s, i))
+		*sq = !*sq;
+	else if (s[i] == '"' && !*sq && !is_escaped(s, i))
+		*dq = !*dq;
+}
 
-static void	scan_redirections(const char *str, t_redir *results, int *count)
+static void	record_redir(const char *s, int i, t_redir *r, int *count)
+{
+	if (i == 0 || s[i - 1] != s[i])
+	{
+		r[*count].type = s[i];
+		r[*count].index = i;
+		(*count)++;
+	}
+}
+
+void	scan_redirections(const char *str, t_redir *results, int *count)
 {
 	bool	in_single;
 	bool	in_double;
@@ -99,26 +106,12 @@ static void	scan_redirections(const char *str, t_redir *results, int *count)
 	while (str[i] != '\0')
 	{
 		c = str[i];
-		if (c == '\'' && !in_double && !is_escaped(str, i))
-			in_single = !in_single;
-		else if (c == '"' && !in_single && !is_escaped(str, i))
-			in_double = !in_double;
+		update_quotes(str, i, &in_single, &in_double);
 		if (!in_single && !in_double && (c == '<' || c == '>'))
-		{
-			if (i == 0 || str[i - 1] != c)
-			{
-				results[*count].type = c;
-				results[*count].index = i;
-				(*count)++;
-			}
-		}
+			record_redir(str, i, results, count);
 		i++;
 	}
 }
-
-// Allocates an array to store redirection information, calls
-// scan_redirections to find them, and reallocates if necessary.
-// Sets *count to the number of redirections found.
 
 t_redir	*find_redirections(const char *str, int *count)
 {
