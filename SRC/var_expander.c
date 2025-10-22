@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:23:05 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 13:24:08 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/22 17:10:26 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,30 @@
 
 void	ft_replace_helper2(char *commands, int j, char *tmp, char **freee)
 {
-	int	k;
+	int		k;
+	char	*result;
+	char	*new_result;
 
-	free(*freee);
-	*freee = NULL;
+	(void)tmp;
+	if (*freee)
+	{
+		free(*freee);
+		*freee = NULL;
+	}
+	result = ft_strdup("");
+	if (!result)
+		return ;
 	k = 0;
-	tmp = ft_strdup("");
 	while (k < j - 1 && commands[k])
 	{
-		*freee = ft_strjoin_char(tmp, commands[k]);
-		free(tmp);
-		tmp = ft_strdup(*freee);
+		new_result = ft_strjoin_char(result, commands[k]);
+		free(result);
+		result = new_result;
+		if (!result)
+			return ;
 		k++;
 	}
-	free(tmp);
+	*freee = result;
 }
 
 int	ft_replace_helper(char *commands, int j, char **tmp)

@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:20:57 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 13:32:16 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/22 17:08:00 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ static void	cleanup_heredoc(t_vars *vars, int j)
 	close(vars->here_doc_fd[j]);
 	unlink(vars->temp);
 	free(vars->temp);
+	vars->temp = NULL;
 }
 
 void	handle_heredoc(t_vars *vars, char *tmp, int *j)
@@ -94,6 +95,12 @@ void	handle_heredoc(t_vars *vars, char *tmp, int *j)
 		if (vars->redirection_failed && printed == 0)
 		{
 			printed++;
+			if (vars->temp)
+			{
+				unlink(vars->temp);
+				free(vars->temp);
+				vars->temp = NULL;
+			}
 			return (print_heredoc_error());
 		}
 		next = ft_strchr(after, '<');

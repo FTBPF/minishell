@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:44 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 13:22:40 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/22 17:06:02 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,21 @@ void	ft_free_vars(t_vars *vars)
 		free(vars->here_doc_fd);
 		vars->here_doc_fd = NULL;
 	}
+	if (vars->infile_name)
+	{
+		free(vars->infile_name);
+		vars->infile_name = NULL;
+	}
+	if (vars->outfile_name)
+	{
+		free(vars->outfile_name);
+		vars->outfile_name = NULL;
+	}
+	if (vars->temp)
+	{
+		free(vars->temp);
+		vars->temp = NULL;
+	}
 }
 
 void	ft_vars_init(t_vars *vars)
@@ -64,6 +79,9 @@ void	ft_vars_init(t_vars *vars)
 	vars->cmd1_path = NULL;
 	vars->temp = NULL;
 	vars->in_pipeline = false;
+	vars->infile_name = NULL;
+	vars->outfile_name = NULL;
+	vars->redirection_failed = false;
 }
 
 int	setup_pipe(int *pipe_fd)

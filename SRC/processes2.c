@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   processes2.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/22 16:47:42 by frteixei          #+#    #+#             */
+/*   Updated: 2025/10/22 17:07:15 by frteixei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -88,12 +98,16 @@ int	open_and_assign_fd(t_vars *vars, char *infile)
 		return (-1);
 	}
 	vars->fd0 = fd;
+	if (vars->infile_name)
+		free(vars->infile_name);
 	vars->infile_name = cleaned_filename;
 	return (0);
 }
 
 void	handle_output_redirection(t_vars *vars, char *outfile)
 {
+	if (vars->outfile_name)
+		free(vars->outfile_name);
 	vars->outfile_name = remove_quotes_from_string(ft_strdup(outfile));
 	free(outfile);
 	if (vars->fd1 < 0)
