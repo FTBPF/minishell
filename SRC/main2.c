@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:26 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 17:24:30 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/23 13:59:41 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,23 @@
 
 static int	check_pipe_syntax(char *input)
 {
+	int	i;
+	int	len;
+
 	if (str_is_spaces_only(input))
 		return (1);
 	if (input[0] == '|')
 	{
-		ft_printf("minishell: syntax error near unexpected token |'\n");
+		ft_printf("minishell: syntax error near unexpected token `|'\n");
+		return (1);
+	}
+	len = ft_strlen(input);
+	i = len - 1;
+	while (i >= 0 && (input[i] == ' ' || input[i] == '\t'))
+		i--;
+	if (i >= 0 && input[i] == '|')
+	{
+		ft_printf("minishell: syntax error near unexpected token `|'\n");
 		return (1);
 	}
 	return (0);
@@ -33,7 +45,7 @@ static int	validate_commands(char **cmds)
 	{
 		if (str_is_spaces_only(cmds[i]))
 		{
-			ft_printf("minishell: syntax error near unexpected token |'\n");
+			ft_printf("minishell: syntax error near unexpected token `|'\n");
 			ft_free(cmds);
 			return (0);
 		}
