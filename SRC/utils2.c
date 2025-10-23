@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:22:32 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 17:30:37 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/23 17:15:12 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,16 @@ char	**ft_split_commands_no_redirection(char *str, char *delimiters)
 	tokens[i] = NULL;
 	i = 0;
 	return (tokens);
+}
+
+void	signal_handler(int sig)
+{
+	if (sig == SIGINT)
+	{
+		ft_printf("^C\n");
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+	return ;
 }

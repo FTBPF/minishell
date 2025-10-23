@@ -28,3 +28,22 @@
    ...
    fun:add_history
 }
+{
+   readline_teardown_definite
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:readline_internal_teardown
+   fun:readline
+   ...
+}
+{
+   readline_definite_any
+   Memcheck:Leak
+   match-leak-kinds: definite
+   ...
+   obj:*/libreadline.so*
+   ...
+   fun:readline
+}

@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:22:21 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 17:20:02 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/23 16:49:46 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ static char	*get_input_filename(char *temp, t_vars *vars, int *i)
 	if (!infile || infile[0] == '\0')
 	{
 		vars->redirection_failed = true;
-		free(infile);
+		if (infile)
+			free(infile);
 		ft_putstr_fd("minishell: syntax error near unexpected ", 2);
 		ft_putstr_fd("token `newline'\n", 2);
 		g_exit_status = 2;

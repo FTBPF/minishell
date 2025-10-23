@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 16:47:42 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/23 14:06:40 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/23 16:50:24 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,11 @@ int	open_and_assign_fd(t_vars *vars, char *infile)
 	int		fd;
 
 	cleaned_filename = remove_quotes_from_string(ft_strdup(infile));
+	if (!cleaned_filename)
+	{
+		g_exit_status = 1;
+		return (vars->redirection_failed = true, -1);
+	}
 	fd = open(cleaned_filename, O_RDONLY);
 	if (fd == -1)
 	{
@@ -94,8 +99,7 @@ int	open_and_assign_fd(t_vars *vars, char *infile)
 		ft_putendl_fd(strerror(errno), 2);
 		g_exit_status = 1;
 		vars->redirection_failed = true;
-		free(cleaned_filename);
-		return (-1);
+		return (free(cleaned_filename), -1);
 	}
 	vars->fd0 = fd;
 	if (vars->infile_name)

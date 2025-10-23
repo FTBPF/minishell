@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:44 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 17:06:02 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/23 17:15:03 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,8 @@ void	ft_free(char **array)
 	free(array);
 }
 
-void	signal_handler(int sig)
+void	ft_free_vars_helper(t_vars *vars)
 {
-	if (sig == SIGINT)
-	{
-		ft_printf("^C\n");
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-	return ;
-}
-
-void	ft_free_vars(t_vars *vars)
-{
-	if (vars->cmd_flags)
-	{
-		ft_free(vars->cmd_flags);
-		vars->cmd_flags = NULL;
-	}
-	if (vars->here_doc_fd)
-	{
-		free(vars->here_doc_fd);
-		vars->here_doc_fd = NULL;
-	}
 	if (vars->infile_name)
 	{
 		free(vars->infile_name);
@@ -63,9 +41,34 @@ void	ft_free_vars(t_vars *vars)
 	}
 	if (vars->temp)
 	{
+		unlink(vars->temp);
 		free(vars->temp);
 		vars->temp = NULL;
 	}
+}
+
+void	ft_free_vars(t_vars *vars)
+{
+	int	i;
+
+	if (vars->cmd_flags)
+	{
+		ft_free(vars->cmd_flags);
+		vars->cmd_flags = NULL;
+	}
+	if (vars->here_doc_fd)
+	{
+		i = 0;
+		while (vars->here_doc_fd[i] != -1)
+		{
+			if (vars->here_doc_fd[i] > 0)
+				close(vars->here_doc_fd[i]);
+			i++;
+		}
+		free(vars->here_doc_fd);
+		vars->here_doc_fd = NULL;
+	}
+	ft_free_vars_helper(vars);
 }
 
 void	ft_vars_init(t_vars *vars)

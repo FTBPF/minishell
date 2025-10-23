@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:20:57 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 17:23:41 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/23 17:13:00 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,6 @@ static void	print_heredoc_error(void)
 	g_exit_status = 2;
 }
 
-static void	cleanup_heredoc(t_vars *vars, int j)
-{
-	close(vars->here_doc_fd[j]);
-	unlink(vars->temp);
-	free(vars->temp);
-	vars->temp = NULL;
-}
-
 static void	handle_redirection_failure(t_vars *vars, int *printed)
 {
 	if (vars->redirection_failed && *printed == 0)
@@ -90,8 +82,37 @@ void	handle_heredoc(t_vars *vars, char *tmp, int *j)
 			return ;
 		next = ft_strchr(after, '<');
 		if (next && *(next + 1) == '<')
-			cleanup_heredoc(vars, *j);
+			if (vars->here_doc_fd && vars->here_doc_fd[*j] > 0)
+				close(vars->here_doc_fd[*j]);
 		(*j)++;
 		tmp = after;
+	}
+	printed = 0;
+}
+
+void	ft_aspas_helper(int len, int *i, char *new_str, char *commands)
+{
+	char	current_quote;
+	int		in_quotes;
+	int		j;
+
+	j = 0;
+	in_quotes = -1;
+	current_quote = '\0';
+	while (j < len)
+	{
+		if ((in_quotes == 1 && current_quote != commands[j])
+			|| (commands[j] != '\'' && commands[j] != '\"'))
+			new_str[(*i)++] = commands[j];
+		if ((commands[j] == '\'' || commands[j] == '\"') && (in_quotes == -1
+				|| current_quote == commands[j]))
+		{
+			in_quotes *= -1;
+			if (in_quotes == 1)
+				current_quote = commands[j];
+			else
+				current_quote = '\0';
+		}
+		j++;
 	}
 }

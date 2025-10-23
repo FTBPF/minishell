@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/23 16:11:14 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/23 16:43:18 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	run_shell(t_vars *vars, char **env)
 				ft_free(commands);
 			ft_free(vars->my_environ);
 			ft_free_vars(vars);
+			rl_clear_history();
 			break ;
 		}
 		if (ft_strlen(input) != 0)

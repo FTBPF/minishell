@@ -6,15 +6,30 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:04 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/23 16:10:59 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/23 17:12:50 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+void	check_open_doc(t_vars *vars, char *doc_file, char *temp_name)
+{
+	if (!doc_file)
+	{
+		free(temp_name);
+		return (vars->redirection_failed = true, (void)0);
+	}
+	if (vars->temp)
+	{
+		unlink(vars->temp);
+		free(vars->temp);
+	}
+}
+
 void	open_doc(t_vars *vars, char *commands, int *j)
 {
 	char	*doc_file;
+	char	*temp_name;
 	int		i;
 
 	i = 0;
@@ -23,14 +38,15 @@ void	open_doc(t_vars *vars, char *commands, int *j)
 	while (*commands == ' ' || *commands == '	')
 		commands++;
 	if (*commands == '\0')
-	{
-		vars->redirection_failed = true;
-		return ;
-	}
+		return (vars->redirection_failed = true, (void)0);
 	ft_open_helper(&i, commands);
 	doc_file = ft_strndup_aspas(commands, i);
-	vars->temp = doc_file;
-	doc_file = ft_strjoin(doc_file, "\n");
+	if (!doc_file)
+		return (vars->redirection_failed = true, (void)0);
+	temp_name = doc_file;
+	doc_file = ft_strjoin(temp_name, "\n");
+	check_open_doc(vars, doc_file, temp_name);
+	vars->temp = temp_name;
 	open_doc_file(vars, doc_file, j);
 }
 
@@ -72,33 +88,6 @@ void	ft_open_helper(int *i, char *commands)
 				current_quote = '\0';
 		}
 		(*i)++;
-	}
-}
-
-void	ft_aspas_helper(int len, int *i, char *new_str, char *commands)
-{
-	char	current_quote;
-	int		in_quotes;
-	int		j;
-
-	j = 0;
-	in_quotes = -1;
-	current_quote = '\0';
-	while (j < len)
-	{
-		if ((in_quotes == 1 && current_quote != commands[j])
-			|| (commands[j] != '\'' && commands[j] != '\"'))
-			new_str[(*i)++] = commands[j];
-		if ((commands[j] == '\'' || commands[j] == '\"') && (in_quotes == -1
-				|| current_quote == commands[j]))
-		{
-			in_quotes *= -1;
-			if (in_quotes == 1)
-				current_quote = commands[j];
-			else
-				current_quote = '\0';
-		}
-		j++;
 	}
 }
 
