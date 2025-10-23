@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 16:47:42 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/23 16:50:24 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/23 18:11:41 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	open_and_assign_fd(t_vars *vars, char *infile)
 	char	*cleaned_filename;
 	int		fd;
 
-	cleaned_filename = remove_quotes_from_string(ft_strdup(infile));
+	cleaned_filename = remove_quotes_from_string(infile);
 	if (!cleaned_filename)
 	{
 		g_exit_status = 1;
