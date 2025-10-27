@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:04 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/27 17:30:02 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/27 17:38:01 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,28 @@ static char	*generate_temp_filename(void)
 	return (result);
 }
 
+static int	delimiter_has_quotes(char *commands)
+{
+	int	i;
+
+	i = 0;
+	while (commands[i] && commands[i] != ' ' && commands[i] != '\t'
+		&& commands[i] != '<' && commands[i] != '>')
+	{
+		if (commands[i] == '\'' || commands[i] == '\"')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 void	open_doc(t_vars *vars, char *commands, int *j)
 {
 	char	*doc_file;
 	char	*delimiter;
 	char	*temp_name;
 	int		i;
+	int		should_expand;
 
 	i = 0;
 	commands = ft_strchr(commands, '<');
@@ -63,6 +79,7 @@ void	open_doc(t_vars *vars, char *commands, int *j)
 		vars->redirection_failed = true;
 		return ;
 	}
+	should_expand = !delimiter_has_quotes(commands);
 	ft_open_helper(&i, commands);
 	delimiter = ft_strndup_aspas(commands, i);
 	if (!delimiter)
@@ -80,10 +97,11 @@ void	open_doc(t_vars *vars, char *commands, int *j)
 	temp_name = generate_temp_filename();
 	check_open_doc(vars, doc_file, temp_name);
 	vars->temp = temp_name;
-	open_doc_file(vars, doc_file, j);
+	open_doc_file_expanded(vars, doc_file, j, should_expand);
 }
 
-void	open_doc_file(t_vars *vars, char *doc_file, int *j)
+void	open_doc_file_expanded(t_vars *vars, char *doc_file, int *j,
+		int should_expand)
 {
 	int	id;
 	int	write_fd;
@@ -98,7 +116,7 @@ void	open_doc_file(t_vars *vars, char *doc_file, int *j)
 	}
 	id = fork();
 	if (id == 0)
-		process_heredoc(vars, doc_file, write_fd);
+		process_heredoc_expanded(vars, doc_file, write_fd, should_expand);
 	close(write_fd);
 	wait(NULL);
 	free(doc_file);

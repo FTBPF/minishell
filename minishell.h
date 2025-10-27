@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/27 17:29:44 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/27 17:40:35 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,11 @@ typedef struct s_redir
 	char	type;
 	int		index;
 }			t_redir;
+
+void		open_doc_file_expanded(t_vars *vars, char *doc_file, int *j,
+				int should_expand);
+void		process_heredoc_expanded(t_vars *vars, char *doc_file, int fd,
+				int should_expand);
 
 // Input Sanitize.c
 char		*check_executable(char *command, char **split_paths);
@@ -178,8 +183,6 @@ void		print_exported_vars(t_vars *vars);
 
 // here_doc.c
 void		open_doc(t_vars *vars, char *commands, int *j);
-void		open_doc_file(t_vars *vars, char *doc_file, int *j);
-void		process_heredoc(t_vars *vars, char *doc_file, int fd);
 void		here_doc(t_vars *vars, char **commands);
 void		handle_heredoc(t_vars *vars, char *tmp, int *j);
 
