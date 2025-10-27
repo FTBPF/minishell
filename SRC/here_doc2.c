@@ -6,11 +6,34 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:04 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/27 17:38:01 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/27 17:48:05 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	heredoc_signal_handler(int sig)
+{
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		close(STDIN_FILENO);
+		get_next_line(-1);
+		exit(130);
+	}
+}
+
+void	setup_heredoc_signals(void)
+{
+	signal(SIGINT, heredoc_signal_handler);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	setup_heredoc_parent_signals(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}
 
 void	check_open_doc(t_vars *vars, char *doc_file, char *temp_name)
 {
@@ -114,9 +137,23 @@ void	open_doc_file_expanded(t_vars *vars, char *doc_file, int *j,
 		free(doc_file);
 		return ;
 	}
+	/* Parent: ignore signals while waiting for heredoc */
+	setup_heredoc_parent_signals();
 	id = fork();
+	if (id == -1)
+	{
+		perror("fork");
+		close(write_fd);
+		free(doc_file);
+		vars->redirection_failed = true;
+		return ;
+	}
 	if (id == 0)
+	{
+		/* Child: setup heredoc signal handlers */
+		setup_heredoc_signals();
 		process_heredoc_expanded(vars, doc_file, write_fd, should_expand);
+	}
 	close(write_fd);
 	wait(NULL);
 	free(doc_file);

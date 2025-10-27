@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/27 17:40:35 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/27 17:48:12 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,10 @@ typedef struct s_redir
 	char	type;
 	int		index;
 }			t_redir;
+
+void		heredoc_signal_handler(int sig);
+void		setup_heredoc_signals(void);
+void		setup_heredoc_parent_signals(void);
 
 void		open_doc_file_expanded(t_vars *vars, char *doc_file, int *j,
 				int should_expand);
