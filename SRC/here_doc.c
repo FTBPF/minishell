@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:20:57 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/27 16:09:47 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/27 17:31:15 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@ void	here_doc(t_vars *vars, char **commands)
 	int		i;
 	int		j;
 
-	i = 0;
-	while (commands[i])
-		i++;
 	i = 0;
 	j = 0;
 	while (commands[i])
