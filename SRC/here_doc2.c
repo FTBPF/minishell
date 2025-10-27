@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:04 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/23 17:12:50 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/27 16:07:27 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,58 @@ void	check_open_doc(t_vars *vars, char *doc_file, char *temp_name)
 	}
 }
 
+static char	*generate_temp_filename(void)
+{
+	static int	count = 0;
+	char		*num_str;
+	char		*temp;
+	char		*result;
+
+	num_str = ft_itoa(count++);
+	temp = ft_strjoin("/tmp/.heredoc_", num_str);
+	free(num_str);
+	result = ft_strjoin(temp, "_tmp");
+	free(temp);
+	return (result);
+}
+
 void	open_doc(t_vars *vars, char *commands, int *j)
 {
 	char	*doc_file;
+	char	*delimiter;
 	char	*temp_name;
 	int		i;
 
 	i = 0;
 	commands = ft_strchr(commands, '<');
+	if (!commands)
+	{
+		vars->redirection_failed = true;
+		return ;
+	}
 	commands += 2;
-	while (*commands == ' ' || *commands == '	')
+	while (*commands == ' ' || *commands == '\t')
 		commands++;
 	if (*commands == '\0')
-		return (vars->redirection_failed = true, (void)0);
+	{
+		vars->redirection_failed = true;
+		return ;
+	}
 	ft_open_helper(&i, commands);
-	doc_file = ft_strndup_aspas(commands, i);
+	delimiter = ft_strndup_aspas(commands, i);
+	if (!delimiter)
+	{
+		vars->redirection_failed = true;
+		return ;
+	}
+	doc_file = ft_strjoin(delimiter, "\n");
+	free(delimiter);
 	if (!doc_file)
-		return (vars->redirection_failed = true, (void)0);
-	temp_name = doc_file;
-	doc_file = ft_strjoin(temp_name, "\n");
+	{
+		vars->redirection_failed = true;
+		return ;
+	}
+	temp_name = generate_temp_filename();
 	check_open_doc(vars, doc_file, temp_name);
 	vars->temp = temp_name;
 	open_doc_file(vars, doc_file, j);
@@ -53,17 +86,29 @@ void	open_doc(t_vars *vars, char *commands, int *j)
 void	open_doc_file(t_vars *vars, char *doc_file, int *j)
 {
 	int	id;
+	int	write_fd;
 
-	vars->here_doc_fd[*j] = open(vars->temp, O_CREAT | O_TRUNC | O_RDWR,
-			0000644);
-	if (vars->here_doc_fd[*j] == -1)
+	write_fd = open(vars->temp, O_CREAT | O_TRUNC | O_RDWR, 0644);
+	if (write_fd == -1)
+	{
 		perror(vars->temp);
+		vars->redirection_failed = true;
+		free(doc_file);
+		return ;
+	}
 	id = fork();
 	if (id == 0)
-		process_heredoc(vars, doc_file, vars->here_doc_fd[*j]);
+		process_heredoc(vars, doc_file, write_fd);
+	close(write_fd);
 	wait(NULL);
 	free(doc_file);
-	vars->here_doc_fd[*j] = open(vars->temp, O_RDONLY, 0000644);
+	vars->here_doc_fd[*j] = open(vars->temp, O_RDONLY);
+	if (vars->here_doc_fd[*j] == -1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		perror(vars->temp);
+		vars->redirection_failed = true;
+	}
 }
 
 void	ft_open_helper(int *i, char *commands)

@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 17:21:39 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 17:23:48 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/27 16:06:34 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,13 @@ int	has_unquoted_heredoc(const char *s)
 void	process_heredoc(t_vars *vars, char *doc_file, int fd)
 {
 	char	*str;
+	int		line_count = 0;
 
 	write(1, "> ", 2);
 	str = get_next_line(0);
-	while (ft_strncmp(str, doc_file, ft_strlen(str)) != 0)
+	while (str && ft_strcmp(str, doc_file) != 0)
 	{
+		line_count++;
 		write(fd, str, ft_strlen(str));
 		free(str);
 		write(1, "> ", 2);
@@ -78,7 +80,8 @@ void	process_heredoc(t_vars *vars, char *doc_file, int fd)
 	str = NULL;
 	get_next_line(-1);
 	free(doc_file);
-	ft_free_vars(vars);
 	g_exit_status = 0;
+	if (vars->my_environ)
+		ft_free(vars->my_environ);
 	exit(g_exit_status);
 }

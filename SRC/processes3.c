@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:41 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 13:21:43 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/27 16:06:57 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ static void	handle_parent_cleanup(t_vars *vars, int prev_read_fd,
 void	first_process(t_vars *vars, char **envp, char **commands, int *j)
 {
 	int	prev_read_fd;
+	int	k;
 
+	k = 0;
 	prev_read_fd = vars->p0;
 	vars->fd0 = 0;
 	vars->fd1 = 1;

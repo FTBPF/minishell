@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:22:21 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/23 16:49:46 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/27 16:06:45 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,18 @@ int	process_single_input_redir(char *cmd, int redir_pos, t_vars *vars, int *j)
 	temp = cmd + redir_pos;
 	if (*temp == '<' && *(temp + 1) == '<')
 	{
-		handle_heredoc(vars, temp, j);
-		if (vars->redirection_failed)
+		if (vars->here_doc_fd && vars->here_doc_fd[*j] != -1)
+		{
+			if (vars->fd0 > 0 && vars->fd0 != STDIN_FILENO)
+				close(vars->fd0);
+			vars->fd0 = vars->here_doc_fd[*j];
+			(*j)++;
+		}
+		else
+		{
+			vars->redirection_failed = true;
 			return (0);
+		}
 		return (1);
 	}
 	else if (*temp == '<')

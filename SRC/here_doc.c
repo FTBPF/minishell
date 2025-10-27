@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:20:57 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/23 17:13:00 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/27 16:09:47 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ void	here_doc(t_vars *vars, char **commands)
 	int		j;
 
 	i = 0;
+	while (commands[i])
+		i++;
+	i = 0;
 	j = 0;
 	while (commands[i])
 	{
@@ -26,7 +29,7 @@ void	here_doc(t_vars *vars, char **commands)
 			j++;
 		i++;
 	}
-	vars->here_doc_fd = malloc(sizeof(char *) * (j + 1));
+	vars->here_doc_fd = malloc(sizeof(int) * (j + 1));
 	if (!vars->here_doc_fd)
 		return ;
 	vars->here_doc_fd[j] = -1;
@@ -67,9 +70,12 @@ void	handle_heredoc(t_vars *vars, char *tmp, int *j)
 	char		*after;
 	char		*next;
 	static int	printed = 0;
+	int			heredoc_count;
 
+	heredoc_count = 0;
 	while (has_unquoted_heredoc(tmp))
 	{
+		heredoc_count++;
 		after = ft_strchr(tmp, '<');
 		if (!after || *(after + 1) != '<')
 			break ;
@@ -82,8 +88,10 @@ void	handle_heredoc(t_vars *vars, char *tmp, int *j)
 			return ;
 		next = ft_strchr(after, '<');
 		if (next && *(next + 1) == '<')
+		{
 			if (vars->here_doc_fd && vars->here_doc_fd[*j] > 0)
 				close(vars->here_doc_fd[*j]);
+		}
 		(*j)++;
 		tmp = after;
 	}
