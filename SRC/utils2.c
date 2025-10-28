@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:22:32 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/28 18:01:16 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/28 19:15:51 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	signal_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
+		g_exit_status = 130;
 		ft_printf("^C\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();

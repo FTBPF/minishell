@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 17:24:01 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/23 18:08:26 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/28 19:19:27 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static int	collect_status(void)
 {
 	int	status;
 	int	last_status;
+	int	sig;
 
 	last_status = 0;
 	while (wait(&status) > 0)
@@ -36,7 +37,21 @@ static int	collect_status(void)
 		if (WIFEXITED(status))
 			last_status = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
-			last_status = 0;
+		{
+			sig = WTERMSIG(status);
+			if (sig == SIGQUIT)
+			{
+				ft_putstr_fd("Quit (core dumped)\n", 2);
+				last_status = 128 + sig;
+			}
+			else if (sig == SIGINT)
+			{
+				ft_putstr_fd("\n", 1);
+				last_status = 128 + sig;
+			}
+			else
+				last_status = 128 + sig;
+		}
 	}
 	return (last_status);
 }

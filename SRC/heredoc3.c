@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 16:45:27 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/28 17:59:38 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/28 19:24:42 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,27 @@ char	*ft_strndup_aspas(char *commands, int len)
 	return (new_str);
 }
 
+void	disable_quit_echo(struct termios *old_term)
+{
+	struct termios	new_term;
+
+	if (tcgetattr(STDIN_FILENO, old_term) == -1)
+		return;
+	new_term = *old_term;
+	new_term.c_lflag &= ~0001000;
+	tcsetattr(STDIN_FILENO, TCSANOW, &new_term);
+}
+
+void	restore_terminal(struct termios *old_term)
+{
+	tcsetattr(STDIN_FILENO, TCSANOW, old_term);
+}
+
 void	heredoc_signal_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
+		g_exit_status = 130;
 		write(1, "\n", 1);
 		close(STDIN_FILENO);
 		get_next_line(-1);

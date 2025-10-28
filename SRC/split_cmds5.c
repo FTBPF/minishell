@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 17:21:39 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/28 17:55:58 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/28 19:21:55 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,11 @@ static void	write_line(int fd, char *str, int expand, t_vars *vars)
 void	process_heredoc_expanded(t_vars *vars, char *doc_file, int fd,
 		int expand)
 {
-	char	*str;
-	int		lines;
+	char			*str;
+	int				lines;
+	struct termios	old_term;
 
+	disable_quit_echo(&old_term);
 	lines = 1;
 	write(1, "> ", 2);
 	str = get_next_line(0);
@@ -106,6 +108,7 @@ void	process_heredoc_expanded(t_vars *vars, char *doc_file, int fd,
 	}
 	if (!str)
 		print_eof_warning(ft_strtrim(doc_file, "\n"), lines);
+	restore_terminal(&old_term);
 	free(str);
 	get_next_line(-1);
 	free(doc_file);

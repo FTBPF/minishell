@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/28 17:02:51 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/28 19:20:30 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <stdlib.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
+# include <termios.h>
 
 extern int	g_exit_status;
 
@@ -53,6 +54,9 @@ typedef struct s_vars
 	bool	redirection_failed;
 	bool	in_pipeline;
 }			t_vars;
+
+void	disable_quit_echo(struct termios *old_term);
+void	restore_terminal(struct termios *old_term);
 
 typedef struct s_redirection_context
 {
