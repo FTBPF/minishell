@@ -84,9 +84,7 @@ static void	handle_parent_cleanup(t_vars *vars, int prev_read_fd,
 void	first_process(t_vars *vars, char **envp, char **commands, int *j)
 {
 	int	prev_read_fd;
-	int	k;
 
-	k = 0;
 	prev_read_fd = vars->p0;
 	vars->fd0 = 0;
 	vars->fd1 = 1;
@@ -99,5 +97,7 @@ void	first_process(t_vars *vars, char **envp, char **commands, int *j)
 		prepare_child_io(vars, prev_read_fd, commands);
 		execute_command(vars, commands, envp);
 	}
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	handle_parent_cleanup(vars, prev_read_fd, commands);
 }

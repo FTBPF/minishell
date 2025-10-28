@@ -53,6 +53,8 @@ static int	collect_status(void)
 				last_status = 128 + sig;
 		}
 	}
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
 	return (last_status);
 }
 
