@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 17:21:39 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/28 17:01:50 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/28 17:55:58 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	has_unquoted_heredoc(const char *s)
 
 static void	print_eof_warning(char *delimiter, int line_count)
 {
-	ft_putstr_fd("bash: warning: here-document at line ", 2);
+	ft_putstr_fd("minishell: warning: here-document at line ", 2);
 	ft_putnbr_fd(line_count, 2);
 	ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
 	ft_putstr_fd(delimiter, 2);
