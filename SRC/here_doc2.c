@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:04 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/27 17:48:05 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/28 16:42:34 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ void	open_doc_file_expanded(t_vars *vars, char *doc_file, int *j,
 {
 	int	id;
 	int	write_fd;
+	int	status;
 
 	write_fd = open(vars->temp, O_CREAT | O_TRUNC | O_RDWR, 0644);
 	if (write_fd == -1)
@@ -137,7 +138,6 @@ void	open_doc_file_expanded(t_vars *vars, char *doc_file, int *j,
 		free(doc_file);
 		return ;
 	}
-	/* Parent: ignore signals while waiting for heredoc */
 	setup_heredoc_parent_signals();
 	id = fork();
 	if (id == -1)
@@ -150,12 +150,21 @@ void	open_doc_file_expanded(t_vars *vars, char *doc_file, int *j,
 	}
 	if (id == 0)
 	{
-		/* Child: setup heredoc signal handlers */
 		setup_heredoc_signals();
 		process_heredoc_expanded(vars, doc_file, write_fd, should_expand);
 	}
 	close(write_fd);
-	wait(NULL);
+	waitpid(id, &status, 0);
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_DFL);
+	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
+	{
+		g_exit_status = 130;
+		vars->redirection_failed = true;
+		unlink(vars->temp);
+		free(doc_file);
+		return ;
+	}
 	free(doc_file);
 	vars->here_doc_fd[*j] = open(vars->temp, O_RDONLY);
 	if (vars->here_doc_fd[*j] == -1)

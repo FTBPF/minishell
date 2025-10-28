@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:26 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/27 12:09:07 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/28 16:03:03 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,14 @@ int	setup_commands(char *input, t_vars *vars, char ***commands)
 	vars->in_pipeline = ((*commands)[1] != NULL);
 	if (handle_cd_and_expansion(vars, *commands, input))
 		return (0);
+	vars->redirection_failed = false;
 	here_doc(vars, *commands);
+	if (vars->redirection_failed && g_exit_status == 130)
+	{
+		ft_free(*commands);
+		*commands = NULL;
+		return (0);
+	}
 	return (1);
 }
 

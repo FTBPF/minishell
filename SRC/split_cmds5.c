@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 17:21:39 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/27 17:39:05 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/28 16:16:04 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,11 +126,23 @@ static char	*expand_heredoc_line(t_vars *vars, char *line)
 	return (result);
 }
 
-void	process_heredoc_expanded(t_vars *vars, char *doc_file, int fd, int should_expand)
+static void	print_eof_warning(char *delimiter, int line_count)
+{
+	ft_putstr_fd("bash: warning: here-document at line ", 2);
+	ft_putnbr_fd(line_count, 2);
+	ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
+	ft_putstr_fd(delimiter, 2);
+	ft_putstr_fd("')\n", 2);
+}
+
+void	process_heredoc_expanded(t_vars *vars, char *doc_file, int fd,
+		int should_expand)
 {
 	char	*str;
 	char	*expanded;
+	int		line_count;
 
+	line_count = 1;
 	write(1, "> ", 2);
 	str = get_next_line(0);
 	while (str && ft_strcmp(str, doc_file) != 0)
@@ -147,9 +159,12 @@ void	process_heredoc_expanded(t_vars *vars, char *doc_file, int fd, int should_e
 		else
 			write(fd, str, ft_strlen(str));
 		free(str);
+		line_count++;
 		write(1, "> ", 2);
 		str = get_next_line(0);
 	}
+	if (!str)
+		print_eof_warning(ft_strtrim(doc_file, "\n"), line_count);
 	free(str);
 	str = NULL;
 	get_next_line(-1);

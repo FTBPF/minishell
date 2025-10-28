@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:20:57 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/27 17:31:15 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/28 16:00:00 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	here_doc(t_vars *vars, char **commands)
 	{
 		tmp = commands[i];
 		handle_heredoc(vars, tmp, &j);
+		if (vars->redirection_failed)
+        	return;
 		i++;
 	}
 }
@@ -58,7 +60,8 @@ static void	handle_redirection_failure(t_vars *vars, int *printed)
 			free(vars->temp);
 			vars->temp = NULL;
 		}
-		print_heredoc_error();
+		if (g_exit_status != 130)
+       		print_heredoc_error();
 	}
 }
 
