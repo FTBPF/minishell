@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:22:21 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/27 16:06:45 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/28 17:03:47 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,30 +89,24 @@ static char	*get_input_filename(char *temp, t_vars *vars, int *i)
 	return (infile);
 }
 
-int	process_single_input_redir(char *cmd, int redir_pos, t_vars *vars, int *j)
+int	process_single_input_redir(char *cmd, int pos, t_vars *vars, int *j)
 {
 	char	*temp;
 	char	*infile;
 	int		i;
 
-	temp = cmd + redir_pos;
+	temp = cmd + pos;
 	if (*temp == '<' && *(temp + 1) == '<')
 	{
-		if (vars->here_doc_fd && vars->here_doc_fd[*j] != -1)
-		{
-			if (vars->fd0 > 0 && vars->fd0 != STDIN_FILENO)
-				close(vars->fd0);
-			vars->fd0 = vars->here_doc_fd[*j];
-			(*j)++;
-		}
-		else
-		{
-			vars->redirection_failed = true;
-			return (0);
-		}
+		if (!vars->here_doc_fd || vars->here_doc_fd[*j] == -1)
+			return (vars->redirection_failed = true, 0);
+		if (vars->fd0 > 0 && vars->fd0 != STDIN_FILENO)
+			close(vars->fd0);
+		vars->fd0 = vars->here_doc_fd[*j];
+		(*j)++;
 		return (1);
 	}
-	else if (*temp == '<')
+	if (*temp == '<')
 	{
 		temp++;
 		infile = get_input_filename(temp, vars, &i);

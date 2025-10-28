@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:20:57 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/28 16:00:00 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/28 16:51:44 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,14 @@ void	here_doc(t_vars *vars, char **commands)
 	if (!vars->here_doc_fd)
 		return ;
 	vars->here_doc_fd[j] = -1;
-	i = 0;
+	i = -1;
 	j = 0;
-	while (commands[i])
+	while (commands[++i])
 	{
 		tmp = commands[i];
 		handle_heredoc(vars, tmp, &j);
 		if (vars->redirection_failed)
-        	return;
-		i++;
+			return ;
 	}
 }
 
@@ -61,7 +60,7 @@ static void	handle_redirection_failure(t_vars *vars, int *printed)
 			vars->temp = NULL;
 		}
 		if (g_exit_status != 130)
-       		print_heredoc_error();
+			print_heredoc_error();
 	}
 }
 
@@ -70,12 +69,9 @@ void	handle_heredoc(t_vars *vars, char *tmp, int *j)
 	char		*after;
 	char		*next;
 	static int	printed = 0;
-	int			heredoc_count;
 
-	heredoc_count = 0;
 	while (has_unquoted_heredoc(tmp))
 	{
-		heredoc_count++;
 		after = ft_strchr(tmp, '<');
 		if (!after || *(after + 1) != '<')
 			break ;
@@ -88,10 +84,8 @@ void	handle_heredoc(t_vars *vars, char *tmp, int *j)
 			return ;
 		next = ft_strchr(after, '<');
 		if (next && *(next + 1) == '<')
-		{
 			if (vars->here_doc_fd && vars->here_doc_fd[*j] > 0)
 				close(vars->here_doc_fd[*j]);
-		}
 		(*j)++;
 		tmp = after;
 	}
