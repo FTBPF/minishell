@@ -26,20 +26,26 @@ char	*ft_strndup_aspas(char *commands, int len)
 	return (new_str);
 }
 
-void	disable_quit_echo(struct termios *old_term)
+void    disable_quit_echo(struct termios *old_term)
 {
-	struct termios	new_term;
+        struct termios  new_term;
 
-	if (tcgetattr(STDIN_FILENO, old_term) == -1)
-		return;
-	new_term = *old_term;
-	new_term.c_lflag &= ~0001000;
-	tcsetattr(STDIN_FILENO, TCSANOW, &new_term);
+        if (tcgetattr(STDIN_FILENO, old_term) == -1)
+                return;
+        new_term = *old_term;
+        
+        // Disable QUIT character (Ctrl+\) processing
+        new_term.c_cc[VQUIT] = _POSIX_VDISABLE;
+        
+        // Also disable echoing of control characters for cleaner output
+        new_term.c_lflag &= ~ECHOCTL;
+        
+        tcsetattr(STDIN_FILENO, TCSANOW, &new_term);
 }
 
-void	restore_terminal(struct termios *old_term)
+void    restore_terminal(struct termios *old_term)
 {
-	tcsetattr(STDIN_FILENO, TCSANOW, old_term);
+        tcsetattr(STDIN_FILENO, TCSANOW, old_term);
 }
 
 void	heredoc_signal_handler(int sig)

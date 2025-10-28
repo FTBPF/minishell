@@ -92,7 +92,7 @@ void	process_heredoc_expanded(t_vars *vars, char *doc_file, int fd,
 {
 	char			*str;
 	int				lines;
-	struct termios	old_term;
+	struct termios  old_term;
 
 	disable_quit_echo(&old_term);
 	lines = 1;
