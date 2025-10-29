@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 17:21:39 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/28 19:21:55 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/29 11:51:18 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	process_heredoc_expanded(t_vars *vars, char *doc_file, int fd,
 {
 	char			*str;
 	int				lines;
-	struct termios  old_term;
+	struct termios	old_term;
 
 	disable_quit_echo(&old_term);
 	lines = 1;

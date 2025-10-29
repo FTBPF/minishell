@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/28 19:20:30 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/29 11:36:46 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ typedef struct s_vars
 	bool	in_pipeline;
 }			t_vars;
 
-void	disable_quit_echo(struct termios *old_term);
-void	restore_terminal(struct termios *old_term);
+void		disable_quit_echo(struct termios *old_term);
+void		restore_terminal(struct termios *old_term);
 
 typedef struct s_redirection_context
 {

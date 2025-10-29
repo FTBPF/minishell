@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 16:45:27 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/28 19:24:42 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/29 11:38:10 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,28 +24,6 @@ char	*ft_strndup_aspas(char *commands, int len)
 	ft_aspas_helper(len, &i, new_str, commands);
 	new_str[i] = '\0';
 	return (new_str);
-}
-
-void    disable_quit_echo(struct termios *old_term)
-{
-        struct termios  new_term;
-
-        if (tcgetattr(STDIN_FILENO, old_term) == -1)
-                return;
-        new_term = *old_term;
-        
-        // Disable QUIT character (Ctrl+\) processing
-        new_term.c_cc[VQUIT] = _POSIX_VDISABLE;
-        
-        // Also disable echoing of control characters for cleaner output
-        new_term.c_lflag &= ~ECHOCTL;
-        
-        tcsetattr(STDIN_FILENO, TCSANOW, &new_term);
-}
-
-void    restore_terminal(struct termios *old_term)
-{
-        tcsetattr(STDIN_FILENO, TCSANOW, old_term);
 }
 
 void	heredoc_signal_handler(int sig)

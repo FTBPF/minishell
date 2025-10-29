@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 17:24:01 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/28 19:19:27 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/29 11:39:53 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,34 +28,27 @@ static void	execute_commands(t_vars *vars, char **env, char **commands)
 static int	collect_status(void)
 {
 	int	status;
-	int	last_status;
+	int	last;
 	int	sig;
 
-	last_status = 0;
+	last = 0;
 	while (wait(&status) > 0)
 	{
 		if (WIFEXITED(status))
-			last_status = WEXITSTATUS(status);
+			last = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
 		{
 			sig = WTERMSIG(status);
 			if (sig == SIGQUIT)
-			{
 				ft_putstr_fd("Quit (core dumped)\n", 2);
-				last_status = 128 + sig;
-			}
 			else if (sig == SIGINT)
-			{
 				ft_putstr_fd("\n", 1);
-				last_status = 128 + sig;
-			}
-			else
-				last_status = 128 + sig;
+			last = 128 + sig;
 		}
 	}
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
-	return (last_status);
+	return (last);
 }
 
 int	minishell_helper(char *input, char **env, t_vars *vars, char **commands)
