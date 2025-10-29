@@ -1,0 +1,115 @@
+==2102== Memcheck, a memory error detector
+==2102== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==2102== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==2102== Command: /home/francisco/work42/minishell/minishell
+==2102== 
+myshell> echo "test output" > outfile.txt
+==2103== 
+==2103== HEAP SUMMARY:
+==2103==     in use at exit: 232,916 bytes in 238 blocks
+==2103==   total heap usage: 514 allocs, 276 frees, 266,847 bytes allocated
+==2103== 
+==2103== LEAK SUMMARY:
+==2103==    definitely lost: 0 bytes in 0 blocks
+==2103==    indirectly lost: 0 bytes in 0 blocks
+==2103==      possibly lost: 0 bytes in 0 blocks
+==2103==    still reachable: 0 bytes in 0 blocks
+==2103==         suppressed: 232,916 bytes in 238 blocks
+==2103== 
+==2103== For lists of detected and suppressed errors, rerun with: -s
+==2103== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+myshell> cat outfile.txt
+test output
+myshell> echo "append line" >> outfile.txt
+==2105== 
+==2105== HEAP SUMMARY:
+==2105==     in use at exit: 233,039 bytes in 244 blocks
+==2105==   total heap usage: 557 allocs, 313 frees, 267,754 bytes allocated
+==2105== 
+==2105== LEAK SUMMARY:
+==2105==    definitely lost: 0 bytes in 0 blocks
+==2105==    indirectly lost: 0 bytes in 0 blocks
+==2105==      possibly lost: 0 bytes in 0 blocks
+==2105==    still reachable: 0 bytes in 0 blocks
+==2105==         suppressed: 233,039 bytes in 244 blocks
+==2105== 
+==2105== For lists of detected and suppressed errors, rerun with: -s
+==2105== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+myshell> cat outfile.txt
+test output
+append line
+myshell> cat < outfile.txt
+test output
+append line
+myshell> rm outfile.txt
+myshell> exit
+exit
+==2102== 
+==2102== HEAP SUMMARY:
+==2102==     in use at exit: 236,851 bytes in 294 blocks
+==2102==   total heap usage: 627 allocs, 333 frees, 269,046 bytes allocated
+==2102== 
+==2102== 5 bytes in 1 blocks are still reachable in loss record 2 of 84
+==2102==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2102==    by 0x112273: ft_strndup (in /home/francisco/work42/minishell/minishell)
+==2102==    by 0x10BF5B: ft_split_commands (split_cmds5.c:32)
+==2102==    by 0x1099CC: setup_commands (main2.c:77)
+==2102==    by 0x109DFF: minishell_helper (main3.c:59)
+==2102==    by 0x1095BF: minishell (main.c:22)
+==2102==    by 0x1096F7: run_shell (main.c:62)
+==2102==    by 0x109780: main (main.c:77)
+==2102== 
+==2102== 5 bytes in 1 blocks are still reachable in loss record 3 of 84
+==2102==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2102==    by 0x10E1D2: ft_putmatrix (built_ins5.c:68)
+==2102==    by 0x10E2F8: ft_split_novo_e_melhorado (built_ins5.c:88)
+==2102==    by 0x10DE34: check_cd_ex_uns (built_ins4.c:100)
+==2102==    by 0x109955: handle_cd_and_expansion (main2.c:61)
+==2102==    by 0x109A4D: setup_commands (main2.c:87)
+==2102==    by 0x109DFF: minishell_helper (main3.c:59)
+==2102==    by 0x1095BF: minishell (main.c:22)
+==2102==    by 0x1096F7: run_shell (main.c:62)
+==2102==    by 0x109780: main (main.c:77)
+==2102== 
+==2102== 16 bytes in 1 blocks are still reachable in loss record 16 of 84
+==2102==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2102==    by 0x10BEE3: ft_split_commands (split_cmds5.c:24)
+==2102==    by 0x1099CC: setup_commands (main2.c:77)
+==2102==    by 0x109DFF: minishell_helper (main3.c:59)
+==2102==    by 0x1095BF: minishell (main.c:22)
+==2102==    by 0x1096F7: run_shell (main.c:62)
+==2102==    by 0x109780: main (main.c:77)
+==2102== 
+==2102== 16 bytes in 1 blocks are still reachable in loss record 17 of 84
+==2102==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2102==    by 0x10E2B6: ft_split_novo_e_melhorado (built_ins5.c:85)
+==2102==    by 0x10DE34: check_cd_ex_uns (built_ins4.c:100)
+==2102==    by 0x109955: handle_cd_and_expansion (main2.c:61)
+==2102==    by 0x109A4D: setup_commands (main2.c:87)
+==2102==    by 0x109DFF: minishell_helper (main3.c:59)
+==2102==    by 0x1095BF: minishell (main.c:22)
+==2102==    by 0x1096F7: run_shell (main.c:62)
+==2102==    by 0x109780: main (main.c:77)
+==2102== 
+==2102== 272 bytes in 1 blocks are still reachable in loss record 34 of 84
+==2102==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2102==    by 0x10D68D: copy_environ (built_ins2.c:123)
+==2102==    by 0x109629: setup_shell (main.c:34)
+==2102==    by 0x109767: main (main.c:76)
+==2102== 
+==2102== 3,329 bytes in 33 blocks are still reachable in loss record 53 of 84
+==2102==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2102==    by 0x1121C5: ft_strdup (in /home/francisco/work42/minishell/minishell)
+==2102==    by 0x10D6EA: copy_environ (built_ins2.c:129)
+==2102==    by 0x109629: setup_shell (main.c:34)
+==2102==    by 0x109767: main (main.c:76)
+==2102== 
+==2102== LEAK SUMMARY:
+==2102==    definitely lost: 0 bytes in 0 blocks
+==2102==    indirectly lost: 0 bytes in 0 blocks
+==2102==      possibly lost: 0 bytes in 0 blocks
+==2102==    still reachable: 3,643 bytes in 38 blocks
+==2102==         suppressed: 233,208 bytes in 256 blocks
+==2102== 
+==2102== For lists of detected and suppressed errors, rerun with: -s
+==2102== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

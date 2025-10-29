@@ -16,6 +16,7 @@ char	*replace_exit_status(char *commands, int j)
 {
 	char	*temp;
 	char	*temp2;
+	char	*num;
 
 	temp = NULL;
 	temp2 = NULL;
@@ -24,9 +25,11 @@ char	*replace_exit_status(char *commands, int j)
 	else
 		temp = ft_strdup("");
 	temp2 = ft_substr(commands, j, ft_strlen(commands) - j);
+	num = ft_itoa(g_exit_status);  // This allocates memory
 	free(commands);
-	commands = ft_strjoin_three(temp, ft_itoa(g_exit_status), temp2);
+	commands = ft_strjoin_three(temp, num, temp2);
 	free(temp);
+	free(num);  // ADD THIS - free the itoa result
 	free(temp2);
 	return (commands);
 }

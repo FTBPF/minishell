@@ -1,0 +1,163 @@
+==2120== Memcheck, a memory error detector
+==2120== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==2120== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==2120== Command: /home/francisco/work42/minishell/minishell
+==2120== 
+myshell> echo $?
+0
+==2121== 
+==2121== HEAP SUMMARY:
+==2121==     in use at exit: 232,866 bytes in 238 blocks
+==2121==   total heap usage: 513 allocs, 275 frees, 266,666 bytes allocated
+==2121== 
+==2121== LEAK SUMMARY:
+==2121==    definitely lost: 0 bytes in 0 blocks
+==2121==    indirectly lost: 0 bytes in 0 blocks
+==2121==      possibly lost: 0 bytes in 0 blocks
+==2121==    still reachable: 0 bytes in 0 blocks
+==2121==         suppressed: 232,866 bytes in 238 blocks
+==2121== 
+==2121== For lists of detected and suppressed errors, rerun with: -s
+==2121== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+myshell> ls
+test1.sh
+test1.txt
+test10.sh
+test10_output.txt
+test11.sh
+test11_output.txt
+test12.sh
+test12_output.txt
+test13.sh
+test13_output.txt
+test14.sh
+test14_output.txt
+test15.sh
+test15_output.txt
+test1_output.txt
+test2.sh
+test2.txt
+test2_output.txt
+test3.sh
+test3.txt
+test3_output.txt
+test4.sh
+test4.txt
+test4_output.txt
+test5.sh
+test5.txt
+test5_output.txt
+test6.sh
+test6.txt
+test6_output.txt
+test7.sh
+test7_output.txt
+test8.sh
+test8_output.txt
+test9.sh
+test9_output.txt
+myshell> echo $?
+0
+==2123== 
+==2123== HEAP SUMMARY:
+==2123==     in use at exit: 232,949 bytes in 244 blocks
+==2123==   total heap usage: 553 allocs, 309 frees, 267,319 bytes allocated
+==2123== 
+==2123== LEAK SUMMARY:
+==2123==    definitely lost: 0 bytes in 0 blocks
+==2123==    indirectly lost: 0 bytes in 0 blocks
+==2123==      possibly lost: 0 bytes in 0 blocks
+==2123==    still reachable: 0 bytes in 0 blocks
+==2123==         suppressed: 232,949 bytes in 244 blocks
+==2123== 
+==2123== For lists of detected and suppressed errors, rerun with: -s
+==2123== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+myshell> ls nonexistent_file_12345
+ls: cannot access 'nonexistent_file_12345': No such file or directory
+myshell> echo $?
+2
+==2125== 
+==2125== HEAP SUMMARY:
+==2125==     in use at exit: 233,055 bytes in 250 blocks
+==2125==   total heap usage: 596 allocs, 346 frees, 268,135 bytes allocated
+==2125== 
+==2125== LEAK SUMMARY:
+==2125==    definitely lost: 0 bytes in 0 blocks
+==2125==    indirectly lost: 0 bytes in 0 blocks
+==2125==      possibly lost: 0 bytes in 0 blocks
+==2125==    still reachable: 0 bytes in 0 blocks
+==2125==         suppressed: 233,055 bytes in 250 blocks
+==2125== 
+==2125== For lists of detected and suppressed errors, rerun with: -s
+==2125== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+myshell> exit
+exit
+==2120== 
+==2120== HEAP SUMMARY:
+==2120==     in use at exit: 236,736 bytes in 291 blocks
+==2120==   total heap usage: 607 allocs, 316 frees, 268,284 bytes allocated
+==2120== 
+==2120== 5 bytes in 1 blocks are still reachable in loss record 2 of 84
+==2120==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2120==    by 0x112273: ft_strndup (in /home/francisco/work42/minishell/minishell)
+==2120==    by 0x10BF5B: ft_split_commands (split_cmds5.c:32)
+==2120==    by 0x1099CC: setup_commands (main2.c:77)
+==2120==    by 0x109DFF: minishell_helper (main3.c:59)
+==2120==    by 0x1095BF: minishell (main.c:22)
+==2120==    by 0x1096F7: run_shell (main.c:62)
+==2120==    by 0x109780: main (main.c:77)
+==2120== 
+==2120== 5 bytes in 1 blocks are still reachable in loss record 3 of 84
+==2120==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2120==    by 0x10E1D2: ft_putmatrix (built_ins5.c:68)
+==2120==    by 0x10E2F8: ft_split_novo_e_melhorado (built_ins5.c:88)
+==2120==    by 0x10DE34: check_cd_ex_uns (built_ins4.c:100)
+==2120==    by 0x109955: handle_cd_and_expansion (main2.c:61)
+==2120==    by 0x109A4D: setup_commands (main2.c:87)
+==2120==    by 0x109DFF: minishell_helper (main3.c:59)
+==2120==    by 0x1095BF: minishell (main.c:22)
+==2120==    by 0x1096F7: run_shell (main.c:62)
+==2120==    by 0x109780: main (main.c:77)
+==2120== 
+==2120== 16 bytes in 1 blocks are still reachable in loss record 16 of 84
+==2120==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2120==    by 0x10BEE3: ft_split_commands (split_cmds5.c:24)
+==2120==    by 0x1099CC: setup_commands (main2.c:77)
+==2120==    by 0x109DFF: minishell_helper (main3.c:59)
+==2120==    by 0x1095BF: minishell (main.c:22)
+==2120==    by 0x1096F7: run_shell (main.c:62)
+==2120==    by 0x109780: main (main.c:77)
+==2120== 
+==2120== 16 bytes in 1 blocks are still reachable in loss record 17 of 84
+==2120==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2120==    by 0x10E2B6: ft_split_novo_e_melhorado (built_ins5.c:85)
+==2120==    by 0x10DE34: check_cd_ex_uns (built_ins4.c:100)
+==2120==    by 0x109955: handle_cd_and_expansion (main2.c:61)
+==2120==    by 0x109A4D: setup_commands (main2.c:87)
+==2120==    by 0x109DFF: minishell_helper (main3.c:59)
+==2120==    by 0x1095BF: minishell (main.c:22)
+==2120==    by 0x1096F7: run_shell (main.c:62)
+==2120==    by 0x109780: main (main.c:77)
+==2120== 
+==2120== 272 bytes in 1 blocks are still reachable in loss record 34 of 84
+==2120==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2120==    by 0x10D68D: copy_environ (built_ins2.c:123)
+==2120==    by 0x109629: setup_shell (main.c:34)
+==2120==    by 0x109767: main (main.c:76)
+==2120== 
+==2120== 3,329 bytes in 33 blocks are still reachable in loss record 53 of 84
+==2120==    at 0x4846828: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2120==    by 0x1121C5: ft_strdup (in /home/francisco/work42/minishell/minishell)
+==2120==    by 0x10D6EA: copy_environ (built_ins2.c:129)
+==2120==    by 0x109629: setup_shell (main.c:34)
+==2120==    by 0x109767: main (main.c:76)
+==2120== 
+==2120== LEAK SUMMARY:
+==2120==    definitely lost: 0 bytes in 0 blocks
+==2120==    indirectly lost: 0 bytes in 0 blocks
+==2120==      possibly lost: 0 bytes in 0 blocks
+==2120==    still reachable: 3,643 bytes in 38 blocks
+==2120==         suppressed: 233,093 bytes in 253 blocks
+==2120== 
+==2120== For lists of detected and suppressed errors, rerun with: -s
+==2120== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
