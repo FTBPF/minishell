@@ -27,30 +27,36 @@ int	check_if_builtin(t_vars *vars)
 	return (0);
 }
 
-void	run_builtin(t_vars *vars)
+void run_builtin(t_vars *vars)
 {
-	char	*cmd;
+    char *cmd;
 
-	cmd = vars->cmd_flags[0];
-	if (ft_strcmp(cmd, "echo") == 0)
-		return (ft_echo(vars->cmd_flags));
-	else if (ft_strcmp(cmd, "cd") == 0)
-		return (ft_cd(vars->cmd_flags, vars));
-	else if (ft_strcmp(cmd, "pwd") == 0)
-		return (ft_pwd());
-	else if (ft_strcmp(cmd, "export") == 0)
-		return (ft_export(vars, vars->cmd_flags));
-	else if (ft_strcmp(cmd, "unset") == 0)
-		return (ft_unset(vars, vars->cmd_flags));
-	else if (ft_strcmp(cmd, "env") == 0)
-		return (ft_env(vars));
-	else if (ft_strcmp(cmd, "exit") == 0)
-		return (ft_exit(vars->cmd_flags));
-	else
-		g_exit_status = 1;
-	if (g_exit_status == -1)
-		g_exit_status = 0;
-	return ;
+    cmd = vars->cmd_flags[0];
+    if (ft_strcmp(cmd, "echo") == 0)
+        ft_echo(vars->cmd_flags);
+    else if (ft_strcmp(cmd, "cd") == 0)
+        ft_cd(vars->cmd_flags, vars);
+    else if (ft_strcmp(cmd, "pwd") == 0)
+        ft_pwd();
+    else if (ft_strcmp(cmd, "export") == 0)
+        ft_export(vars, vars->cmd_flags);
+    else if (ft_strcmp(cmd, "unset") == 0)
+        ft_unset(vars, vars->cmd_flags);
+    else if (ft_strcmp(cmd, "env") == 0)
+        ft_env(vars);
+    else if (ft_strcmp(cmd, "exit") == 0)
+    {
+        ft_exit(vars->cmd_flags);
+        // ft_exit will handle its own cleanup and exit
+    }
+    else
+        g_exit_status = 1;
+    
+    if (g_exit_status == -1)
+        g_exit_status = 0;
+    
+    // Return instead of exit - let execute_command handle cleanup
+    return;
 }
 
 static int	handle_cd_special_cases(char **commands, t_vars *vars)

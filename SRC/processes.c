@@ -39,26 +39,87 @@ static void	execute_error(t_vars *vars, char **commands)
 	exit(g_exit_status);
 }
 
-void	execute_command(t_vars *vars, char **commands, char **envp)
+static void cleanup_child_and_exit(t_vars *vars, int exit_code)
 {
-	if (vars->redirection_failed)
-		exit(1);
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-	remove_quotes_from_array(vars->cmd_flags);
-	if (check_if_builtin(vars))
-	{
-		run_builtin(vars);
-		exit(g_exit_status);
-	}
-	vars->cmd1_path = check_valid_cmd(vars->cmd_flags[0], vars->my_environ);
-	if (vars->cmd1_path == NULL)
-	{
-		g_exit_status = 127;
-		exit(g_exit_status);
-	}
-	if (execve(vars->cmd1_path, vars->cmd_flags, envp) == -1)
-		execute_error(vars, commands);
+    // DON'T free all_commands - parent owns it
+    vars->all_commands = NULL;
+    
+    // Free environment
+    if (vars->my_environ)
+        ft_free(vars->my_environ);
+    
+    // Free other vars
+    ft_free_vars_in_child(vars);
+    
+    exit(exit_code);
+}
+
+static void free_all_commands(t_vars *vars)
+{
+    if (vars->all_commands)
+    {
+        int i = 0;
+        while (vars->all_commands[i])
+            free(vars->all_commands[i++]);
+        free(vars->all_commands);
+        vars->all_commands = NULL;
+    }
+}
+
+void execute_command(t_vars *vars, char **commands, char **envp)
+{
+    if (vars->redirection_failed)
+        cleanup_child_and_exit(vars, 1);
+    
+    signal(SIGINT, SIG_DFL);
+    signal(SIGQUIT, SIG_DFL);
+    remove_quotes_from_array(vars->cmd_flags);
+    
+    if (check_if_builtin(vars))
+    {
+        run_builtin(vars);
+        free_all_commands(vars);  // Use helper
+        cleanup_child_and_exit(vars, g_exit_status);
+    }
+    
+    vars->cmd1_path = check_valid_cmd(vars->cmd_flags[0], vars->my_environ);
+    if (vars->cmd1_path == NULL)
+    {
+        free_all_commands(vars);  // Use helper
+        cleanup_child_and_exit(vars, 127);
+    }
+    
+    // For external commands, DON'T free all_commands
+    // Parent will free it after we exit
+    
+    // Free environment copy (execve uses envp parameter)
+    if (vars->my_environ)
+    {
+        ft_free(vars->my_environ);
+        vars->my_environ = NULL;
+    }
+    
+    // Free other vars we don't need
+    if (vars->here_doc_fd)
+    {
+        free(vars->here_doc_fd);
+        vars->here_doc_fd = NULL;
+    }
+    
+    if (vars->temp)
+    {
+        free(vars->temp);
+        vars->temp = NULL;
+    }
+    
+    // Now execve (won't return if successful)
+    if (execve(vars->cmd1_path, vars->cmd_flags, envp) == -1)
+    {
+        execute_error(vars, commands);
+        if (vars->cmd1_path)
+            free(vars->cmd1_path);
+        exit(g_exit_status);
+    }
 }
 
 void	cleanup_temp_file(t_vars *vars)
@@ -72,6 +133,11 @@ void	cleanup_temp_file(t_vars *vars)
 	if (vars->cmd_flags)
 		ft_free(vars->cmd_flags);
 	vars->cmd_flags = NULL;
+	if (vars->cmd1_path)
+    {
+        free(vars->cmd1_path);
+        vars->cmd1_path = NULL;
+    }
 }
 
 char	*find_unquoted_char(char *str, char c)

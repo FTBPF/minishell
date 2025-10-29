@@ -62,5 +62,4 @@ void	ft_echo(char **commands)
 	if (!n_flag)
 		ft_printf("\n");
 	g_exit_status = 0;
-	exit(g_exit_status);
 }

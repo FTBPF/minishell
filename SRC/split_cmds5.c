@@ -87,7 +87,7 @@ static void	write_line(int fd, char *str, int expand, t_vars *vars)
 		write(fd, str, ft_strlen(str));
 }
 
-void	process_heredoc_expanded(t_vars *vars, char *doc_file, int fd,
+void process_heredoc_expanded(t_vars *vars, char *doc_file, int fd,
 		int expand)
 {
 	char			*str;
@@ -112,7 +112,9 @@ void	process_heredoc_expanded(t_vars *vars, char *doc_file, int fd,
 	free(str);
 	get_next_line(-1);
 	free(doc_file);
-	if (vars->my_environ)
-		ft_free(vars->my_environ);
+	
+	// Cleanup before exit
+	ft_cleanup_heredoc_child(vars);
+	
 	exit(g_exit_status = 0);
 }

@@ -67,30 +67,35 @@ static int	handle_cd_and_expansion(t_vars *vars, char **cmds, char *input)
 	return (0);
 }
 
-int	setup_commands(char *input, t_vars *vars, char ***commands)
+int setup_commands(char *input, t_vars *vars, char ***commands)
 {
-	int	invalid;
+    int invalid;
 
-	invalid = check_pipe_syntax(input);
-	if (invalid)
-		return (0);
-	*commands = ft_split_commands(input, "|");
-	if (!*commands)
-		return (0);
-	if (!validate_commands(*commands))
-		return (0);
-	vars->in_pipeline = ((*commands)[1] != NULL);
-	if (handle_cd_and_expansion(vars, *commands, input))
-		return (0);
-	vars->redirection_failed = false;
-	here_doc(vars, *commands);
-	if (vars->redirection_failed && g_exit_status == 130)
-	{
-		ft_free(*commands);
-		*commands = NULL;
-		return (0);
-	}
-	return (1);
+    invalid = check_pipe_syntax(input);
+    if (invalid)
+        return (0);
+    *commands = ft_split_commands(input, "|");
+    if (!*commands)
+        return (0);
+    
+    // ADD THIS HERE - so heredoc child can free it
+    vars->all_commands = *commands;
+    
+    if (!validate_commands(*commands))
+        return (0);
+    vars->in_pipeline = ((*commands)[1] != NULL);
+    if (handle_cd_and_expansion(vars, *commands, input))
+        return (0);
+    vars->redirection_failed = false;
+    here_doc(vars, *commands);  // Now heredoc child has all_commands set
+    if (vars->redirection_failed && g_exit_status == 130)
+    {
+        ft_free(*commands);
+        *commands = NULL;
+        vars->all_commands = NULL;  // Clear it
+        return (0);
+    }
+    return (1);
 }
 
 int	ft_has_invalid_pipe(char **commands)

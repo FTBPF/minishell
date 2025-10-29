@@ -14,23 +14,16 @@
 
 int			g_exit_status = 0;
 
-void	minishell(char *input, char **env, t_vars *vars, char **commands)
+void minishell(char *input, char **env, t_vars *vars)
 {
-	int	i;
+    int i;
 
-	i = 0;
-	commands = NULL;
-	vars->redirection_failed = false;
-	i = minishell_helper(input, env, vars, commands);
-	if (i == 0)
-		return ;
-	close(vars->pipe_fd[0]);
-	if (commands)
-		ft_free(commands);
-	if (input)
-		free(input);
-	ft_free_vars(vars);
-	input = NULL;
+    vars->redirection_failed = false;
+    i = minishell_helper(input, env, vars);  // No commands param
+    if (i == 0)
+        return;
+    close(vars->pipe_fd[0]);
+    ft_free_vars(vars);
 }
 
 void	setup_shell(t_vars *vars, char **env)
@@ -47,31 +40,31 @@ static void	setup_signals_parent(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	run_shell(t_vars *vars, char **env)
+void run_shell(t_vars *vars, char **env)
 {
-	char	*input;
-	char	**commands;
+    char *input;
 
-	commands = NULL;
-	while (1)
-	{
-		setup_signals_parent();
-		input = readline("myshell> ");
-		if (!ft_exit_ctrl_d(input))
-		{
-			g_exit_status = 1;
-			if (commands)
-				ft_free(commands);
-			ft_free(vars->my_environ);
-			ft_free_vars(vars);
-			rl_clear_history();
-			break ;
-		}
-		if (ft_strlen(input) != 0)
-			add_history(input);
-		if (ft_strlen(input) != 0)
-			minishell(input, env, vars, commands);
-	}
+    while (1)
+    {
+        setup_signals_parent();
+        input = readline("myshell> ");
+        if (!ft_exit_ctrl_d(input))
+        {
+            g_exit_status = 1;
+            ft_free(vars->my_environ);
+            ft_free_vars(vars);
+            rl_clear_history();
+            break;
+        }
+        if (ft_strlen(input) != 0)
+        {
+            add_history(input);
+            minishell(input, env, vars);
+			free(input);
+        }
+        else
+            free(input);
+    }
 }
 
 int	main(int ac, char **av, char **env)

@@ -53,7 +53,11 @@ typedef struct s_vars
 	char	*outfile_name;
 	bool	redirection_failed;
 	bool	in_pipeline;
+	char   **all_commands;
 }			t_vars;
+
+void	ft_cleanup_heredoc_child(t_vars *vars);
+void ft_free_vars_in_child(t_vars *vars);
 
 void		disable_quit_echo(struct termios *old_term);
 void		restore_terminal(struct termios *old_term);
@@ -203,8 +207,7 @@ char		*ft_strndup_aspas(char *commands, int len);
 
 // Main
 int			setup_commands(char *input, t_vars *vars, char ***commands);
-int			minishell_helper(char *input, char **env, t_vars *vars,
-				char **commands);
+int			minishell_helper(char *input, char **env, t_vars *vars);
 
 // var_expander.c
 void		ft_replace_helper2(char *commands, int j, char *tmp, char **freee);

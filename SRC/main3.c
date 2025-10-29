@@ -51,14 +51,20 @@ static int	collect_status(void)
 	return (last);
 }
 
-int	minishell_helper(char *input, char **env, t_vars *vars, char **commands)
+int minishell_helper(char *input, char **env, t_vars *vars)
 {
-	if (!setup_commands(input, vars, &commands))
-		return (0);
-	execute_commands(vars, env, commands);
-	g_exit_status = collect_status();
-	if (vars->p0 != 0)
-		close(vars->p0);
-	free(commands);
-	return (vars->i);
+    char **commands;
+    
+    commands = NULL;
+    if (!setup_commands(input, vars, &commands))
+        return (0);
+    execute_commands(vars, env, commands);
+    g_exit_status = collect_status();
+    
+    if (vars->p0 != 0)
+        close(vars->p0);
+    
+    free(commands);
+    vars->all_commands = NULL;
+    return (vars->i);
 }

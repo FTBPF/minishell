@@ -25,7 +25,6 @@ void	ft_pwd(void)
 	else
 		perror("pwd");
 	g_exit_status = 0;
-	exit(g_exit_status);
 }
 
 int	env_num(t_vars *vars, char **commands)
