@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 17:24:01 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/29 11:39:53 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/30 17:26:57 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,12 @@ int minishell_helper(char *input, char **env, t_vars *vars)
     
     commands = NULL;
     if (!setup_commands(input, vars, &commands))
+	{
+		ft_free(commands);
         return (0);
+	}
     execute_commands(vars, env, commands);
     g_exit_status = collect_status();
-    
     if (vars->p0 != 0)
         close(vars->p0);
     

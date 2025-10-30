@@ -1,0 +1,53 @@
+==82570== Memcheck, a memory error detector
+==82570== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==82570== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==82570== Command: /home/frteixei/work42/42cursus/minishell/minishell
+==82570== 
+myshell> cat << EOF | grep hello
+> > > > ==82571== Syscall param ioctl(TCSET{S,SW,SF}) points to uninitialised byte(s)
+==82571==    at 0x49DEE55: tcsetattr (tcsetattr.c:83)
+==82571==    by 0x408B18: restore_terminal (heredoc5.c:29)
+==82571==    by 0x40419F: process_heredoc_expanded (split_cmds5.c:111)
+==82571==    by 0x408404: fork_heredoc (here_doc2.c:37)
+==82571==    by 0x408261: open_doc_file_expanded (here_doc2.c:61)
+==82571==    by 0x408866: open_doc (heredoc4.c:92)
+==82571==    by 0x407F4B: handle_heredoc (here_doc.c:84)
+==82571==    by 0x407E68: here_doc (here_doc.c:41)
+==82571==    by 0x401629: setup_commands (main2.c:87)
+==82571==    by 0x401A2C: minishell_helper (main3.c:59)
+==82571==    by 0x40137C: minishell (main.c:22)
+==82571==    by 0x401481: run_shell (main.c:61)
+==82571==  Address 0x1ffefff960 is on thread 1's stack
+==82571==  in frame #0, created by tcsetattr (tcsetattr.c:45)
+==82571== 
+==82571== 
+==82571== HEAP SUMMARY:
+==82571==     in use at exit: 208,261 bytes in 226 blocks
+==82571==   total heap usage: 511 allocs, 285 frees, 235,898 bytes allocated
+==82571== 
+==82571== LEAK SUMMARY:
+==82571==    definitely lost: 0 bytes in 0 blocks
+==82571==    indirectly lost: 0 bytes in 0 blocks
+==82571==      possibly lost: 0 bytes in 0 blocks
+==82571==    still reachable: 0 bytes in 0 blocks
+==82571==         suppressed: 208,261 bytes in 226 blocks
+==82571== 
+==82571== Use --track-origins=yes to see where uninitialised values come from
+==82571== For lists of detected and suppressed errors, rerun with: -s
+==82571== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+hello world
+myshell> exit
+==82570== 
+==82570== HEAP SUMMARY:
+==82570==     in use at exit: 208,177 bytes in 222 blocks
+==82570==   total heap usage: 514 allocs, 292 frees, 236,176 bytes allocated
+==82570== 
+==82570== LEAK SUMMARY:
+==82570==    definitely lost: 0 bytes in 0 blocks
+==82570==    indirectly lost: 0 bytes in 0 blocks
+==82570==      possibly lost: 0 bytes in 0 blocks
+==82570==    still reachable: 0 bytes in 0 blocks
+==82570==         suppressed: 208,177 bytes in 222 blocks
+==82570== 
+==82570== For lists of detected and suppressed errors, rerun with: -s
+==82570== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

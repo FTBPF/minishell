@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:20:57 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/28 16:51:44 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/30 17:58:15 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ void	here_doc(t_vars *vars, char **commands)
 	}
 	vars->here_doc_fd = malloc(sizeof(int) * (j + 1));
 	if (!vars->here_doc_fd)
+	{
+		ft_free_vars(vars);
 		return ;
+	}
 	vars->here_doc_fd[j] = -1;
 	i = -1;
 	j = 0;

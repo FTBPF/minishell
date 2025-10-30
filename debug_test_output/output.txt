@@ -1,56 +1,37 @@
-==72076== Memcheck, a memory error detector
-==72076== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==72076== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==72076== Command: /home/frteixei/work42/42cursus/minishell/minishell
-==72076== 
+==78812== Memcheck, a memory error detector
+==78812== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==78812== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==78812== Command: /home/frteixei/work42/42cursus/minishell/minishell
+==78812== 
 myshell> echo test
 test
-==72077== 
-==72077== HEAP SUMMARY:
-==72077==     in use at exit: 208,233 bytes in 226 blocks
-==72077==   total heap usage: 502 allocs, 276 frees, 235,869 bytes allocated
-==72077== 
-==72077== LEAK SUMMARY:
-==72077==    definitely lost: 0 bytes in 0 blocks
-==72077==    indirectly lost: 0 bytes in 0 blocks
-==72077==      possibly lost: 0 bytes in 0 blocks
-==72077==    still reachable: 0 bytes in 0 blocks
-==72077==         suppressed: 208,233 bytes in 226 blocks
-==72077== 
-==72077== For lists of detected and suppressed errors, rerun with: -s
-==72077== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==78813== 
+==78813== HEAP SUMMARY:
+==78813==     in use at exit: 208,233 bytes in 226 blocks
+==78813==   total heap usage: 502 allocs, 276 frees, 235,869 bytes allocated
+==78813== 
+==78813== LEAK SUMMARY:
+==78813==    definitely lost: 0 bytes in 0 blocks
+==78813==    indirectly lost: 0 bytes in 0 blocks
+==78813==      possibly lost: 0 bytes in 0 blocks
+==78813==    still reachable: 0 bytes in 0 blocks
+==78813==         suppressed: 208,233 bytes in 226 blocks
+==78813== 
+==78813== For lists of detected and suppressed errors, rerun with: -s
+==78813== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 myshell> exit
-exit
-==72076== 
-==72076== HEAP SUMMARY:
-==72076==     in use at exit: 208,290 bytes in 231 blocks
-==72076==   total heap usage: 512 allocs, 281 frees, 236,007 bytes allocated
-==72076== 
-==72076== 5 bytes in 1 blocks are still reachable in loss record 2 of 69
-==72076==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==72076==    by 0x40AA6F: ft_strndup (in /home/frteixei/work42/42cursus/minishell/minishell)
-==72076==    by 0x403F2D: ft_split_commands (split_cmds5.c:32)
-==72076==    by 0x401578: setup_commands (main2.c:77)
-==72076==    by 0x401A2C: minishell_helper (main3.c:59)
-==72076==    by 0x40137C: minishell (main.c:22)
-==72076==    by 0x401481: run_shell (main.c:62)
-==72076==    by 0x40151C: main (main.c:77)
-==72076== 
-==72076== 16 bytes in 1 blocks are still reachable in loss record 13 of 69
-==72076==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==72076==    by 0x403ED1: ft_split_commands (split_cmds5.c:24)
-==72076==    by 0x401578: setup_commands (main2.c:77)
-==72076==    by 0x401A2C: minishell_helper (main3.c:59)
-==72076==    by 0x40137C: minishell (main.c:22)
-==72076==    by 0x401481: run_shell (main.c:62)
-==72076==    by 0x40151C: main (main.c:77)
-==72076== 
-==72076== LEAK SUMMARY:
-==72076==    definitely lost: 0 bytes in 0 blocks
-==72076==    indirectly lost: 0 bytes in 0 blocks
-==72076==      possibly lost: 0 bytes in 0 blocks
-==72076==    still reachable: 21 bytes in 2 blocks
-==72076==         suppressed: 208,269 bytes in 229 blocks
-==72076== 
-==72076== For lists of detected and suppressed errors, rerun with: -s
-==72076== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+ft_exit
+==78812== 
+==78812== HEAP SUMMARY:
+==78812==     in use at exit: 208,269 bytes in 229 blocks
+==78812==   total heap usage: 512 allocs, 283 frees, 236,007 bytes allocated
+==78812== 
+==78812== LEAK SUMMARY:
+==78812==    definitely lost: 0 bytes in 0 blocks
+==78812==    indirectly lost: 0 bytes in 0 blocks
+==78812==      possibly lost: 0 bytes in 0 blocks
+==78812==    still reachable: 0 bytes in 0 blocks
+==78812==         suppressed: 208,269 bytes in 229 blocks
+==78812== 
+==78812== For lists of detected and suppressed errors, rerun with: -s
+==78812== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

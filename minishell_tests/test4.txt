@@ -1,0 +1,9 @@
+cat << EOF
+hello heredoc
+multiple lines
+test
+EOF
+cat << DELIMITER
+another delimiter
+DELIMITER
+exit

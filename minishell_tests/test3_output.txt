@@ -1,0 +1,156 @@
+==82510== Memcheck, a memory error detector
+==82510== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==82510== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==82510== Command: /home/frteixei/work42/42cursus/minishell/minishell
+==82510== 
+myshell> echo "test output" > outfile.txt
+==82511== 
+==82511== HEAP SUMMARY:
+==82511==     in use at exit: 208,279 bytes in 226 blocks
+==82511==   total heap usage: 507 allocs, 281 frees, 236,049 bytes allocated
+==82511== 
+==82511== LEAK SUMMARY:
+==82511==    definitely lost: 0 bytes in 0 blocks
+==82511==    indirectly lost: 0 bytes in 0 blocks
+==82511==      possibly lost: 0 bytes in 0 blocks
+==82511==    still reachable: 0 bytes in 0 blocks
+==82511==         suppressed: 208,279 bytes in 226 blocks
+==82511== 
+==82511== For lists of detected and suppressed errors, rerun with: -s
+==82511== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+myshell> cat outfile.txt
+test output
+myshell> echo "append line" >> outfile.txt
+==82513== 
+==82513== HEAP SUMMARY:
+==82513==     in use at exit: 208,422 bytes in 235 blocks
+==82513==   total heap usage: 548 allocs, 313 frees, 236,940 bytes allocated
+==82513== 
+==82513== 8 bytes in 2 blocks are definitely lost in loss record 3 of 69
+==82513==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==82513==    by 0x407DE3: here_doc (here_doc.c:29)
+==82513==    by 0x401629: setup_commands (main2.c:87)
+==82513==    by 0x401A2C: minishell_helper (main3.c:59)
+==82513==    by 0x40137C: minishell (main.c:22)
+==82513==    by 0x401481: run_shell (main.c:61)
+==82513==    by 0x40151C: main (main.c:76)
+==82513== 
+==82513== 12 bytes in 1 blocks are definitely lost in loss record 6 of 69
+==82513==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==82513==    by 0x4076BB: remove_quotes_from_string (utils4.c:21)
+==82513==    by 0x403A43: parse_outfile_token (split_cmds4.c:50)
+==82513==    by 0x403525: get_output_filename (split_cmds2.c:52)
+==82513==    by 0x40345E: process_single_output_redir (split_cmds2.c:73)
+==82513==    by 0x40338D: process_redirection (split_cmds2.c:89)
+==82513==    by 0x403295: setup_redirections (split_cmds2.c:111)
+==82513==    by 0x402B69: first_process (processes3.c:92)
+==82513==    by 0x401B20: execute_commands (main3.c:22)
+==82513==    by 0x401A5B: minishell_helper (main3.c:64)
+==82513==    by 0x40137C: minishell (main.c:22)
+==82513==    by 0x401481: run_shell (main.c:61)
+==82513== 
+==82513== LEAK SUMMARY:
+==82513==    definitely lost: 20 bytes in 3 blocks
+==82513==    indirectly lost: 0 bytes in 0 blocks
+==82513==      possibly lost: 0 bytes in 0 blocks
+==82513==    still reachable: 0 bytes in 0 blocks
+==82513==         suppressed: 208,402 bytes in 232 blocks
+==82513== 
+==82513== For lists of detected and suppressed errors, rerun with: -s
+==82513== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
+myshell> cat outfile.txt
+test output
+append line
+myshell> cat < outfile.txt
+test output
+append line
+myshell> rm outfile.txt
+myshell> exit
+exit
+==82510== 
+==82510== HEAP SUMMARY:
+==82510==     in use at exit: 212,679 bytes in 310 blocks
+==82510==   total heap usage: 614 allocs, 304 frees, 238,200 bytes allocated
+==82510== 
+==82510== 4 bytes in 1 blocks are still reachable in loss record 1 of 74
+==82510==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==82510==    by 0x407DE3: here_doc (here_doc.c:29)
+==82510==    by 0x401629: setup_commands (main2.c:87)
+==82510==    by 0x401A2C: minishell_helper (main3.c:59)
+==82510==    by 0x40137C: minishell (main.c:22)
+==82510==    by 0x401481: run_shell (main.c:61)
+==82510==    by 0x40151C: main (main.c:76)
+==82510== 
+==82510== 12 bytes in 1 blocks are still reachable in loss record 7 of 74
+==82510==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==82510==    by 0x4076BB: remove_quotes_from_string (utils4.c:21)
+==82510==    by 0x403A43: parse_outfile_token (split_cmds4.c:50)
+==82510==    by 0x403525: get_output_filename (split_cmds2.c:52)
+==82510==    by 0x40345E: process_single_output_redir (split_cmds2.c:73)
+==82510==    by 0x40338D: process_redirection (split_cmds2.c:89)
+==82510==    by 0x403295: setup_redirections (split_cmds2.c:111)
+==82510==    by 0x402B69: first_process (processes3.c:92)
+==82510==    by 0x401B20: execute_commands (main3.c:22)
+==82510==    by 0x401A5B: minishell_helper (main3.c:64)
+==82510==    by 0x40137C: minishell (main.c:22)
+==82510==    by 0x401481: run_shell (main.c:61)
+==82510== 
+==82510== 12 bytes in 1 blocks are still reachable in loss record 8 of 74
+==82510==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==82510==    by 0x4076BB: remove_quotes_from_string (utils4.c:21)
+==82510==    by 0x402928: open_and_assign_fd (processes2.c:87)
+==82510==    by 0x403E66: open_input_file (split_cmds4.c:59)
+==82510==    by 0x403CEF: process_single_input_redir (split_cmds4.c:115)
+==82510==    by 0x40334F: process_redirection (split_cmds2.c:84)
+==82510==    by 0x403295: setup_redirections (split_cmds2.c:111)
+==82510==    by 0x402B69: first_process (processes3.c:92)
+==82510==    by 0x401B20: execute_commands (main3.c:22)
+==82510==    by 0x401A5B: minishell_helper (main3.c:64)
+==82510==    by 0x40137C: minishell (main.c:22)
+==82510==    by 0x401481: run_shell (main.c:61)
+==82510== 
+==82510== 12 bytes in 1 blocks are definitely lost in loss record 9 of 74
+==82510==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==82510==    by 0x4076BB: remove_quotes_from_string (utils4.c:21)
+==82510==    by 0x403A43: parse_outfile_token (split_cmds4.c:50)
+==82510==    by 0x403525: get_output_filename (split_cmds2.c:52)
+==82510==    by 0x40345E: process_single_output_redir (split_cmds2.c:73)
+==82510==    by 0x40338D: process_redirection (split_cmds2.c:89)
+==82510==    by 0x403295: setup_redirections (split_cmds2.c:111)
+==82510==    by 0x402B69: first_process (processes3.c:92)
+==82510==    by 0x401B20: execute_commands (main3.c:22)
+==82510==    by 0x401A5B: minishell_helper (main3.c:64)
+==82510==    by 0x40137C: minishell (main.c:22)
+==82510==    by 0x401481: run_shell (main.c:61)
+==82510== 
+==82510== 20 bytes in 5 blocks are definitely lost in loss record 16 of 74
+==82510==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==82510==    by 0x407DE3: here_doc (here_doc.c:29)
+==82510==    by 0x401629: setup_commands (main2.c:87)
+==82510==    by 0x401A2C: minishell_helper (main3.c:59)
+==82510==    by 0x40137C: minishell (main.c:22)
+==82510==    by 0x401481: run_shell (main.c:61)
+==82510==    by 0x40151C: main (main.c:76)
+==82510== 
+==82510== 456 bytes in 1 blocks are still reachable in loss record 32 of 74
+==82510==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==82510==    by 0x405793: copy_environ (built_ins2.c:123)
+==82510==    by 0x4013E5: setup_shell (main.c:33)
+==82510==    by 0x40150C: main (main.c:75)
+==82510== 
+==82510== 3,592 bytes in 56 blocks are still reachable in loss record 49 of 74
+==82510==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==82510==    by 0x40A9C9: ft_strdup (in /home/frteixei/work42/42cursus/minishell/minishell)
+==82510==    by 0x4057DD: copy_environ (built_ins2.c:129)
+==82510==    by 0x4013E5: setup_shell (main.c:33)
+==82510==    by 0x40150C: main (main.c:75)
+==82510== 
+==82510== LEAK SUMMARY:
+==82510==    definitely lost: 32 bytes in 6 blocks
+==82510==    indirectly lost: 0 bytes in 0 blocks
+==82510==      possibly lost: 0 bytes in 0 blocks
+==82510==    still reachable: 4,076 bytes in 60 blocks
+==82510==         suppressed: 208,571 bytes in 244 blocks
+==82510== 
+==82510== For lists of detected and suppressed errors, rerun with: -s
+==82510== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)

@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/28 18:01:03 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/30 17:52:24 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void minishell(char *input, char **env, t_vars *vars)
     if (i == 0)
         return;
     close(vars->pipe_fd[0]);
-    ft_free_vars(vars);
 }
 
 void	setup_shell(t_vars *vars, char **env)

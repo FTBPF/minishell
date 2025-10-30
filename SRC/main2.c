@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:26 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/28 16:03:03 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/30 17:57:47 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,22 +77,19 @@ int setup_commands(char *input, t_vars *vars, char ***commands)
     *commands = ft_split_commands(input, "|");
     if (!*commands)
         return (0);
-    
-    // ADD THIS HERE - so heredoc child can free it
     vars->all_commands = *commands;
-    
     if (!validate_commands(*commands))
         return (0);
     vars->in_pipeline = ((*commands)[1] != NULL);
     if (handle_cd_and_expansion(vars, *commands, input))
         return (0);
     vars->redirection_failed = false;
-    here_doc(vars, *commands);  // Now heredoc child has all_commands set
+    here_doc(vars, *commands);
     if (vars->redirection_failed && g_exit_status == 130)
     {
         ft_free(*commands);
         *commands = NULL;
-        vars->all_commands = NULL;  // Clear it
+        vars->all_commands = NULL;
         return (0);
     }
     return (1);

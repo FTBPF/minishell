@@ -1,0 +1,118 @@
+==82575== Memcheck, a memory error detector
+==82575== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==82575== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==82575== Command: /home/frteixei/work42/42cursus/minishell/minishell
+==82575== 
+myshell> nonexistent_command
+nonexistent_command: command not found
+==82577== 
+==82577== HEAP SUMMARY:
+==82577==     in use at exit: 208,253 bytes in 226 blocks
+==82577==   total heap usage: 530 allocs, 304 frees, 236,563 bytes allocated
+==82577== 
+==82577== LEAK SUMMARY:
+==82577==    definitely lost: 0 bytes in 0 blocks
+==82577==    indirectly lost: 0 bytes in 0 blocks
+==82577==      possibly lost: 0 bytes in 0 blocks
+==82577==    still reachable: 0 bytes in 0 blocks
+==82577==         suppressed: 208,253 bytes in 226 blocks
+==82577== 
+==82577== For lists of detected and suppressed errors, rerun with: -s
+==82577== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+myshell> another_fake_command
+another_fake_command: command not found
+==82578== 
+==82578== HEAP SUMMARY:
+==82578==     in use at exit: 208,315 bytes in 230 blocks
+==82578==   total heap usage: 546 allocs, 316 frees, 236,955 bytes allocated
+==82578== 
+==82578== 4 bytes in 1 blocks are definitely lost in loss record 1 of 68
+==82578==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==82578==    by 0x407DE3: here_doc (here_doc.c:29)
+==82578==    by 0x401629: setup_commands (main2.c:87)
+==82578==    by 0x401A2C: minishell_helper (main3.c:59)
+==82578==    by 0x40137C: minishell (main.c:22)
+==82578==    by 0x401481: run_shell (main.c:61)
+==82578==    by 0x40151C: main (main.c:76)
+==82578== 
+==82578== LEAK SUMMARY:
+==82578==    definitely lost: 4 bytes in 1 blocks
+==82578==    indirectly lost: 0 bytes in 0 blocks
+==82578==      possibly lost: 0 bytes in 0 blocks
+==82578==    still reachable: 0 bytes in 0 blocks
+==82578==         suppressed: 208,311 bytes in 229 blocks
+==82578== 
+==82578== For lists of detected and suppressed errors, rerun with: -s
+==82578== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+myshell> asjdnasjdnajsd
+asjdnasjdnajsd: command not found
+==82579== 
+==82579== HEAP SUMMARY:
+==82579==     in use at exit: 208,364 bytes in 234 blocks
+==82579==   total heap usage: 562 allocs, 328 frees, 237,240 bytes allocated
+==82579== 
+==82579== 8 bytes in 2 blocks are definitely lost in loss record 3 of 68
+==82579==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==82579==    by 0x407DE3: here_doc (here_doc.c:29)
+==82579==    by 0x401629: setup_commands (main2.c:87)
+==82579==    by 0x401A2C: minishell_helper (main3.c:59)
+==82579==    by 0x40137C: minishell (main.c:22)
+==82579==    by 0x401481: run_shell (main.c:61)
+==82579==    by 0x40151C: main (main.c:76)
+==82579== 
+==82579== LEAK SUMMARY:
+==82579==    definitely lost: 8 bytes in 2 blocks
+==82579==    indirectly lost: 0 bytes in 0 blocks
+==82579==      possibly lost: 0 bytes in 0 blocks
+==82579==    still reachable: 0 bytes in 0 blocks
+==82579==         suppressed: 208,356 bytes in 232 blocks
+==82579== 
+==82579== For lists of detected and suppressed errors, rerun with: -s
+==82579== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+myshell> exit
+exit
+==82575== 
+==82575== HEAP SUMMARY:
+==82575==     in use at exit: 212,447 bytes in 295 blocks
+==82575==   total heap usage: 542 allocs, 247 frees, 236,771 bytes allocated
+==82575== 
+==82575== 4 bytes in 1 blocks are still reachable in loss record 1 of 71
+==82575==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==82575==    by 0x407DE3: here_doc (here_doc.c:29)
+==82575==    by 0x401629: setup_commands (main2.c:87)
+==82575==    by 0x401A2C: minishell_helper (main3.c:59)
+==82575==    by 0x40137C: minishell (main.c:22)
+==82575==    by 0x401481: run_shell (main.c:61)
+==82575==    by 0x40151C: main (main.c:76)
+==82575== 
+==82575== 8 bytes in 2 blocks are definitely lost in loss record 5 of 71
+==82575==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==82575==    by 0x407DE3: here_doc (here_doc.c:29)
+==82575==    by 0x401629: setup_commands (main2.c:87)
+==82575==    by 0x401A2C: minishell_helper (main3.c:59)
+==82575==    by 0x40137C: minishell (main.c:22)
+==82575==    by 0x401481: run_shell (main.c:61)
+==82575==    by 0x40151C: main (main.c:76)
+==82575== 
+==82575== 456 bytes in 1 blocks are still reachable in loss record 29 of 71
+==82575==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==82575==    by 0x405793: copy_environ (built_ins2.c:123)
+==82575==    by 0x4013E5: setup_shell (main.c:33)
+==82575==    by 0x40150C: main (main.c:75)
+==82575== 
+==82575== 3,592 bytes in 56 blocks are still reachable in loss record 46 of 71
+==82575==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==82575==    by 0x40A9C9: ft_strdup (in /home/frteixei/work42/42cursus/minishell/minishell)
+==82575==    by 0x4057DD: copy_environ (built_ins2.c:129)
+==82575==    by 0x4013E5: setup_shell (main.c:33)
+==82575==    by 0x40150C: main (main.c:75)
+==82575== 
+==82575== LEAK SUMMARY:
+==82575==    definitely lost: 8 bytes in 2 blocks
+==82575==    indirectly lost: 0 bytes in 0 blocks
+==82575==      possibly lost: 0 bytes in 0 blocks
+==82575==    still reachable: 4,052 bytes in 58 blocks
+==82575==         suppressed: 208,387 bytes in 235 blocks
+==82575== 
+==82575== For lists of detected and suppressed errors, rerun with: -s
+==82575== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)

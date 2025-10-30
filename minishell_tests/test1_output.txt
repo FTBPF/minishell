@@ -1,222 +1,120 @@
+==82497== Memcheck, a memory error detector
+==82497== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==82497== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==82497== Command: /home/frteixei/work42/42cursus/minishell/minishell
+==82497== 
 myshell> echo hello world
 hello world
+==82498== 
+==82498== HEAP SUMMARY:
+==82498==     in use at exit: 208,247 bytes in 226 blocks
+==82498==   total heap usage: 505 allocs, 279 frees, 235,925 bytes allocated
+==82498== 
+==82498== LEAK SUMMARY:
+==82498==    definitely lost: 0 bytes in 0 blocks
+==82498==    indirectly lost: 0 bytes in 0 blocks
+==82498==      possibly lost: 0 bytes in 0 blocks
+==82498==    still reachable: 0 bytes in 0 blocks
+==82498==         suppressed: 208,247 bytes in 226 blocks
+==82498== 
+==82498== For lists of detected and suppressed errors, rerun with: -s
+==82498== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 myshell> pwd
 /home/frteixei/work42/42cursus/minishell/minishell_tests
-==71542== Invalid read of size 8
-==71542==    at 0x40714B: ft_free (utils3.c:22)
-==71542==    by 0x4022D9: cleanup_child_and_exit (processes.c:49)
-==71542==    by 0x40217C: execute_command (processes.c:82)
-==71542==    by 0x402BB3: first_process (processes3.c:98)
-==71542==    by 0x401B20: execute_commands (main3.c:22)
-==71542==    by 0x401A52: minishell_helper (main3.c:61)
-==71542==    by 0x40137C: minishell (main.c:22)
-==71542==    by 0x401481: run_shell (main.c:62)
-==71542==    by 0x40151C: main (main.c:77)
-==71542==  Address 0x4b22040 is 0 bytes inside a block of size 456 free'd
-==71542==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==71542==    by 0x40717D: ft_free (utils3.c:27)
-==71542==    by 0x4072FC: ft_free_vars (utils3.c:72)
-==71542==    by 0x4013A3: minishell (main.c:26)
-==71542==    by 0x401481: run_shell (main.c:62)
-==71542==    by 0x40151C: main (main.c:77)
-==71542==  Block was alloc'd at
-==71542==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==71542==    by 0x405793: copy_environ (built_ins2.c:123)
-==71542==    by 0x4013E5: setup_shell (main.c:34)
-==71542==    by 0x40150C: main (main.c:76)
-==71542== 
-==71542== Invalid read of size 8
-==71542==    at 0x40715E: ft_free (utils3.c:24)
-==71542==    by 0x4022D9: cleanup_child_and_exit (processes.c:49)
-==71542==    by 0x40217C: execute_command (processes.c:82)
-==71542==    by 0x402BB3: first_process (processes3.c:98)
-==71542==    by 0x401B20: execute_commands (main3.c:22)
-==71542==    by 0x401A52: minishell_helper (main3.c:61)
-==71542==    by 0x40137C: minishell (main.c:22)
-==71542==    by 0x401481: run_shell (main.c:62)
-==71542==    by 0x40151C: main (main.c:77)
-==71542==  Address 0x4b22040 is 0 bytes inside a block of size 456 free'd
-==71542==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==71542==    by 0x40717D: ft_free (utils3.c:27)
-==71542==    by 0x4072FC: ft_free_vars (utils3.c:72)
-==71542==    by 0x4013A3: minishell (main.c:26)
-==71542==    by 0x401481: run_shell (main.c:62)
-==71542==    by 0x40151C: main (main.c:77)
-==71542==  Block was alloc'd at
-==71542==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==71542==    by 0x405793: copy_environ (built_ins2.c:123)
-==71542==    by 0x4013E5: setup_shell (main.c:34)
-==71542==    by 0x40150C: main (main.c:76)
-==71542== 
-==71542== Invalid free() / delete / delete[] / realloc()
-==71542==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==71542==    by 0x407166: ft_free (utils3.c:24)
-==71542==    by 0x4022D9: cleanup_child_and_exit (processes.c:49)
-==71542==    by 0x40217C: execute_command (processes.c:82)
-==71542==    by 0x402BB3: first_process (processes3.c:98)
-==71542==    by 0x401B20: execute_commands (main3.c:22)
-==71542==    by 0x401A52: minishell_helper (main3.c:61)
-==71542==    by 0x40137C: minishell (main.c:22)
-==71542==    by 0x401481: run_shell (main.c:62)
-==71542==    by 0x40151C: main (main.c:77)
-==71542==  Address 0x4b22250 is 0 bytes inside a block of size 14 free'd
-==71542==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==71542==    by 0x407166: ft_free (utils3.c:24)
-==71542==    by 0x4072FC: ft_free_vars (utils3.c:72)
-==71542==    by 0x4013A3: minishell (main.c:26)
-==71542==    by 0x401481: run_shell (main.c:62)
-==71542==    by 0x40151C: main (main.c:77)
-==71542==  Block was alloc'd at
-==71542==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==71542==    by 0x40A999: ft_strdup (in /home/frteixei/work42/42cursus/minishell/minishell)
-==71542==    by 0x4057DD: copy_environ (built_ins2.c:129)
-==71542==    by 0x4013E5: setup_shell (main.c:34)
-==71542==    by 0x40150C: main (main.c:76)
-==71542== 
-==71542== Invalid free() / delete / delete[] / realloc()
-==71542==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==71542==    by 0x40717D: ft_free (utils3.c:27)
-==71542==    by 0x4022D9: cleanup_child_and_exit (processes.c:49)
-==71542==    by 0x40217C: execute_command (processes.c:82)
-==71542==    by 0x402BB3: first_process (processes3.c:98)
-==71542==    by 0x401B20: execute_commands (main3.c:22)
-==71542==    by 0x401A52: minishell_helper (main3.c:61)
-==71542==    by 0x40137C: minishell (main.c:22)
-==71542==    by 0x401481: run_shell (main.c:62)
-==71542==    by 0x40151C: main (main.c:77)
-==71542==  Address 0x4b22040 is 0 bytes inside a block of size 456 free'd
-==71542==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==71542==    by 0x40717D: ft_free (utils3.c:27)
-==71542==    by 0x4072FC: ft_free_vars (utils3.c:72)
-==71542==    by 0x4013A3: minishell (main.c:26)
-==71542==    by 0x401481: run_shell (main.c:62)
-==71542==    by 0x40151C: main (main.c:77)
-==71542==  Block was alloc'd at
-==71542==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==71542==    by 0x405793: copy_environ (built_ins2.c:123)
-==71542==    by 0x4013E5: setup_shell (main.c:34)
-==71542==    by 0x40150C: main (main.c:76)
-==71542== 
-==71540== Invalid read of size 8
-==71540==    at 0x40714B: ft_free (utils3.c:22)
-==71540==    by 0x4072FC: ft_free_vars (utils3.c:72)
-==71540==    by 0x4013A3: minishell (main.c:26)
-==71540==    by 0x401481: run_shell (main.c:62)
-==71540==    by 0x40151C: main (main.c:77)
-==71540==  Address 0x4b22040 is 0 bytes inside a block of size 456 free'd
-==71540==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==71540==    by 0x40717D: ft_free (utils3.c:27)
-==71540==    by 0x4072FC: ft_free_vars (utils3.c:72)
-==71540==    by 0x4013A3: minishell (main.c:26)
-==71540==    by 0x401481: run_shell (main.c:62)
-==71540==    by 0x40151C: main (main.c:77)
-==71540==  Block was alloc'd at
-==71540==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==71540==    by 0x405793: copy_environ (built_ins2.c:123)
-==71540==    by 0x4013E5: setup_shell (main.c:34)
-==71540==    by 0x40150C: main (main.c:76)
-==71540== 
-==71540== Invalid read of size 8
-==71540==    at 0x40715E: ft_free (utils3.c:24)
-==71540==    by 0x4072FC: ft_free_vars (utils3.c:72)
-==71540==    by 0x4013A3: minishell (main.c:26)
-==71540==    by 0x401481: run_shell (main.c:62)
-==71540==    by 0x40151C: main (main.c:77)
-==71540==  Address 0x4b22040 is 0 bytes inside a block of size 456 free'd
-==71540==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==71540==    by 0x40717D: ft_free (utils3.c:27)
-==71540==    by 0x4072FC: ft_free_vars (utils3.c:72)
-==71540==    by 0x4013A3: minishell (main.c:26)
-==71540==    by 0x401481: run_shell (main.c:62)
-==71540==    by 0x40151C: main (main.c:77)
-==71540==  Block was alloc'd at
-==71540==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==71540==    by 0x405793: copy_environ (built_ins2.c:123)
-==71540==    by 0x4013E5: setup_shell (main.c:34)
-==71540==    by 0x40150C: main (main.c:76)
-==71540== 
-==71540== Invalid free() / delete / delete[] / realloc()
-==71540==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==71540==    by 0x407166: ft_free (utils3.c:24)
-==71540==    by 0x4072FC: ft_free_vars (utils3.c:72)
-==71540==    by 0x4013A3: minishell (main.c:26)
-==71540==    by 0x401481: run_shell (main.c:62)
-==71540==    by 0x40151C: main (main.c:77)
-==71540==  Address 0x4b22250 is 0 bytes inside a block of size 14 free'd
-==71540==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==71540==    by 0x407166: ft_free (utils3.c:24)
-==71540==    by 0x4072FC: ft_free_vars (utils3.c:72)
-==71540==    by 0x4013A3: minishell (main.c:26)
-==71540==    by 0x401481: run_shell (main.c:62)
-==71540==    by 0x40151C: main (main.c:77)
-==71540==  Block was alloc'd at
-==71540==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==71540==    by 0x40A999: ft_strdup (in /home/frteixei/work42/42cursus/minishell/minishell)
-==71540==    by 0x4057DD: copy_environ (built_ins2.c:129)
-==71540==    by 0x4013E5: setup_shell (main.c:34)
-==71540==    by 0x40150C: main (main.c:76)
-==71540== 
-==71540== Invalid free() / delete / delete[] / realloc()
-==71540==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==71540==    by 0x40717D: ft_free (utils3.c:27)
-==71540==    by 0x4072FC: ft_free_vars (utils3.c:72)
-==71540==    by 0x4013A3: minishell (main.c:26)
-==71540==    by 0x401481: run_shell (main.c:62)
-==71540==    by 0x40151C: main (main.c:77)
-==71540==  Address 0x4b22040 is 0 bytes inside a block of size 456 free'd
-==71540==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==71540==    by 0x40717D: ft_free (utils3.c:27)
-==71540==    by 0x4072FC: ft_free_vars (utils3.c:72)
-==71540==    by 0x4013A3: minishell (main.c:26)
-==71540==    by 0x401481: run_shell (main.c:62)
-==71540==    by 0x40151C: main (main.c:77)
-==71540==  Block was alloc'd at
-==71540==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==71540==    by 0x405793: copy_environ (built_ins2.c:123)
-==71540==    by 0x4013E5: setup_shell (main.c:34)
-==71540==    by 0x40150C: main (main.c:76)
-==71540== 
+==82499== 
+==82499== HEAP SUMMARY:
+==82499==     in use at exit: 208,278 bytes in 230 blocks
+==82499==   total heap usage: 521 allocs, 291 frees, 240,361 bytes allocated
+==82499== 
+==82499== 4 bytes in 1 blocks are definitely lost in loss record 2 of 68
+==82499==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==82499==    by 0x407DE3: here_doc (here_doc.c:29)
+==82499==    by 0x401629: setup_commands (main2.c:87)
+==82499==    by 0x401A2C: minishell_helper (main3.c:59)
+==82499==    by 0x40137C: minishell (main.c:22)
+==82499==    by 0x401481: run_shell (main.c:61)
+==82499==    by 0x40151C: main (main.c:76)
+==82499== 
+==82499== LEAK SUMMARY:
+==82499==    definitely lost: 4 bytes in 1 blocks
+==82499==    indirectly lost: 0 bytes in 0 blocks
+==82499==      possibly lost: 0 bytes in 0 blocks
+==82499==    still reachable: 0 bytes in 0 blocks
+==82499==         suppressed: 208,274 bytes in 229 blocks
+==82499== 
+==82499== For lists of detected and suppressed errors, rerun with: -s
+==82499== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+myshell> env | head -3
+USER=frteixei
+XDG_SESSION_TYPE=x11
+SHLVL=2
+==82500== 
+==82500== HEAP SUMMARY:
+==82500==     in use at exit: 208,342 bytes in 234 blocks
+==82500==   total heap usage: 536 allocs, 302 frees, 236,542 bytes allocated
+==82500== 
+==82500== 8 bytes in 2 blocks are definitely lost in loss record 3 of 68
+==82500==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==82500==    by 0x407DE3: here_doc (here_doc.c:29)
+==82500==    by 0x401629: setup_commands (main2.c:87)
+==82500==    by 0x401A2C: minishell_helper (main3.c:59)
+==82500==    by 0x40137C: minishell (main.c:22)
+==82500==    by 0x401481: run_shell (main.c:61)
+==82500==    by 0x40151C: main (main.c:76)
+==82500== 
+==82500== LEAK SUMMARY:
+==82500==    definitely lost: 8 bytes in 2 blocks
+==82500==    indirectly lost: 0 bytes in 0 blocks
+==82500==      possibly lost: 0 bytes in 0 blocks
+==82500==    still reachable: 0 bytes in 0 blocks
+==82500==         suppressed: 208,334 bytes in 232 blocks
+==82500== 
+==82500== For lists of detected and suppressed errors, rerun with: -s
+==82500== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 myshell> exit
 exit
-==71540== 5 bytes in 1 blocks are still reachable in loss record 2 of 71
-==71540==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==71540==    by 0x40AA5F: ft_strndup (in /home/frteixei/work42/42cursus/minishell/minishell)
-==71540==    by 0x403F2D: ft_split_commands (split_cmds5.c:32)
-==71540==    by 0x401578: setup_commands (main2.c:77)
-==71540==    by 0x401A2C: minishell_helper (main3.c:59)
-==71540==    by 0x40137C: minishell (main.c:22)
-==71540==    by 0x401481: run_shell (main.c:62)
-==71540==    by 0x40151C: main (main.c:77)
-==71540== 
-==71540== 5 bytes in 1 blocks are still reachable in loss record 3 of 71
-==71540==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==71540==    by 0x40628A: ft_putmatrix (built_ins5.c:68)
-==71540==    by 0x4060B6: ft_split_novo_e_melhorado (built_ins5.c:88)
-==71540==    by 0x405E6A: check_cd_ex_uns (built_ins4.c:100)
-==71540==    by 0x401885: handle_cd_and_expansion (main2.c:61)
-==71540==    by 0x4015FC: setup_commands (main2.c:87)
-==71540==    by 0x401A2C: minishell_helper (main3.c:59)
-==71540==    by 0x40137C: minishell (main.c:22)
-==71540==    by 0x401481: run_shell (main.c:62)
-==71540==    by 0x40151C: main (main.c:77)
-==71540== 
-==71540== 16 bytes in 1 blocks are still reachable in loss record 13 of 71
-==71540==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==71540==    by 0x403ED1: ft_split_commands (split_cmds5.c:24)
-==71540==    by 0x401578: setup_commands (main2.c:77)
-==71540==    by 0x401A2C: minishell_helper (main3.c:59)
-==71540==    by 0x40137C: minishell (main.c:22)
-==71540==    by 0x401481: run_shell (main.c:62)
-==71540==    by 0x40151C: main (main.c:77)
-==71540== 
-==71540== 16 bytes in 1 blocks are still reachable in loss record 14 of 71
-==71540==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==71540==    by 0x406056: ft_split_novo_e_melhorado (built_ins5.c:85)
-==71540==    by 0x405E6A: check_cd_ex_uns (built_ins4.c:100)
-==71540==    by 0x401885: handle_cd_and_expansion (main2.c:61)
-==71540==    by 0x4015FC: setup_commands (main2.c:87)
-==71540==    by 0x401A2C: minishell_helper (main3.c:59)
-==71540==    by 0x40137C: minishell (main.c:22)
-==71540==    by 0x401481: run_shell (main.c:62)
-==71540==    by 0x40151C: main (main.c:77)
-==71540== 
+==82497== 
+==82497== HEAP SUMMARY:
+==82497==     in use at exit: 212,426 bytes in 295 blocks
+==82497==   total heap usage: 551 allocs, 256 frees, 236,846 bytes allocated
+==82497== 
+==82497== 4 bytes in 1 blocks are still reachable in loss record 1 of 71
+==82497==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==82497==    by 0x407DE3: here_doc (here_doc.c:29)
+==82497==    by 0x401629: setup_commands (main2.c:87)
+==82497==    by 0x401A2C: minishell_helper (main3.c:59)
+==82497==    by 0x40137C: minishell (main.c:22)
+==82497==    by 0x401481: run_shell (main.c:61)
+==82497==    by 0x40151C: main (main.c:76)
+==82497== 
+==82497== 8 bytes in 2 blocks are definitely lost in loss record 5 of 71
+==82497==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==82497==    by 0x407DE3: here_doc (here_doc.c:29)
+==82497==    by 0x401629: setup_commands (main2.c:87)
+==82497==    by 0x401A2C: minishell_helper (main3.c:59)
+==82497==    by 0x40137C: minishell (main.c:22)
+==82497==    by 0x401481: run_shell (main.c:61)
+==82497==    by 0x40151C: main (main.c:76)
+==82497== 
+==82497== 456 bytes in 1 blocks are still reachable in loss record 29 of 71
+==82497==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==82497==    by 0x405793: copy_environ (built_ins2.c:123)
+==82497==    by 0x4013E5: setup_shell (main.c:33)
+==82497==    by 0x40150C: main (main.c:75)
+==82497== 
+==82497== 3,592 bytes in 56 blocks are still reachable in loss record 46 of 71
+==82497==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==82497==    by 0x40A9C9: ft_strdup (in /home/frteixei/work42/42cursus/minishell/minishell)
+==82497==    by 0x4057DD: copy_environ (built_ins2.c:129)
+==82497==    by 0x4013E5: setup_shell (main.c:33)
+==82497==    by 0x40150C: main (main.c:75)
+==82497== 
+==82497== LEAK SUMMARY:
+==82497==    definitely lost: 8 bytes in 2 blocks
+==82497==    indirectly lost: 0 bytes in 0 blocks
+==82497==      possibly lost: 0 bytes in 0 blocks
+==82497==    still reachable: 4,052 bytes in 58 blocks
+==82497==         suppressed: 208,366 bytes in 235 blocks
+==82497== 
+==82497== For lists of detected and suppressed errors, rerun with: -s
+==82497== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)

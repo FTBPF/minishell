@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:44 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/30 16:31:58 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/30 17:52:34 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	ft_free(char **array)
 	i = 0;
 	while (array[i])
 	{
-		free(array[i]);
+		if (array[i])
+			free(array[i]);
 		i++;
 	}
 	free(array);
@@ -51,6 +52,8 @@ void ft_free_vars(t_vars *vars)
 {
     int i;
 
+	if (!vars)
+		return ;
     if (vars->cmd_flags)
     {
         ft_free(vars->cmd_flags);
@@ -68,8 +71,8 @@ void ft_free_vars(t_vars *vars)
         free(vars->here_doc_fd);
         vars->here_doc_fd = NULL;
     }
-	if (vars->my_environ)
-		ft_free(vars->my_environ);
+	// if (vars->my_environ)
+	// 	ft_free(vars->my_environ);
     ft_free_vars_helper(vars);
 }
 

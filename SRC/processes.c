@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:31 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/23 16:11:27 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/30 17:46:34 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,9 @@ static void	execute_error(t_vars *vars, char **commands)
 
 static void cleanup_child_and_exit(t_vars *vars, int exit_code)
 {
-    // DON'T free all_commands - parent owns it
     vars->all_commands = NULL;
-    
-    // Free environment
     if (vars->my_environ)
         ft_free(vars->my_environ);
-    
-    // Free other vars
     ft_free_vars_in_child(vars);
     
     exit(exit_code);
