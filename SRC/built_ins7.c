@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:20:40 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 13:20:42 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/30 16:34:02 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ void	ft_exit(char **split_cmds)
 		g_exit_status = ft_atoi(split);
 		free(split);
 	}
+	if (split_cmds)
+		ft_free(split_cmds);
 	ft_printf("exit\n");
 	exit((unsigned char)g_exit_status);
 }

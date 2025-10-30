@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:44 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/23 17:15:03 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/30 16:31:58 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void ft_free_vars(t_vars *vars)
         free(vars->here_doc_fd);
         vars->here_doc_fd = NULL;
     }
+	if (vars->my_environ)
+		ft_free(vars->my_environ);
     ft_free_vars_helper(vars);
 }
 
