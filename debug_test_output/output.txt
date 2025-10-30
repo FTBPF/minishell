@@ -1,0 +1,56 @@
+==58957== Memcheck, a memory error detector
+==58957== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==58957== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==58957== Command: /home/frteixei/work42/42cursus/minishell/minishell
+==58957== 
+myshell> echo test
+test
+==58958== 
+==58958== HEAP SUMMARY:
+==58958==     in use at exit: 208,233 bytes in 226 blocks
+==58958==   total heap usage: 502 allocs, 276 frees, 235,868 bytes allocated
+==58958== 
+==58958== LEAK SUMMARY:
+==58958==    definitely lost: 0 bytes in 0 blocks
+==58958==    indirectly lost: 0 bytes in 0 blocks
+==58958==      possibly lost: 0 bytes in 0 blocks
+==58958==    still reachable: 0 bytes in 0 blocks
+==58958==         suppressed: 208,233 bytes in 226 blocks
+==58958== 
+==58958== For lists of detected and suppressed errors, rerun with: -s
+==58958== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+myshell> exit
+exit
+==58957== 
+==58957== HEAP SUMMARY:
+==58957==     in use at exit: 208,290 bytes in 231 blocks
+==58957==   total heap usage: 512 allocs, 281 frees, 236,006 bytes allocated
+==58957== 
+==58957== 5 bytes in 1 blocks are still reachable in loss record 2 of 69
+==58957==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==58957==    by 0x40AB1F: ft_strndup (in /home/frteixei/work42/42cursus/minishell/minishell)
+==58957==    by 0x403F7D: ft_split_commands (split_cmds5.c:32)
+==58957==    by 0x401578: setup_commands (main2.c:77)
+==58957==    by 0x401A6C: minishell_helper (main3.c:60)
+==58957==    by 0x40137C: minishell (main.c:22)
+==58957==    by 0x401481: run_shell (main.c:62)
+==58957==    by 0x40151C: main (main.c:77)
+==58957== 
+==58957== 16 bytes in 1 blocks are still reachable in loss record 13 of 69
+==58957==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==58957==    by 0x403F21: ft_split_commands (split_cmds5.c:24)
+==58957==    by 0x401578: setup_commands (main2.c:77)
+==58957==    by 0x401A6C: minishell_helper (main3.c:60)
+==58957==    by 0x40137C: minishell (main.c:22)
+==58957==    by 0x401481: run_shell (main.c:62)
+==58957==    by 0x40151C: main (main.c:77)
+==58957== 
+==58957== LEAK SUMMARY:
+==58957==    definitely lost: 0 bytes in 0 blocks
+==58957==    indirectly lost: 0 bytes in 0 blocks
+==58957==      possibly lost: 0 bytes in 0 blocks
+==58957==    still reachable: 21 bytes in 2 blocks
+==58957==         suppressed: 208,269 bytes in 229 blocks
+==58957== 
+==58957== For lists of detected and suppressed errors, rerun with: -s
+==58957== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

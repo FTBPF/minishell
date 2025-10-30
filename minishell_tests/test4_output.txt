@@ -1,55 +1,55 @@
-==2110== Memcheck, a memory error detector
-==2110== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==2110== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==2110== Command: /home/francisco/work42/minishell/minishell
-==2110== 
+==60399== Memcheck, a memory error detector
+==60399== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==60399== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==60399== Command: /home/frteixei/work42/42cursus/minishell/minishell
+==60399== 
 myshell> cat << EOF
-> > > > ==2111== Syscall param ioctl(TCSET{S,SW,SF}) points to uninitialised byte(s)
-==2111==    at 0x49D1D40: tcsetattr (tcsetattr.c:83)
-==2111==    by 0x110843: restore_terminal (heredoc5.c:29)
-==2111==    by 0x10C28C: process_heredoc_expanded (split_cmds5.c:111)
-==2111==    by 0x10FF5F: fork_heredoc (here_doc2.c:37)
-==2111==    by 0x110032: open_doc_file_expanded (here_doc2.c:61)
-==2111==    by 0x110748: open_doc (heredoc4.c:92)
-==2111==    by 0x10FCD7: handle_heredoc (here_doc.c:81)
-==2111==    by 0x10FB42: here_doc (here_doc.c:38)
-==2111==    by 0x109A76: setup_commands (main2.c:90)
-==2111==    by 0x109DFF: minishell_helper (main3.c:59)
-==2111==    by 0x1095BF: minishell (main.c:22)
-==2111==    by 0x1096F7: run_shell (main.c:62)
-==2111==  Address 0x1ffefffa80 is on thread 1's stack
-==2111==  in frame #0, created by tcsetattr (tcsetattr.c:45)
-==2111== 
-==2111== 
-==2111== HEAP SUMMARY:
-==2111==     in use at exit: 232,872 bytes in 238 blocks
-==2111==   total heap usage: 516 allocs, 278 frees, 266,635 bytes allocated
-==2111== 
-==2111== LEAK SUMMARY:
-==2111==    definitely lost: 0 bytes in 0 blocks
-==2111==    indirectly lost: 0 bytes in 0 blocks
-==2111==      possibly lost: 0 bytes in 0 blocks
-==2111==    still reachable: 0 bytes in 0 blocks
-==2111==         suppressed: 232,872 bytes in 238 blocks
-==2111== 
-==2111== Use --track-origins=yes to see where uninitialised values come from
-==2111== For lists of detected and suppressed errors, rerun with: -s
-==2111== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+> > > > ==60400== Syscall param ioctl(TCSET{S,SW,SF}) points to uninitialised byte(s)
+==60400==    at 0x49DEE55: tcsetattr (tcsetattr.c:83)
+==60400==    by 0x408AC8: restore_terminal (heredoc5.c:29)
+==60400==    by 0x40419F: process_heredoc_expanded (split_cmds5.c:111)
+==60400==    by 0x4083B4: fork_heredoc (here_doc2.c:37)
+==60400==    by 0x408211: open_doc_file_expanded (here_doc2.c:61)
+==60400==    by 0x408816: open_doc (heredoc4.c:92)
+==60400==    by 0x407EFB: handle_heredoc (here_doc.c:81)
+==60400==    by 0x407E1F: here_doc (here_doc.c:38)
+==60400==    by 0x401629: setup_commands (main2.c:90)
+==60400==    by 0x401A2C: minishell_helper (main3.c:59)
+==60400==    by 0x40137C: minishell (main.c:22)
+==60400==    by 0x401481: run_shell (main.c:62)
+==60400==  Address 0x1ffefff960 is on thread 1's stack
+==60400==  in frame #0, created by tcsetattr (tcsetattr.c:45)
+==60400== 
+==60400== 
+==60400== HEAP SUMMARY:
+==60400==     in use at exit: 208,235 bytes in 226 blocks
+==60400==   total heap usage: 509 allocs, 283 frees, 235,836 bytes allocated
+==60400== 
+==60400== LEAK SUMMARY:
+==60400==    definitely lost: 0 bytes in 0 blocks
+==60400==    indirectly lost: 0 bytes in 0 blocks
+==60400==      possibly lost: 0 bytes in 0 blocks
+==60400==    still reachable: 0 bytes in 0 blocks
+==60400==         suppressed: 208,235 bytes in 226 blocks
+==60400== 
+==60400== Use --track-origins=yes to see where uninitialised values come from
+==60400== For lists of detected and suppressed errors, rerun with: -s
+==60400== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 hello heredoc
 multiple lines
 test
 myshell> exit
-==2110== 
-==2110== HEAP SUMMARY:
-==2110==     in use at exit: 232,814 bytes in 234 blocks
-==2110==   total heap usage: 516 allocs, 282 frees, 266,740 bytes allocated
-==2110== 
-==2110== LEAK SUMMARY:
-==2110==    definitely lost: 0 bytes in 0 blocks
-==2110==    indirectly lost: 0 bytes in 0 blocks
-==2110==      possibly lost: 0 bytes in 0 blocks
-==2110==    still reachable: 0 bytes in 0 blocks
-==2110==         suppressed: 232,814 bytes in 234 blocks
-==2110== 
-==2110== For lists of detected and suppressed errors, rerun with: -s
-==2110== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==60399== 
+==60399== HEAP SUMMARY:
+==60399==     in use at exit: 208,177 bytes in 222 blocks
+==60399==   total heap usage: 508 allocs, 286 frees, 235,933 bytes allocated
+==60399== 
+==60399== LEAK SUMMARY:
+==60399==    definitely lost: 0 bytes in 0 blocks
+==60399==    indirectly lost: 0 bytes in 0 blocks
+==60399==      possibly lost: 0 bytes in 0 blocks
+==60399==    still reachable: 0 bytes in 0 blocks
+==60399==         suppressed: 208,177 bytes in 222 blocks
+==60399== 
+==60399== For lists of detected and suppressed errors, rerun with: -s
+==60399== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
