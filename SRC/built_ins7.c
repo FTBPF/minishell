@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:20:40 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/30 17:42:02 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/31 15:14:54 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,9 @@ static void	ft_exit_error(char *msg, char *arg, int status)
 	exit(status);
 }
 
+// NOTE: This ft_exit is called from check_cd_ex_uns for non-pipeline contexts
+// When called from pipeline/child, it should exit the child process
+// The cleanup in run_builtin handles the main shell exit case
 void	ft_exit(char **split_cmds)
 {
 	int		i;
@@ -102,5 +105,6 @@ void	ft_exit(char **split_cmds)
 	if (split_cmds)
 		ft_free(split_cmds);
 	ft_printf("exit\n");
+	rl_clear_history();
 	exit((unsigned char)g_exit_status);
 }

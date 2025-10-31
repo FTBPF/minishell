@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/30 17:32:28 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/31 15:05:13 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ char		*get_env_var(t_vars *vars, char *name);
 void		copy_environ(char **environ, t_vars *vars);
 
 // Built_ins3.c
+// void		ft_exit(char **split_cmds, t_vars *vars);
 void		ft_exit(char **split_cmds);
 void		ft_env(t_vars *vars);
 void		ft_export(t_vars *vars, char **split_cmds);

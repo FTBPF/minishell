@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:34 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 13:22:28 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/31 15:36:24 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 char	*find_path(char **envp)
 {
+	if (!envp)
+		return (NULL);
 	while (ft_strncmp("PATH=", *envp, 5))
 	{
 		envp++;
-		if (*envp == NULL)
-			return (NULL);
 	}
+	if (*envp == NULL)
+		return (NULL);
 	return (*envp + 5);
 }
 

@@ -1,0 +1,474 @@
+==71272== Memcheck, a memory error detector
+==71272== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==71272== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==71272== Command: ./minishell
+==71272== 
+myshell> echo === Basic Commands ===
+=== Basic Commands ===
+==71273== 
+==71273== HEAP SUMMARY:
+==71273==     in use at exit: 208,269 bytes in 226 blocks
+==71273==   total heap usage: 516 allocs, 290 frees, 236,315 bytes allocated
+==71273== 
+==71273== LEAK SUMMARY:
+==71273==    definitely lost: 0 bytes in 0 blocks
+==71273==    indirectly lost: 0 bytes in 0 blocks
+==71273==      possibly lost: 0 bytes in 0 blocks
+==71273==    still reachable: 0 bytes in 0 blocks
+==71273==         suppressed: 208,269 bytes in 226 blocks
+==71273== 
+==71273== For lists of detected and suppressed errors, rerun with: -s
+==71273== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+myshell> echo hello world
+hello world
+==71274== 
+==71274== HEAP SUMMARY:
+==71274==     in use at exit: 208,311 bytes in 229 blocks
+==71274==   total heap usage: 534 allocs, 305 frees, 236,697 bytes allocated
+==71274== 
+==71274== LEAK SUMMARY:
+==71274==    definitely lost: 0 bytes in 0 blocks
+==71274==    indirectly lost: 0 bytes in 0 blocks
+==71274==      possibly lost: 0 bytes in 0 blocks
+==71274==    still reachable: 0 bytes in 0 blocks
+==71274==         suppressed: 208,311 bytes in 229 blocks
+==71274== 
+==71274== For lists of detected and suppressed errors, rerun with: -s
+==71274== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+myshell> pwd
+/home/frteixei/work42/42cursus/minishell
+==71275== 
+==71275== HEAP SUMMARY:
+==71275==     in use at exit: 208,338 bytes in 232 blocks
+==71275==   total heap usage: 550 allocs, 318 frees, 241,117 bytes allocated
+==71275== 
+==71275== LEAK SUMMARY:
+==71275==    definitely lost: 0 bytes in 0 blocks
+==71275==    indirectly lost: 0 bytes in 0 blocks
+==71275==      possibly lost: 0 bytes in 0 blocks
+==71275==    still reachable: 0 bytes in 0 blocks
+==71275==         suppressed: 208,338 bytes in 232 blocks
+==71275== 
+==71275== For lists of detected and suppressed errors, rerun with: -s
+==71275== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+myshell> 
+myshell> echo === Environment Variables ===
+=== Environment Variables ===
+==71276== 
+==71276== HEAP SUMMARY:
+==71276==     in use at exit: 208,440 bytes in 235 blocks
+==71276==   total heap usage: 581 allocs, 346 frees, 237,587 bytes allocated
+==71276== 
+==71276== LEAK SUMMARY:
+==71276==    definitely lost: 0 bytes in 0 blocks
+==71276==    indirectly lost: 0 bytes in 0 blocks
+==71276==      possibly lost: 0 bytes in 0 blocks
+==71276==    still reachable: 0 bytes in 0 blocks
+==71276==         suppressed: 208,440 bytes in 235 blocks
+==71276== 
+==71276== For lists of detected and suppressed errors, rerun with: -s
+==71276== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+myshell> echo $USER
+==71272== Invalid read of size 1
+==71272==    at 0x409308: ft_expander_helper2 (var_expander2.c:56)
+==71272==    by 0x409134: var_expander (var_expander.c:129)
+==71272==    by 0x401888: handle_cd_and_expansion (main2.c:60)
+==71272==    by 0x40160C: setup_commands (main2.c:84)
+==71272==    by 0x401A3C: minishell_helper (main3.c:59)
+==71272==    by 0x40137C: minishell (main.c:22)
+==71272==    by 0x401481: run_shell (main.c:61)
+==71272==    by 0x40152C: main (main.c:80)
+==71272==  Address 0x4b66146 is 0 bytes after a block of size 6 alloc'd
+==71272==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==71272==    by 0x40AEBD: ft_strjoin (in /home/frteixei/work42/42cursus/minishell/minishell)
+==71272==    by 0x405330: ft_strjoin_three (built_ins2.c:29)
+==71272==    by 0x40906F: replace_var (var_expander.c:109)
+==71272==    by 0x4093E0: ft_expander_helper2 (var_expander2.c:64)
+==71272==    by 0x409134: var_expander (var_expander.c:129)
+==71272==    by 0x401888: handle_cd_and_expansion (main2.c:60)
+==71272==    by 0x40160C: setup_commands (main2.c:84)
+==71272==    by 0x401A3C: minishell_helper (main3.c:59)
+==71272==    by 0x40137C: minishell (main.c:22)
+==71272==    by 0x401481: run_shell (main.c:61)
+==71272==    by 0x40152C: main (main.c:80)
+==71272== 
+
+==71277== 
+==71277== HEAP SUMMARY:
+==71277==     in use at exit: 208,463 bytes in 238 blocks
+==71277==   total heap usage: 606 allocs, 368 frees, 237,919 bytes allocated
+==71277== 
+==71277== LEAK SUMMARY:
+==71277==    definitely lost: 0 bytes in 0 blocks
+==71277==    indirectly lost: 0 bytes in 0 blocks
+==71277==      possibly lost: 0 bytes in 0 blocks
+==71277==    still reachable: 0 bytes in 0 blocks
+==71277==         suppressed: 208,463 bytes in 238 blocks
+==71277== 
+==71277== For lists of detected and suppressed errors, rerun with: -s
+==71277== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+myshell> echo $HOME
+
+==71278== 
+==71278== HEAP SUMMARY:
+==71278==     in use at exit: 208,510 bytes in 241 blocks
+==71278==   total heap usage: 635 allocs, 394 frees, 238,281 bytes allocated
+==71278== 
+==71278== LEAK SUMMARY:
+==71278==    definitely lost: 0 bytes in 0 blocks
+==71278==    indirectly lost: 0 bytes in 0 blocks
+==71278==      possibly lost: 0 bytes in 0 blocks
+==71278==    still reachable: 0 bytes in 0 blocks
+==71278==         suppressed: 208,510 bytes in 241 blocks
+==71278== 
+==71278== For lists of detected and suppressed errors, rerun with: -s
+==71278== ERROR SUMMARY: 2 errors from 1 contexts (suppressed: 0 from 0)
+myshell> echo $?
+0
+==71279== 
+==71279== HEAP SUMMARY:
+==71279==     in use at exit: 208,551 bytes in 244 blocks
+==71279==   total heap usage: 658 allocs, 414 frees, 238,629 bytes allocated
+==71279== 
+==71279== LEAK SUMMARY:
+==71279==    definitely lost: 0 bytes in 0 blocks
+==71279==    indirectly lost: 0 bytes in 0 blocks
+==71279==      possibly lost: 0 bytes in 0 blocks
+==71279==    still reachable: 0 bytes in 0 blocks
+==71279==         suppressed: 208,551 bytes in 244 blocks
+==71279== 
+==71279== For lists of detected and suppressed errors, rerun with: -s
+==71279== ERROR SUMMARY: 2 errors from 1 contexts (suppressed: 0 from 0)
+myshell> 
+myshell> echo === Pipes ===
+=== Pipes ===
+==71280== 
+==71280== HEAP SUMMARY:
+==71280==     in use at exit: 208,617 bytes in 247 blocks
+==71280==   total heap usage: 686 allocs, 439 frees, 239,089 bytes allocated
+==71280== 
+==71280== LEAK SUMMARY:
+==71280==    definitely lost: 0 bytes in 0 blocks
+==71280==    indirectly lost: 0 bytes in 0 blocks
+==71280==      possibly lost: 0 bytes in 0 blocks
+==71280==    still reachable: 0 bytes in 0 blocks
+==71280==         suppressed: 208,617 bytes in 247 blocks
+==71280== 
+==71280== For lists of detected and suppressed errors, rerun with: -s
+==71280== ERROR SUMMARY: 2 errors from 1 contexts (suppressed: 0 from 0)
+myshell> ls | wc -l
+ls: command not found
+wc: command not found
+==71282== Invalid free() / delete / delete[] / realloc()
+==71282==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==71282==    by 0x4023E0: free_all_commands (processes.c:58)
+==71282==    by 0x402247: execute_command (processes.c:83)
+==71282==    by 0x402C43: first_process (processes3.c:98)
+==71282==    by 0x401BB0: execute_commands (main3.c:22)
+==71282==    by 0x401A6B: minishell_helper (main3.c:64)
+==71282==    by 0x40137C: minishell (main.c:22)
+==71282==    by 0x401481: run_shell (main.c:61)
+==71282==    by 0x40152C: main (main.c:80)
+==71282==  Address 0x4b68130 is 0 bytes inside a block of size 4 free'd
+==71282==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==71282==    by 0x401BC4: execute_commands (main3.c:23)
+==71282==    by 0x401A6B: minishell_helper (main3.c:64)
+==71282==    by 0x40137C: minishell (main.c:22)
+==71282==    by 0x401481: run_shell (main.c:61)
+==71282==    by 0x40152C: main (main.c:80)
+==71282==  Block was alloc'd at
+==71282==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==71282==    by 0x40ACCF: ft_strndup (in /home/frteixei/work42/42cursus/minishell/minishell)
+==71282==    by 0x403FBD: ft_split_commands (split_cmds5.c:32)
+==71282==    by 0x401588: setup_commands (main2.c:77)
+==71282==    by 0x401A3C: minishell_helper (main3.c:59)
+==71282==    by 0x40137C: minishell (main.c:22)
+==71282==    by 0x401481: run_shell (main.c:61)
+==71282==    by 0x40152C: main (main.c:80)
+==71282== 
+==71281== 
+==71281== HEAP SUMMARY:
+==71281==     in use at exit: 208,656 bytes in 250 blocks
+==71281==   total heap usage: 700 allocs, 450 frees, 239,396 bytes allocated
+==71281== 
+==71282== 
+==71282== HEAP SUMMARY:
+==71282==     in use at exit: 208,656 bytes in 250 blocks
+==71282==   total heap usage: 705 allocs, 456 frees, 239,557 bytes allocated
+==71282== 
+==71281== LEAK SUMMARY:
+==71281==    definitely lost: 0 bytes in 0 blocks
+==71281==    indirectly lost: 0 bytes in 0 blocks
+==71281==      possibly lost: 0 bytes in 0 blocks
+==71281==    still reachable: 0 bytes in 0 blocks
+==71281==         suppressed: 208,656 bytes in 250 blocks
+==71281== 
+==71281== For lists of detected and suppressed errors, rerun with: -s
+==71281== ERROR SUMMARY: 2 errors from 1 contexts (suppressed: 0 from 0)
+==71282== LEAK SUMMARY:
+==71282==    definitely lost: 0 bytes in 0 blocks
+==71282==    indirectly lost: 0 bytes in 0 blocks
+==71282==      possibly lost: 0 bytes in 0 blocks
+==71282==    still reachable: 0 bytes in 0 blocks
+==71282==         suppressed: 208,656 bytes in 250 blocks
+==71282== 
+==71282== For lists of detected and suppressed errors, rerun with: -s
+==71282== ERROR SUMMARY: 3 errors from 2 contexts (suppressed: 0 from 0)
+myshell> echo test | cat | cat
+cat: command not found
+cat: command not found
+==71284== Invalid free() / delete / delete[] / realloc()
+==71284==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==71284==    by 0x4023E0: free_all_commands (processes.c:58)
+==71284==    by 0x402247: execute_command (processes.c:83)
+==71284==    by 0x402C43: first_process (processes3.c:98)
+==71284==    by 0x401BB0: execute_commands (main3.c:22)
+==71284==    by 0x401A6B: minishell_helper (main3.c:64)
+==71284==    by 0x40137C: minishell (main.c:22)
+==71284==    by 0x401481: run_shell (main.c:61)
+==71284==    by 0x40152C: main (main.c:80)
+==71284==  Address 0x4b68960 is 0 bytes inside a block of size 11 free'd
+==71284==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==71284==    by 0x401BC4: execute_commands (main3.c:23)
+==71284==    by 0x401A6B: minishell_helper (main3.c:64)
+==71284==    by 0x40137C: minishell (main.c:22)
+==71284==    by 0x401481: run_shell (main.c:61)
+==71284==    by 0x40152C: main (main.c:80)
+==71284==  Block was alloc'd at
+==71284==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==71284==    by 0x40ACCF: ft_strndup (in /home/frteixei/work42/42cursus/minishell/minishell)
+==71284==    by 0x403FBD: ft_split_commands (split_cmds5.c:32)
+==71284==    by 0x401588: setup_commands (main2.c:77)
+==71284==    by 0x401A3C: minishell_helper (main3.c:59)
+==71284==    by 0x40137C: minishell (main.c:22)
+==71284==    by 0x401481: run_shell (main.c:61)
+==71284==    by 0x40152C: main (main.c:80)
+==71284== 
+==71285== Invalid free() / delete / delete[] / realloc()
+==71285==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==71285==    by 0x4023E0: free_all_commands (processes.c:58)
+==71285==    by 0x402247: execute_command (processes.c:83)
+==71285==    by 0x402C43: first_process (processes3.c:98)
+==71285==    by 0x401BB0: execute_commands (main3.c:22)
+==71285==    by 0x401A6B: minishell_helper (main3.c:64)
+==71285==    by 0x40137C: minishell (main.c:22)
+==71285==    by 0x401481: run_shell (main.c:61)
+==71285==    by 0x40152C: main (main.c:80)
+==71285==  Address 0x4b68960 is 0 bytes inside a block of size 11 free'd
+==71285==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==71285==    by 0x401BC4: execute_commands (main3.c:23)
+==71285==    by 0x401A6B: minishell_helper (main3.c:64)
+==71285==    by 0x40137C: minishell (main.c:22)
+==71285==    by 0x401481: run_shell (main.c:61)
+==71285==    by 0x40152C: main (main.c:80)
+==71285==  Block was alloc'd at
+==71285==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==71285==    by 0x40ACCF: ft_strndup (in /home/frteixei/work42/42cursus/minishell/minishell)
+==71285==    by 0x403FBD: ft_split_commands (split_cmds5.c:32)
+==71285==    by 0x401588: setup_commands (main2.c:77)
+==71285==    by 0x401A3C: minishell_helper (main3.c:59)
+==71285==    by 0x40137C: minishell (main.c:22)
+==71285==    by 0x401481: run_shell (main.c:61)
+==71285==    by 0x40152C: main (main.c:80)
+==71285== 
+==71284== 
+==71284== HEAP SUMMARY:
+==71284==     in use at exit: 208,725 bytes in 253 blocks
+==71284==   total heap usage: 728 allocs, 476 frees, 240,129 bytes allocated
+==71284== 
+==71285== 
+==71285== HEAP SUMMARY:
+==71285==     in use at exit: 208,725 bytes in 253 blocks
+==71285==   total heap usage: 731 allocs, 480 frees, 240,277 bytes allocated
+==71285== 
+==71283== 
+==71283== HEAP SUMMARY:
+==71283==     in use at exit: 208,725 bytes in 253 blocks
+==71283==   total heap usage: 726 allocs, 473 frees, 239,987 bytes allocated
+==71283== 
+==71284== LEAK SUMMARY:
+==71284==    definitely lost: 0 bytes in 0 blocks
+==71284==    indirectly lost: 0 bytes in 0 blocks
+==71284==      possibly lost: 0 bytes in 0 blocks
+==71284==    still reachable: 0 bytes in 0 blocks
+==71284==         suppressed: 208,725 bytes in 253 blocks
+==71284== 
+==71284== For lists of detected and suppressed errors, rerun with: -s
+==71284== ERROR SUMMARY: 3 errors from 2 contexts (suppressed: 0 from 0)
+==71285== LEAK SUMMARY:
+==71285==    definitely lost: 0 bytes in 0 blocks
+==71285==    indirectly lost: 0 bytes in 0 blocks
+==71285==      possibly lost: 0 bytes in 0 blocks
+==71285==    still reachable: 0 bytes in 0 blocks
+==71285==         suppressed: 208,725 bytes in 253 blocks
+==71285== 
+==71285== For lists of detected and suppressed errors, rerun with: -s
+==71285== ERROR SUMMARY: 4 errors from 2 contexts (suppressed: 0 from 0)
+==71283== LEAK SUMMARY:
+==71283==    definitely lost: 0 bytes in 0 blocks
+==71283==    indirectly lost: 0 bytes in 0 blocks
+==71283==      possibly lost: 0 bytes in 0 blocks
+==71283==    still reachable: 0 bytes in 0 blocks
+==71283==         suppressed: 208,725 bytes in 253 blocks
+==71283== 
+==71283== For lists of detected and suppressed errors, rerun with: -s
+==71283== ERROR SUMMARY: 2 errors from 1 contexts (suppressed: 0 from 0)
+myshell> 
+myshell> echo === Redirections ===
+=== Redirections ===
+==71286== 
+==71286== HEAP SUMMARY:
+==71286==     in use at exit: 208,791 bytes in 256 blocks
+==71286==   total heap usage: 761 allocs, 505 frees, 240,814 bytes allocated
+==71286== 
+==71286== LEAK SUMMARY:
+==71286==    definitely lost: 0 bytes in 0 blocks
+==71286==    indirectly lost: 0 bytes in 0 blocks
+==71286==      possibly lost: 0 bytes in 0 blocks
+==71286==    still reachable: 0 bytes in 0 blocks
+==71286==         suppressed: 208,791 bytes in 256 blocks
+==71286== 
+==71286== For lists of detected and suppressed errors, rerun with: -s
+==71286== ERROR SUMMARY: 2 errors from 1 contexts (suppressed: 0 from 0)
+myshell> echo "test" > tmpfile.txt
+==71287== 
+==71287== HEAP SUMMARY:
+==71287==     in use at exit: 208,853 bytes in 259 blocks
+==71287==   total heap usage: 782 allocs, 523 frees, 241,280 bytes allocated
+==71287== 
+==71287== LEAK SUMMARY:
+==71287==    definitely lost: 0 bytes in 0 blocks
+==71287==    indirectly lost: 0 bytes in 0 blocks
+==71287==      possibly lost: 0 bytes in 0 blocks
+==71287==    still reachable: 0 bytes in 0 blocks
+==71287==         suppressed: 208,853 bytes in 259 blocks
+==71287== 
+==71287== For lists of detected and suppressed errors, rerun with: -s
+==71287== ERROR SUMMARY: 2 errors from 1 contexts (suppressed: 0 from 0)
+myshell> cat tmpfile.txt
+cat: command not found
+==71288== 
+==71288== HEAP SUMMARY:
+==71288==     in use at exit: 208,895 bytes in 262 blocks
+==71288==   total heap usage: 800 allocs, 538 frees, 241,656 bytes allocated
+==71288== 
+==71288== LEAK SUMMARY:
+==71288==    definitely lost: 0 bytes in 0 blocks
+==71288==    indirectly lost: 0 bytes in 0 blocks
+==71288==      possibly lost: 0 bytes in 0 blocks
+==71288==    still reachable: 0 bytes in 0 blocks
+==71288==         suppressed: 208,895 bytes in 262 blocks
+==71288== 
+==71288== For lists of detected and suppressed errors, rerun with: -s
+==71288== ERROR SUMMARY: 2 errors from 1 contexts (suppressed: 0 from 0)
+myshell> cat < tmpfile.txt
+cat: command not found
+==71289== 
+==71289== HEAP SUMMARY:
+==71289==     in use at exit: 208,951 bytes in 265 blocks
+==71289==   total heap usage: 819 allocs, 554 frees, 242,036 bytes allocated
+==71289== 
+==71289== LEAK SUMMARY:
+==71289==    definitely lost: 0 bytes in 0 blocks
+==71289==    indirectly lost: 0 bytes in 0 blocks
+==71289==      possibly lost: 0 bytes in 0 blocks
+==71289==    still reachable: 0 bytes in 0 blocks
+==71289==         suppressed: 208,951 bytes in 265 blocks
+==71289== 
+==71289== For lists of detected and suppressed errors, rerun with: -s
+==71289== ERROR SUMMARY: 2 errors from 1 contexts (suppressed: 0 from 0)
+myshell> rm tmpfile.txt
+rm: command not found
+==71290== 
+==71290== HEAP SUMMARY:
+==71290==     in use at exit: 208,999 bytes in 268 blocks
+==71290==   total heap usage: 838 allocs, 570 frees, 242,414 bytes allocated
+==71290== 
+==71290== LEAK SUMMARY:
+==71290==    definitely lost: 0 bytes in 0 blocks
+==71290==    indirectly lost: 0 bytes in 0 blocks
+==71290==      possibly lost: 0 bytes in 0 blocks
+==71290==    still reachable: 0 bytes in 0 blocks
+==71290==         suppressed: 208,999 bytes in 268 blocks
+==71290== 
+==71290== For lists of detected and suppressed errors, rerun with: -s
+==71290== ERROR SUMMARY: 2 errors from 1 contexts (suppressed: 0 from 0)
+myshell> 
+myshell> echo === Heredoc ===
+=== Heredoc ===
+==71291== 
+==71291== HEAP SUMMARY:
+==71291==     in use at exit: 209,062 bytes in 271 blocks
+==71291==   total heap usage: 866 allocs, 595 frees, 242,878 bytes allocated
+==71291== 
+==71291== LEAK SUMMARY:
+==71291==    definitely lost: 0 bytes in 0 blocks
+==71291==    indirectly lost: 0 bytes in 0 blocks
+==71291==      possibly lost: 0 bytes in 0 blocks
+==71291==    still reachable: 0 bytes in 0 blocks
+==71291==         suppressed: 209,062 bytes in 271 blocks
+==71291== 
+==71291== For lists of detected and suppressed errors, rerun with: -s
+==71291== ERROR SUMMARY: 2 errors from 1 contexts (suppressed: 0 from 0)
+myshell> cat << HEREDOC
+> > > ==71292== Syscall param ioctl(TCSET{S,SW,SF}) points to uninitialised byte(s)
+==71292==    at 0x49DEE55: tcsetattr (tcsetattr.c:83)
+==71292==    by 0x408C68: restore_terminal (heredoc5.c:29)
+==71292==    by 0x40422F: process_heredoc_expanded (split_cmds5.c:111)
+==71292==    by 0x408554: fork_heredoc (here_doc2.c:37)
+==71292==    by 0x4083B1: open_doc_file_expanded (here_doc2.c:61)
+==71292==    by 0x4089B6: open_doc (heredoc4.c:92)
+==71292==    by 0x40809B: handle_heredoc (here_doc.c:84)
+==71292==    by 0x407FB8: here_doc (here_doc.c:41)
+==71292==    by 0x401639: setup_commands (main2.c:87)
+==71292==    by 0x401A3C: minishell_helper (main3.c:59)
+==71292==    by 0x40137C: minishell (main.c:22)
+==71292==    by 0x401481: run_shell (main.c:61)
+==71292==  Address 0x1ffefff8e0 is on thread 1's stack
+==71292==  in frame #0, created by tcsetattr (tcsetattr.c:45)
+==71292== 
+==71292== 
+==71292== HEAP SUMMARY:
+==71292==     in use at exit: 209,107 bytes in 274 blocks
+==71292==   total heap usage: 887 allocs, 613 frees, 243,165 bytes allocated
+==71292== 
+==71292== LEAK SUMMARY:
+==71292==    definitely lost: 0 bytes in 0 blocks
+==71292==    indirectly lost: 0 bytes in 0 blocks
+==71292==      possibly lost: 0 bytes in 0 blocks
+==71292==    still reachable: 0 bytes in 0 blocks
+==71292==         suppressed: 209,107 bytes in 274 blocks
+==71292== 
+==71292== Use --track-origins=yes to see where uninitialised values come from
+==71292== For lists of detected and suppressed errors, rerun with: -s
+==71292== ERROR SUMMARY: 3 errors from 2 contexts (suppressed: 0 from 0)
+cat: command not found
+==71293== 
+==71293== HEAP SUMMARY:
+==71293==     in use at exit: 209,107 bytes in 274 blocks
+==71293==   total heap usage: 886 allocs, 612 frees, 243,276 bytes allocated
+==71293== 
+==71293== LEAK SUMMARY:
+==71293==    definitely lost: 0 bytes in 0 blocks
+==71293==    indirectly lost: 0 bytes in 0 blocks
+==71293==      possibly lost: 0 bytes in 0 blocks
+==71293==    still reachable: 0 bytes in 0 blocks
+==71293==         suppressed: 209,107 bytes in 274 blocks
+==71293== 
+==71293== For lists of detected and suppressed errors, rerun with: -s
+==71293== ERROR SUMMARY: 2 errors from 1 contexts (suppressed: 0 from 0)
+myshell> exit
+==71272== 
+==71272== HEAP SUMMARY:
+==71272==     in use at exit: 208,177 bytes in 222 blocks
+==71272==   total heap usage: 888 allocs, 666 frees, 243,300 bytes allocated
+==71272== 
+==71272== LEAK SUMMARY:
+==71272==    definitely lost: 0 bytes in 0 blocks
+==71272==    indirectly lost: 0 bytes in 0 blocks
+==71272==      possibly lost: 0 bytes in 0 blocks
+==71272==    still reachable: 0 bytes in 0 blocks
+==71272==         suppressed: 208,177 bytes in 222 blocks
+==71272== 
+==71272== For lists of detected and suppressed errors, rerun with: -s
+==71272== ERROR SUMMARY: 2 errors from 1 contexts (suppressed: 0 from 0)

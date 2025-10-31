@@ -71,7 +71,7 @@ EOF
 echo "Running tests with Valgrind..."
 echo ""
 
-valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./minishell < test_input.txt
+valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./minishell < test_input.txt > quickoutput.txt 2>&1
 
 echo ""
 echo "Test completed. Check output above for memory leaks."

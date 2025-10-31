@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/30 17:52:24 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/31 15:48:46 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 int			g_exit_status = 0;
 
-void minishell(char *input, char **env, t_vars *vars)
+void	minishell(char *input, char **env, t_vars *vars)
 {
-    int i;
+	int	i;
 
-    vars->redirection_failed = false;
-    i = minishell_helper(input, env, vars);  // No commands param
-    if (i == 0)
-        return;
-    close(vars->pipe_fd[0]);
+	vars->redirection_failed = false;
+	i = minishell_helper(input, env, vars); // No commands param
+	if (i == 0)
+		return ;
+	close(vars->pipe_fd[0]);
 }
 
 void	setup_shell(t_vars *vars, char **env)
@@ -39,31 +39,35 @@ static void	setup_signals_parent(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void run_shell(t_vars *vars, char **env)
+void	run_shell(t_vars *vars, char **env)
 {
-    char *input;
+	char	*input;
 
-    while (1)
-    {
-        setup_signals_parent();
-        input = readline("myshell> ");
-        if (!ft_exit_ctrl_d(input))
-        {
-            g_exit_status = 1;
-            ft_free(vars->my_environ);
-            ft_free_vars(vars);
-            rl_clear_history();
-            break;
-        }
-        if (ft_strlen(input) != 0)
-        {
-            add_history(input);
-            minishell(input, env, vars);
+	while (1)
+	{
+		setup_signals_parent();
+		input = readline("myshell> ");
+		if (!ft_exit_ctrl_d(input))
+		{
+			g_exit_status = 1;
+			ft_free(vars->my_environ);
+			ft_free_vars(vars);
+			rl_clear_history();
+			break ;
+		}
+		if (ft_strlen(input) != 0)
+		{
+			add_history(input);
+			minishell(input, env, vars);
+			if (vars)
+				ft_free_vars(vars);
 			free(input);
-        }
-        else
-            free(input);
-    }
+		}
+		else
+		{
+			free(input);
+		}
+	}
 }
 
 int	main(int ac, char **av, char **env)
