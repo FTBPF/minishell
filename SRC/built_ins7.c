@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins7.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:20:40 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/31 15:14:54 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/31 17:45:45 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,19 +66,21 @@ static int	ft_is_valid_number(char *str)
 	return (1);
 }
 
-static void	ft_exit_error(char *msg, char *arg, int status)
+static void	ft_exit_error(char *msg, char *arg, int status, t_vars *vars)
 {
 	g_exit_status = status;
 	ft_putstr_fd("minishell: exit: ", 2);
 	ft_putstr_fd(arg, 2);
 	ft_putstr_fd(msg, 2);
+	if (vars->my_environ)
+		ft_free(vars->my_environ);
 	exit(status);
 }
 
 // NOTE: This ft_exit is called from check_cd_ex_uns for non-pipeline contexts
 // When called from pipeline/child, it should exit the child process
 // The cleanup in run_builtin handles the main shell exit case
-void	ft_exit(char **split_cmds)
+void	ft_exit(t_vars *vars, char **split_cmds)
 {
 	int		i;
 	char	*split;
@@ -96,9 +98,9 @@ void	ft_exit(char **split_cmds)
 		check_if_exit_stat(&split_cmds[1], 0, 0);
 		split = remove_quotes_from_string(split_cmds[1]);
 		if (!split || !split[0])
-			ft_exit_error(": numeric argument required\n", split_cmds[1], 2);
+			ft_exit_error(": numeric argument required\n", split_cmds[1], 2, vars);
 		if (!ft_is_valid_number(split))
-			ft_exit_error(": numeric argument required\n", split, 2);
+			ft_exit_error(": numeric argument required\n", split, 2, vars);
 		g_exit_status = ft_atoi(split);
 		free(split);
 	}
@@ -106,5 +108,7 @@ void	ft_exit(char **split_cmds)
 		ft_free(split_cmds);
 	ft_printf("exit\n");
 	rl_clear_history();
+	if (vars->my_environ)
+		ft_free(vars->my_environ);
 	exit((unsigned char)g_exit_status);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:31 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/30 17:46:34 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/31 16:59:08 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static void cleanup_child_and_exit(t_vars *vars, int exit_code)
     if (vars->my_environ)
         ft_free(vars->my_environ);
     ft_free_vars_in_child(vars);
-    
     exit(exit_code);
 }
 
@@ -55,7 +54,10 @@ static void free_all_commands(t_vars *vars)
     {
         int i = 0;
         while (vars->all_commands[i])
-            free(vars->all_commands[i++]);
+		{
+            free(vars->all_commands[i]);
+			vars->all_commands[i++] = NULL;
+		}
         free(vars->all_commands);
         vars->all_commands = NULL;
     }

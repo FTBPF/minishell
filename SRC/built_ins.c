@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:19 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/31 15:14:42 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/31 17:39:52 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void run_builtin(t_vars *vars)
     else if (ft_strcmp(cmd, "env") == 0)
         ft_env(vars);
     else if (ft_strcmp(cmd, "exit") == 0)
-        ft_exit(vars->cmd_flags);
+        ft_exit(vars, vars->cmd_flags);
     else
         g_exit_status = 1;
     if (g_exit_status == -1)
@@ -90,7 +90,7 @@ void	ft_cd(char **commands, t_vars *vars)
 		return ;
 	change_directory(commands[1], vars);
 }
-
+//free(vars->my_environ)
 void	ft_env(t_vars *vars)
 {
 	int	i;

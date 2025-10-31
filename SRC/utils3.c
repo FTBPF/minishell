@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:44 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/31 15:48:22 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/31 17:21:06 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,11 @@ void ft_free_vars(t_vars *vars)
         free(vars->here_doc_fd);
         vars->here_doc_fd = NULL;
     }
-	if (vars->my_environ)
-	{
-		ft_free(vars->my_environ);
-		vars->my_environ = NULL;
-	}
+	// if (vars->my_environ)
+	// {
+	// 	ft_free(vars->my_environ);
+	// 	vars->my_environ = NULL;
+	// }
     ft_free_vars_helper(vars);
 }
 
@@ -178,7 +178,7 @@ void ft_cleanup_heredoc_child(t_vars *vars)
 		vars->temp = NULL;
 	}
 	
-	// Free environment
+	//Free environment
 	if (vars->my_environ)
 	{
 		ft_free(vars->my_environ);

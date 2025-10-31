@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins4.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:20:23 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/30 17:41:44 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/31 17:41:50 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	check_cd_ex_uns(char **commands, t_vars *vars)
 	else if (ft_strcmp(split_cmds[0], "exit") == 0)
 	{
 		ft_free(commands);
-		ft_exit(split_cmds);
+		ft_exit(vars, split_cmds);
 	}
 	else if (ft_strcmp(split_cmds[0], "unset") == 0)
 		ft_unset(vars, split_cmds);

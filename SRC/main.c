@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/31 15:48:46 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/10/31 16:55:25 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	run_shell(t_vars *vars, char **env)
 		{
 			g_exit_status = 1;
 			ft_free(vars->my_environ);
+			vars->my_environ = NULL;
 			ft_free_vars(vars);
 			rl_clear_history();
 			break ;

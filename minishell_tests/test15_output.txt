@@ -1,0 +1,208 @@
+==13215== Memcheck, a memory error detector
+==13215== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==13215== Using Valgrind-3.25.1 and LibVEX; rerun with -h for copyright info
+==13215== Command: /home/marada/Desktop/minishell/minishell
+==13215== 
+myshell> export TESTVAR=hello
+==13215== Invalid read of size 8
+==13215==    at 0x4007C79: ft_free (utils3.c:22)
+==13215==    by 0x4002BCE: minishell_helper (main3.c:61)
+==13215==    by 0x400239B: minishell (main.c:22)
+==13215==    by 0x40024C7: run_shell (main.c:62)
+==13215==    by 0x400255F: main (main.c:81)
+==13215==  Address 0x4bb50f0 is 0 bytes inside a block of size 16 free'd
+==13215==    at 0x48598BF: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==13215==    by 0x4007C8C: ft_free (utils3.c:28)
+==13215==    by 0x4002744: handle_cd_and_expansion (main2.c:64)
+==13215==    by 0x400281C: setup_commands (main2.c:84)
+==13215==    by 0x4002BBE: minishell_helper (main3.c:59)
+==13215==    by 0x400239B: minishell (main.c:22)
+==13215==    by 0x40024C7: run_shell (main.c:62)
+==13215==    by 0x400255F: main (main.c:81)
+==13215==  Block was alloc'd at
+==13215==    at 0x4856858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==13215==    by 0x4004CB7: ft_split_commands (split_cmds5.c:24)
+==13215==    by 0x400279B: setup_commands (main2.c:77)
+==13215==    by 0x4002BBE: minishell_helper (main3.c:59)
+==13215==    by 0x400239B: minishell (main.c:22)
+==13215==    by 0x40024C7: run_shell (main.c:62)
+==13215==    by 0x400255F: main (main.c:81)
+==13215== 
+==13215== Invalid read of size 8
+==13215==    at 0x4007C3A: ft_free (utils3.c:24)
+==13215==    by 0x4002BCE: minishell_helper (main3.c:61)
+==13215==    by 0x400239B: minishell (main.c:22)
+==13215==    by 0x40024C7: run_shell (main.c:62)
+==13215==    by 0x400255F: main (main.c:81)
+==13215==  Address 0x4bb50f0 is 0 bytes inside a block of size 16 free'd
+==13215==    at 0x48598BF: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==13215==    by 0x4007C8C: ft_free (utils3.c:28)
+==13215==    by 0x4002744: handle_cd_and_expansion (main2.c:64)
+==13215==    by 0x400281C: setup_commands (main2.c:84)
+==13215==    by 0x4002BBE: minishell_helper (main3.c:59)
+==13215==    by 0x400239B: minishell (main.c:22)
+==13215==    by 0x40024C7: run_shell (main.c:62)
+==13215==    by 0x400255F: main (main.c:81)
+==13215==  Block was alloc'd at
+==13215==    at 0x4856858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==13215==    by 0x4004CB7: ft_split_commands (split_cmds5.c:24)
+==13215==    by 0x400279B: setup_commands (main2.c:77)
+==13215==    by 0x4002BBE: minishell_helper (main3.c:59)
+==13215==    by 0x400239B: minishell (main.c:22)
+==13215==    by 0x40024C7: run_shell (main.c:62)
+==13215==    by 0x400255F: main (main.c:81)
+==13215== 
+==13215== Invalid read of size 8
+==13215==    at 0x4007C56: ft_free (utils3.c:25)
+==13215==    by 0x4002BCE: minishell_helper (main3.c:61)
+==13215==    by 0x400239B: minishell (main.c:22)
+==13215==    by 0x40024C7: run_shell (main.c:62)
+==13215==    by 0x400255F: main (main.c:81)
+==13215==  Address 0x4bb50f0 is 0 bytes inside a block of size 16 free'd
+==13215==    at 0x48598BF: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==13215==    by 0x4007C8C: ft_free (utils3.c:28)
+==13215==    by 0x4002744: handle_cd_and_expansion (main2.c:64)
+==13215==    by 0x400281C: setup_commands (main2.c:84)
+==13215==    by 0x4002BBE: minishell_helper (main3.c:59)
+==13215==    by 0x400239B: minishell (main.c:22)
+==13215==    by 0x40024C7: run_shell (main.c:62)
+==13215==    by 0x400255F: main (main.c:81)
+==13215==  Block was alloc'd at
+==13215==    at 0x4856858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==13215==    by 0x4004CB7: ft_split_commands (split_cmds5.c:24)
+==13215==    by 0x400279B: setup_commands (main2.c:77)
+==13215==    by 0x4002BBE: minishell_helper (main3.c:59)
+==13215==    by 0x400239B: minishell (main.c:22)
+==13215==    by 0x40024C7: run_shell (main.c:62)
+==13215==    by 0x400255F: main (main.c:81)
+==13215== 
+==13215== Invalid free() / delete / delete[] / realloc()
+==13215==    at 0x48598BF: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==13215==    by 0x4007C60: ft_free (utils3.c:25)
+==13215==    by 0x4002BCE: minishell_helper (main3.c:61)
+==13215==    by 0x400239B: minishell (main.c:22)
+==13215==    by 0x40024C7: run_shell (main.c:62)
+==13215==    by 0x400255F: main (main.c:81)
+==13215==  Address 0x4bb5140 is 0 bytes inside a block of size 21 free'd
+==13215==    at 0x48598BF: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==13215==    by 0x4007C60: ft_free (utils3.c:25)
+==13215==    by 0x4002744: handle_cd_and_expansion (main2.c:64)
+==13215==    by 0x400281C: setup_commands (main2.c:84)
+==13215==    by 0x4002BBE: minishell_helper (main3.c:59)
+==13215==    by 0x400239B: minishell (main.c:22)
+==13215==    by 0x40024C7: run_shell (main.c:62)
+==13215==    by 0x400255F: main (main.c:81)
+==13215==  Block was alloc'd at
+==13215==    at 0x4856858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==13215==    by 0x400AFDC: ft_strndup (in /home/marada/Desktop/minishell/minishell)
+==13215==    by 0x4004D2F: ft_split_commands (split_cmds5.c:32)
+==13215==    by 0x400279B: setup_commands (main2.c:77)
+==13215==    by 0x4002BBE: minishell_helper (main3.c:59)
+==13215==    by 0x400239B: minishell (main.c:22)
+==13215==    by 0x40024C7: run_shell (main.c:62)
+==13215==    by 0x400255F: main (main.c:81)
+==13215== 
+==13215== Invalid free() / delete / delete[] / realloc()
+==13215==    at 0x48598BF: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==13215==    by 0x4007C8C: ft_free (utils3.c:28)
+==13215==    by 0x4002BCE: minishell_helper (main3.c:61)
+==13215==    by 0x400239B: minishell (main.c:22)
+==13215==    by 0x40024C7: run_shell (main.c:62)
+==13215==    by 0x400255F: main (main.c:81)
+==13215==  Address 0x4bb50f0 is 0 bytes inside a block of size 16 free'd
+==13215==    at 0x48598BF: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==13215==    by 0x4007C8C: ft_free (utils3.c:28)
+==13215==    by 0x4002744: handle_cd_and_expansion (main2.c:64)
+==13215==    by 0x400281C: setup_commands (main2.c:84)
+==13215==    by 0x4002BBE: minishell_helper (main3.c:59)
+==13215==    by 0x400239B: minishell (main.c:22)
+==13215==    by 0x40024C7: run_shell (main.c:62)
+==13215==    by 0x400255F: main (main.c:81)
+==13215==  Block was alloc'd at
+==13215==    at 0x4856858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==13215==    by 0x4004CB7: ft_split_commands (split_cmds5.c:24)
+==13215==    by 0x400279B: setup_commands (main2.c:77)
+==13215==    by 0x4002BBE: minishell_helper (main3.c:59)
+==13215==    by 0x400239B: minishell (main.c:22)
+==13215==    by 0x40024C7: run_shell (main.c:62)
+==13215==    by 0x400255F: main (main.c:81)
+==13215== 
+myshell> echo $TESTVAR
+hello
+==13216== 
+==13216== HEAP SUMMARY:
+==13216==     in use at exit: 219,912 bytes in 236 blocks
+==13216==   total heap usage: 593 allocs, 359 frees, 254,839 bytes allocated
+==13216== 
+==13216== LEAK SUMMARY:
+==13216==    definitely lost: 0 bytes in 0 blocks
+==13216==    indirectly lost: 0 bytes in 0 blocks
+==13216==      possibly lost: 0 bytes in 0 blocks
+==13216==    still reachable: 0 bytes in 0 blocks
+==13216==         suppressed: 219,912 bytes in 236 blocks
+==13216== 
+==13216== For lists of detected and suppressed errors, rerun with: -s
+==13216== ERROR SUMMARY: 6 errors from 5 contexts (suppressed: 0 from 0)
+myshell> echo $TESTVAR | cat
+hello
+==13217== 
+==13217== HEAP SUMMARY:
+==13217==     in use at exit: 219,974 bytes in 239 blocks
+==13217==   total heap usage: 629 allocs, 392 frees, 255,308 bytes allocated
+==13217== 
+==13217== LEAK SUMMARY:
+==13217==    definitely lost: 0 bytes in 0 blocks
+==13217==    indirectly lost: 0 bytes in 0 blocks
+==13217==      possibly lost: 0 bytes in 0 blocks
+==13217==    still reachable: 0 bytes in 0 blocks
+==13217==         suppressed: 219,974 bytes in 239 blocks
+==13217== 
+==13217== For lists of detected and suppressed errors, rerun with: -s
+==13217== ERROR SUMMARY: 6 errors from 5 contexts (suppressed: 0 from 0)
+myshell> cat << EOF > output.txt
+> > > ==13219== Syscall param ioctl(TCSET{S,SW,SF}) points to uninitialised byte(s)
+==13219==    at 0x49FDB1C: tcsetattr (in /usr/lib/x86_64-linux-gnu/libc.so.6)
+==13219==    by 0x4009589: restore_terminal (heredoc5.c:29)
+==13219==    by 0x4005050: process_heredoc_expanded (split_cmds5.c:111)
+==13219==    by 0x4008CE1: fork_heredoc (here_doc2.c:37)
+==13219==    by 0x4008DAC: open_doc_file_expanded (here_doc2.c:61)
+==13219==    by 0x4009496: open_doc (heredoc4.c:92)
+==13219==    by 0x4008A65: handle_heredoc (here_doc.c:84)
+==13219==    by 0x40088DF: here_doc (here_doc.c:41)
+==13219==    by 0x4002845: setup_commands (main2.c:87)
+==13219==    by 0x4002BBE: minishell_helper (main3.c:59)
+==13219==    by 0x400239B: minishell (main.c:22)
+==13219==    by 0x40024C7: run_shell (main.c:62)
+==13219==  Address 0x1ffefff760 is on thread 1's stack
+==13219==  in frame #0, created by tcsetattr (???:)
+==13219== 
+==13219== 
+==13219== HEAP SUMMARY:
+==13219==     in use at exit: 220,038 bytes in 242 blocks
+==13219==   total heap usage: 668 allocs, 428 frees, 255,928 bytes allocated
+==13219== 
+==13219== LEAK SUMMARY:
+==13219==    definitely lost: 0 bytes in 0 blocks
+==13219==    indirectly lost: 0 bytes in 0 blocks
+==13219==      possibly lost: 0 bytes in 0 blocks
+==13219==    still reachable: 0 bytes in 0 blocks
+==13219==         suppressed: 220,038 bytes in 242 blocks
+==13219== 
+==13219== Use --track-origins=yes to see where uninitialised values come from
+==13219== For lists of detected and suppressed errors, rerun with: -s
+==13219== ERROR SUMMARY: 7 errors from 6 contexts (suppressed: 0 from 0)
+myshell> exit
+==13215== 
+==13215== HEAP SUMMARY:
+==13215==     in use at exit: 219,791 bytes in 229 blocks
+==13215==   total heap usage: 663 allocs, 436 frees, 256,010 bytes allocated
+==13215== 
+==13215== LEAK SUMMARY:
+==13215==    definitely lost: 0 bytes in 0 blocks
+==13215==    indirectly lost: 0 bytes in 0 blocks
+==13215==      possibly lost: 0 bytes in 0 blocks
+==13215==    still reachable: 0 bytes in 0 blocks
+==13215==         suppressed: 219,791 bytes in 229 blocks
+==13215== 
+==13215== For lists of detected and suppressed errors, rerun with: -s
+==13215== ERROR SUMMARY: 6 errors from 5 contexts (suppressed: 0 from 0)
