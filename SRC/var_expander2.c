@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:23:09 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/31 15:52:01 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/03 15:24:18 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ char	*replace_exit_status(char *commands, int j)
 	else
 		temp = ft_strdup("");
 	temp2 = ft_substr(commands, j, ft_strlen(commands) - j);
-	num = ft_itoa(g_exit_status);  // This allocates memory
+	num = ft_itoa(g_exit_status);
 	free(commands);
 	commands = ft_strjoin_three(temp, num, temp2);
 	free(temp);
-	free(num);  // ADD THIS - free the itoa result
+	free(num);
 	free(temp2);
 	return (commands);
 }
@@ -49,25 +49,38 @@ void	ft_expander_helper2(char **commands, t_vars *vars, int i)
 	int	j;
 	int	in_quotes;
 	int	in_squotes;
+	int	len;
 
 	j = 0;
 	in_quotes = -1;
 	in_squotes = -1;
-	while (commands[i][j])
+	while (commands[i] && commands[i][j])
 	{
-		if (in_squotes == -1 && check_if_exit_stat(commands, i, j))
+		len = ft_strlen(commands[i]);
+		if (j >= len)
+			break ;
+		if (in_squotes == -1 && commands[i][j] == '$' && (j + 1) < len
+			&& commands[i][j + 1] == '?')
+		{
+			commands[i] = replace_exit_status(commands[i], j + 2);
+			if (!commands[i])
+				return ;
+			j = 0;
 			continue ;
-		else if (in_squotes == -1 && commands[i][j] == '$' && commands[i][j
-			+ 1] != ' ' && commands[i][j + 1] != '\0' && commands[i][j
-			+ 1] != '\"')
+		}
+		else if (in_squotes == -1 && commands[i][j] == '$' && (j + 1) < len
+			&& commands[i][j + 1] != ' ' && commands[i][j + 1] != '\0'
+			&& commands[i][j + 1] != '\"')
 		{
 			commands[i] = replace_var(vars, commands[i], j + 1);
 			if (!commands[i])
 				return ;
+			j = 0;
+			continue ;
 		}
-		if (commands[i][j] == '"' && in_squotes == -1 && in_quotes == -1)
+		if (commands[i][j] == '"' && in_squotes == -1)
 			in_quotes *= -1;
-		if (commands[i][j] == 39 && in_quotes == -1 && in_squotes == -1)
+		if (commands[i][j] == 39 && in_quotes == -1)
 			in_squotes *= -1;
 		j++;
 	}

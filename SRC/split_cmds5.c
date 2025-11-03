@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 17:21:39 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/29 12:03:09 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/03 15:23:30 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static void	write_line(int fd, char *str, int expand, t_vars *vars)
 		write(fd, str, ft_strlen(str));
 }
 
-void process_heredoc_expanded(t_vars *vars, char *doc_file, int fd,
+void	process_heredoc_expanded(t_vars *vars, char *doc_file, int fd,
 		int expand)
 {
 	char			*str;
@@ -112,9 +112,6 @@ void process_heredoc_expanded(t_vars *vars, char *doc_file, int fd,
 	free(str);
 	get_next_line(-1);
 	free(doc_file);
-	
-	// Cleanup before exit
 	ft_cleanup_heredoc_child(vars);
-	
 	exit(g_exit_status = 0);
 }

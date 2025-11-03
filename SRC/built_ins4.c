@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins4.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:20:23 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/31 17:41:50 by marada           ###   ########.fr       */
+/*   Updated: 2025/11/03 15:21:50 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,20 +93,30 @@ void	ft_unset(t_vars *vars, char **commands)
 int	check_cd_ex_uns(char **commands, t_vars *vars)
 {
 	char	**split_cmds;
+	int		result;
 
 	if (vars->in_pipeline && (ft_strstr(commands[0], "export")
 			|| ft_strstr(commands[0], "unset")))
 		return (0);
 	split_cmds = ft_split_novo_e_melhorado(commands[0], ' ');
 	if (!split_cmds || !split_cmds[0])
-		return (ft_free(split_cmds), 0);
+	{
+		if (split_cmds)
+			ft_free(split_cmds);
+		return (0);
+	}
+	result = 0;
 	if (ft_strcmp(split_cmds[0], "cd") == 0)
+	{
 		ft_cd(split_cmds, vars);
+		result = 1;
+	}
 	else if (ft_strcmp(split_cmds[0], "exit") == 0 && split_cmds[1]
 		&& split_cmds[2])
 	{
 		ft_putendl_fd("minishell: exit: too many arguments", 2);
 		g_exit_status = 1;
+		result = 1;
 	}
 	else if (ft_strcmp(split_cmds[0], "exit") == 0)
 	{
@@ -114,10 +124,15 @@ int	check_cd_ex_uns(char **commands, t_vars *vars)
 		ft_exit(vars, split_cmds);
 	}
 	else if (ft_strcmp(split_cmds[0], "unset") == 0)
+	{
 		ft_unset(vars, split_cmds);
+		result = 1;
+	}
 	else if (ft_strcmp(split_cmds[0], "export") == 0 && split_cmds[1])
+	{
 		ft_export(vars, split_cmds);
-	else
-		return (ft_free(split_cmds), 0);
-	return (ft_free(split_cmds), 1);
+		result = 1;
+	}
+	ft_free(split_cmds);
+	return (result);
 }

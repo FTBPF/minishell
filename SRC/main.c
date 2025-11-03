@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/31 16:55:25 by marada           ###   ########.fr       */
+/*   Updated: 2025/11/03 15:24:53 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	minishell(char *input, char **env, t_vars *vars)
 	int	i;
 
 	vars->redirection_failed = false;
-	i = minishell_helper(input, env, vars); // No commands param
+	i = minishell_helper(input, env, vars);
 	if (i == 0)
 		return ;
 	close(vars->pipe_fd[0]);
@@ -65,9 +65,7 @@ void	run_shell(t_vars *vars, char **env)
 			free(input);
 		}
 		else
-		{
 			free(input);
-		}
 	}
 }
 

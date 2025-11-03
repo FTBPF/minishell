@@ -1,3 +1,0 @@
-cat | cat | ls
-echo test | cat | cat | cat
-exit

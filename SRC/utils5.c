@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:55 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/31 15:34:00 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/03 15:19:29 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	str_is_spaces_only(char *input)
 {
 	int	i;
 
-	if (!input)  // ADD NULL CHECK
+	if (!input)
 		return (1);
 	i = 0;
 	while (input[i])
@@ -102,14 +102,11 @@ int	find_env_line_nbr(t_vars *vars, char *name)
 	int	i;
 	int	name_len;
 
-	// ADD CRITICAL NULL CHECKS
 	if (!vars || !vars->my_environ || !name)
 		return (-1);
-	
 	name_len = ft_strlen(name);
-	if (name_len == 0)  // Also check for empty string
+	if (name_len == 0)
 		return (-1);
-	
 	i = 0;
 	while (vars->my_environ[i])
 	{

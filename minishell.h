@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/31 17:45:29 by marada           ###   ########.fr       */
+/*   Updated: 2025/11/03 15:19:09 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ typedef struct s_vars
 	char	*outfile_name;
 	bool	redirection_failed;
 	bool	in_pipeline;
-	char   **all_commands;
+	char	**all_commands;
 }			t_vars;
 
-void	ft_cleanup_heredoc_child(t_vars *vars);
-void ft_free_vars_in_child(t_vars *vars);
+void		ft_cleanup_heredoc_child(t_vars *vars);
+void		ft_free_vars_in_child(t_vars *vars);
 
 void		disable_quit_echo(struct termios *old_term);
 void		restore_terminal(struct termios *old_term);

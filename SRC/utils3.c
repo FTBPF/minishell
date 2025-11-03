@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:44 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/31 17:21:06 by marada           ###   ########.fr       */
+/*   Updated: 2025/11/03 15:23:14 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ void	ft_free(char **array)
 	while (array[i])
 	{
 		if (array[i])
+		{
 			free(array[i]);
+			array[i] = NULL;
+		}
 		i++;
 	}
 	free(array);
@@ -48,35 +51,30 @@ void	ft_free_vars_helper(t_vars *vars)
 	}
 }
 
-void ft_free_vars(t_vars *vars)
+void	ft_free_vars(t_vars *vars)
 {
-    int i;
+	int	i;
 
 	if (!vars)
 		return ;
-    if (vars->cmd_flags)
-    {
-        ft_free(vars->cmd_flags);
-        vars->cmd_flags = NULL;
-    }
-    if (vars->here_doc_fd)
-    {
-        i = 0;
-        while (vars->here_doc_fd[i] != -1)
-        {
-            if (vars->here_doc_fd[i] > 0)
-                close(vars->here_doc_fd[i]);
-            i++;
-        }
-        free(vars->here_doc_fd);
-        vars->here_doc_fd = NULL;
-    }
-	// if (vars->my_environ)
-	// {
-	// 	ft_free(vars->my_environ);
-	// 	vars->my_environ = NULL;
-	// }
-    ft_free_vars_helper(vars);
+	if (vars->cmd_flags)
+	{
+		ft_free(vars->cmd_flags);
+		vars->cmd_flags = NULL;
+	}
+	if (vars->here_doc_fd)
+	{
+		i = 0;
+		while (vars->here_doc_fd[i] != -1)
+		{
+			if (vars->here_doc_fd[i] > 0)
+				close(vars->here_doc_fd[i]);
+			i++;
+		}
+		free(vars->here_doc_fd);
+		vars->here_doc_fd = NULL;
+	}
+	ft_free_vars_helper(vars);
 }
 
 void	ft_vars_init(t_vars *vars)
@@ -106,79 +104,71 @@ int	setup_pipe(int *pipe_fd)
 	return (1);
 }
 
-void ft_free_vars_in_child(t_vars *vars)
+void	ft_free_vars_in_child(t_vars *vars)
 {
-    int i;
+	int	i;
 
-    if (vars->cmd_flags)
-    {
-        ft_free(vars->cmd_flags);
-        vars->cmd_flags = NULL;
-    }
-    if (vars->here_doc_fd)
-    {
-        i = 0;
-        while (vars->here_doc_fd[i] != -1)
-        {
-            if (vars->here_doc_fd[i] > 0)
-                close(vars->here_doc_fd[i]);
-            i++;
-        }
-        free(vars->here_doc_fd);
-        vars->here_doc_fd = NULL;
-    }
-    
-    // Free without unlinking (parent might have already unlinked)
-    if (vars->temp)
-    {
-        free(vars->temp);
-        vars->temp = NULL;
-    }
-    if (vars->infile_name)
-    {
-        free(vars->infile_name);
-        vars->infile_name = NULL;
-    }
-    if (vars->outfile_name)
-    {
-        free(vars->outfile_name);
-        vars->outfile_name = NULL;
-    }
-    
-    if (vars->cmd1_path)
-    {
-        free(vars->cmd1_path);
-        vars->cmd1_path = NULL;
-    }
-}
-
-void ft_cleanup_heredoc_child(t_vars *vars)
-{
-	// Free commands array
-	if (vars->all_commands)
+	if (vars->cmd_flags)
 	{
-		int i = 0;
-		while (vars->all_commands[i])
-			free(vars->all_commands[i++]);
-		free(vars->all_commands);
-		vars->all_commands = NULL;
+		ft_free(vars->cmd_flags);
+		vars->cmd_flags = NULL;
 	}
-	
-	// Free here_doc_fd array (don't close, they might be used)
 	if (vars->here_doc_fd)
 	{
+		i = 0;
+		while (vars->here_doc_fd[i] != -1)
+		{
+			if (vars->here_doc_fd[i] > 0)
+				close(vars->here_doc_fd[i]);
+			i++;
+		}
 		free(vars->here_doc_fd);
 		vars->here_doc_fd = NULL;
 	}
-	
-	// Free temp filename (don't unlink)
 	if (vars->temp)
 	{
 		free(vars->temp);
 		vars->temp = NULL;
 	}
-	
-	//Free environment
+	if (vars->infile_name)
+	{
+		free(vars->infile_name);
+		vars->infile_name = NULL;
+	}
+	if (vars->outfile_name)
+	{
+		free(vars->outfile_name);
+		vars->outfile_name = NULL;
+	}
+	if (vars->cmd1_path)
+	{
+		free(vars->cmd1_path);
+		vars->cmd1_path = NULL;
+	}
+}
+
+void	ft_cleanup_heredoc_child(t_vars *vars)
+{
+	int	i;
+
+	if (vars->all_commands)
+	{
+		i = 0;
+		while (vars->all_commands[i])
+			free(vars->all_commands[i++]);
+		free(vars->all_commands);
+		vars->all_commands = NULL;
+	}
+	if (vars->here_doc_fd)
+	{
+		free(vars->here_doc_fd);
+		vars->here_doc_fd = NULL;
+	}
+	if (vars->temp)
+	{
+		free(vars->temp);
+		vars->temp = NULL;
+	}
 	if (vars->my_environ)
 	{
 		ft_free(vars->my_environ);

@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:26 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/30 17:57:47 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/03 15:21:33 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,38 +61,42 @@ static int	handle_cd_and_expansion(t_vars *vars, char **cmds, char *input)
 	if (check_cd_ex_uns(cmds, vars))
 	{
 		ft_free_vars(vars);
-		ft_free(cmds);
 		return (1);
 	}
 	return (0);
 }
 
-int setup_commands(char *input, t_vars *vars, char ***commands)
+int	setup_commands(char *input, t_vars *vars, char ***commands)
 {
-    int invalid;
+	int	invalid;
 
-    invalid = check_pipe_syntax(input);
-    if (invalid)
-        return (0);
-    *commands = ft_split_commands(input, "|");
-    if (!*commands)
-        return (0);
-    vars->all_commands = *commands;
-    if (!validate_commands(*commands))
-        return (0);
-    vars->in_pipeline = ((*commands)[1] != NULL);
-    if (handle_cd_and_expansion(vars, *commands, input))
-        return (0);
-    vars->redirection_failed = false;
-    here_doc(vars, *commands);
-    if (vars->redirection_failed && g_exit_status == 130)
-    {
-        ft_free(*commands);
-        *commands = NULL;
-        vars->all_commands = NULL;
-        return (0);
-    }
-    return (1);
+	invalid = check_pipe_syntax(input);
+	if (invalid)
+		return (0);
+	*commands = ft_split_commands(input, "|");
+	if (!*commands)
+		return (0);
+	vars->all_commands = *commands;
+	if (!validate_commands(*commands))
+		return (0);
+	vars->in_pipeline = ((*commands)[1] != NULL);
+	if (handle_cd_and_expansion(vars, *commands, input))
+	{
+		ft_free(*commands);
+		*commands = NULL;
+		vars->all_commands = NULL;
+		return (0);
+	}
+	vars->redirection_failed = false;
+	here_doc(vars, *commands);
+	if (vars->redirection_failed && g_exit_status == 130)
+	{
+		ft_free(*commands);
+		*commands = NULL;
+		vars->all_commands = NULL;
+		return (0);
+	}
+	return (1);
 }
 
 int	ft_has_invalid_pipe(char **commands)
