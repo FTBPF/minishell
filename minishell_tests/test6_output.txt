@@ -1,0 +1,103 @@
+==176041== Memcheck, a memory error detector
+==176041== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==176041== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==176041== Command: /home/frteixei/work42/42cursus/minishell/minishell
+==176041== 
+myshell> echo $?
+0
+==176042== 
+==176042== HEAP SUMMARY:
+==176042==     in use at exit: 208,229 bytes in 226 blocks
+==176042==   total heap usage: 508 allocs, 282 frees, 235,941 bytes allocated
+==176042== 
+==176042== LEAK SUMMARY:
+==176042==    definitely lost: 0 bytes in 0 blocks
+==176042==    indirectly lost: 0 bytes in 0 blocks
+==176042==      possibly lost: 0 bytes in 0 blocks
+==176042==    still reachable: 0 bytes in 0 blocks
+==176042==         suppressed: 208,229 bytes in 226 blocks
+==176042== 
+==176042== For lists of detected and suppressed errors, rerun with: -s
+==176042== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+myshell> ls
+output.txt
+test10_output.txt
+test10.txt
+test11_output.txt
+test11.txt
+test12_output.txt
+test12.txt
+test13_output.txt
+test13.txt
+test14_output.txt
+test14.txt
+test15_output.txt
+test15.txt
+test1_output.txt
+test1.txt
+test2_output.txt
+test2.txt
+test3_output.txt
+test3.txt
+test4_output.txt
+test4.txt
+test5_output.txt
+test5.txt
+test6_output.txt
+test6.txt
+test7_output.txt
+test7.txt
+test8_output.txt
+test8.txt
+test9_output.txt
+test9.txt
+myshell> echo $?
+0
+==176044== 
+==176044== HEAP SUMMARY:
+==176044==     in use at exit: 208,312 bytes in 232 blocks
+==176044==   total heap usage: 546 allocs, 314 frees, 236,578 bytes allocated
+==176044== 
+==176044== LEAK SUMMARY:
+==176044==    definitely lost: 0 bytes in 0 blocks
+==176044==    indirectly lost: 0 bytes in 0 blocks
+==176044==      possibly lost: 0 bytes in 0 blocks
+==176044==    still reachable: 0 bytes in 0 blocks
+==176044==         suppressed: 208,312 bytes in 232 blocks
+==176044== 
+==176044== For lists of detected and suppressed errors, rerun with: -s
+==176044== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+myshell> ls nonexistent_file_12345
+ls: cannot access 'nonexistent_file_12345': No such file or directory
+myshell> echo $?
+2
+==176046== 
+==176046== HEAP SUMMARY:
+==176046==     in use at exit: 208,418 bytes in 238 blocks
+==176046==   total heap usage: 587 allocs, 349 frees, 237,378 bytes allocated
+==176046== 
+==176046== LEAK SUMMARY:
+==176046==    definitely lost: 0 bytes in 0 blocks
+==176046==    indirectly lost: 0 bytes in 0 blocks
+==176046==      possibly lost: 0 bytes in 0 blocks
+==176046==    still reachable: 0 bytes in 0 blocks
+==176046==         suppressed: 208,418 bytes in 238 blocks
+==176046== 
+==176046== For lists of detected and suppressed errors, rerun with: -s
+==176046== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+myshell> exit
+exit
+==176041== 
+==176041== HEAP SUMMARY:
+==176041==     in use at exit: 208,182 bytes in 223 blocks
+==176041==   total heap usage: 597 allocs, 374 frees, 237,519 bytes allocated
+==176041== 
+==176041== LEAK SUMMARY:
+==176041==    definitely lost: 0 bytes in 0 blocks
+==176041==    indirectly lost: 0 bytes in 0 blocks
+==176041==      possibly lost: 0 bytes in 0 blocks
+==176041==    still reachable: 0 bytes in 0 blocks
+==176041==         suppressed: 208,182 bytes in 223 blocks
+==176041== 
+==176041== For lists of detected and suppressed errors, rerun with: -s
+==176041== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

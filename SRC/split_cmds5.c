@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 17:21:39 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/03 15:23:30 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/03 16:37:52 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,24 @@ int	has_unquoted_heredoc(const char *s)
 
 static void	print_eof_warning(char *delimiter, int line_count)
 {
+	char	*trimmed;
+	
+	trimmed = ft_strtrim(delimiter, "\n");
+	if (!trimmed)
+	{
+		ft_putstr_fd("minishell: warning: here-document at line ", 2);
+		ft_putnbr_fd(line_count, 2);
+		ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
+		ft_putstr_fd(delimiter, 2);
+		ft_putstr_fd("')\n", 2);
+		return;
+	}
 	ft_putstr_fd("minishell: warning: here-document at line ", 2);
 	ft_putnbr_fd(line_count, 2);
 	ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
-	ft_putstr_fd(delimiter, 2);
+	ft_putstr_fd(trimmed, 2);
 	ft_putstr_fd("')\n", 2);
+	free(trimmed);
 }
 
 static void	write_line(int fd, char *str, int expand, t_vars *vars)
@@ -107,7 +120,7 @@ void	process_heredoc_expanded(t_vars *vars, char *doc_file, int fd,
 		str = get_next_line(0);
 	}
 	if (!str)
-		print_eof_warning(ft_strtrim(doc_file, "\n"), lines);
+		print_eof_warning(doc_file, lines);
 	restore_terminal(&old_term);
 	free(str);
 	get_next_line(-1);

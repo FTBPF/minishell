@@ -1,0 +1,6 @@
+echo $?
+ls
+echo $?
+ls nonexistent_file_12345
+echo $?
+exit

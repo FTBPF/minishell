@@ -1,0 +1,101 @@
+==176062== Memcheck, a memory error detector
+==176062== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==176062== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==176062== Command: /home/frteixei/work42/42cursus/minishell/minishell
+==176062== 
+myshell> echo 'single quotes $USER'
+single quotes $USER
+==176063== 
+==176063== HEAP SUMMARY:
+==176063==     in use at exit: 208,267 bytes in 226 blocks
+==176063==   total heap usage: 505 allocs, 279 frees, 236,074 bytes allocated
+==176063== 
+==176063== LEAK SUMMARY:
+==176063==    definitely lost: 0 bytes in 0 blocks
+==176063==    indirectly lost: 0 bytes in 0 blocks
+==176063==      possibly lost: 0 bytes in 0 blocks
+==176063==    still reachable: 0 bytes in 0 blocks
+==176063==         suppressed: 208,267 bytes in 226 blocks
+==176063== 
+==176063== For lists of detected and suppressed errors, rerun with: -s
+==176063== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+myshell> echo "double quotes $USER"
+double quotes frteixei
+==176064== 
+==176064== HEAP SUMMARY:
+==176064==     in use at exit: 208,330 bytes in 229 blocks
+==176064==   total heap usage: 552 allocs, 323 frees, 236,827 bytes allocated
+==176064== 
+==176064== LEAK SUMMARY:
+==176064==    definitely lost: 0 bytes in 0 blocks
+==176064==    indirectly lost: 0 bytes in 0 blocks
+==176064==      possibly lost: 0 bytes in 0 blocks
+==176064==    still reachable: 0 bytes in 0 blocks
+==176064==         suppressed: 208,330 bytes in 229 blocks
+==176064== 
+==176064== For lists of detected and suppressed errors, rerun with: -s
+==176064== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+myshell> echo "mixed 'quotes' test"
+mixed 'quotes' test
+==176065== 
+==176065== HEAP SUMMARY:
+==176065==     in use at exit: 208,393 bytes in 232 blocks
+==176065==   total heap usage: 571 allocs, 339 frees, 237,283 bytes allocated
+==176065== 
+==176065== LEAK SUMMARY:
+==176065==    definitely lost: 0 bytes in 0 blocks
+==176065==    indirectly lost: 0 bytes in 0 blocks
+==176065==      possibly lost: 0 bytes in 0 blocks
+==176065==    still reachable: 0 bytes in 0 blocks
+==176065==         suppressed: 208,393 bytes in 232 blocks
+==176065== 
+==176065== For lists of detected and suppressed errors, rerun with: -s
+==176065== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+myshell> echo ""
+
+==176066== 
+==176066== HEAP SUMMARY:
+==176066==     in use at exit: 208,418 bytes in 235 blocks
+==176066==   total heap usage: 589 allocs, 354 frees, 237,596 bytes allocated
+==176066== 
+==176066== LEAK SUMMARY:
+==176066==    definitely lost: 0 bytes in 0 blocks
+==176066==    indirectly lost: 0 bytes in 0 blocks
+==176066==      possibly lost: 0 bytes in 0 blocks
+==176066==    still reachable: 0 bytes in 0 blocks
+==176066==         suppressed: 208,418 bytes in 235 blocks
+==176066== 
+==176066== For lists of detected and suppressed errors, rerun with: -s
+==176066== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+myshell> echo ''
+
+==176067== 
+==176067== HEAP SUMMARY:
+==176067==     in use at exit: 208,462 bytes in 238 blocks
+==176067==   total heap usage: 607 allocs, 369 frees, 237,928 bytes allocated
+==176067== 
+==176067== LEAK SUMMARY:
+==176067==    definitely lost: 0 bytes in 0 blocks
+==176067==    indirectly lost: 0 bytes in 0 blocks
+==176067==      possibly lost: 0 bytes in 0 blocks
+==176067==    still reachable: 0 bytes in 0 blocks
+==176067==         suppressed: 208,462 bytes in 238 blocks
+==176067== 
+==176067== For lists of detected and suppressed errors, rerun with: -s
+==176067== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+myshell> exit
+exit
+==176062== 
+==176062== HEAP SUMMARY:
+==176062==     in use at exit: 208,182 bytes in 223 blocks
+==176062==   total heap usage: 617 allocs, 394 frees, 238,068 bytes allocated
+==176062== 
+==176062== LEAK SUMMARY:
+==176062==    definitely lost: 0 bytes in 0 blocks
+==176062==    indirectly lost: 0 bytes in 0 blocks
+==176062==      possibly lost: 0 bytes in 0 blocks
+==176062==    still reachable: 0 bytes in 0 blocks
+==176062==         suppressed: 208,182 bytes in 223 blocks
+==176062== 
+==176062== For lists of detected and suppressed errors, rerun with: -s
+==176062== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 17:24:01 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/03 15:22:25 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/03 16:01:12 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	execute_commands(t_vars *vars, char **env, char **commands)
 	{
 		first_process(vars, env, &commands[vars->i], &vars->j);
 		free(commands[vars->i]);
+		vars->all_commands = NULL;
 		(vars->i)++;
 	}
 }

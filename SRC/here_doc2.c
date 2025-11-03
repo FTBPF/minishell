@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:04 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/28 17:59:20 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/03 16:40:23 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ void	open_doc_file_expanded(t_vars *vars, char *doc_file, int *j, int expand)
 	{
 		g_exit_status = 130;
 		vars->redirection_failed = true;
-		unlink(vars->temp);
+		if (vars->temp)
+			unlink(vars->temp);
 	}
 	free(doc_file);
 	if (!vars->redirection_failed)
