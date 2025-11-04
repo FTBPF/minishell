@@ -1,0 +1,5 @@
+echo test
+echo -n no newline
+echo " with newline"
+pwd
+env | grep USER

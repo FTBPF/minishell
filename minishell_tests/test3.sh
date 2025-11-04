@@ -1,0 +1,6 @@
+echo "test output" > outfile.txt
+cat outfile.txt
+echo "append line" >> outfile.txt
+cat outfile.txt
+cat < outfile.txt
+rm outfile.txt

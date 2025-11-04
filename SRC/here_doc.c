@@ -32,7 +32,8 @@ void	here_doc(t_vars *vars, char **commands)
 		ft_free_vars(vars);
 		return ;
 	}
-	vars->here_doc_fd[j] = -1;
+	for (int k = 0; k <= j; k++)
+    	vars->here_doc_fd[k] = -1;
 	i = -1;
 	j = 0;
 	while (commands[++i])

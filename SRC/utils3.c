@@ -92,6 +92,7 @@ void	ft_vars_init(t_vars *vars)
 	vars->outfile_name = NULL;
 	vars->redirection_failed = false;
 	vars->all_commands = NULL;
+	vars->doc_file = NULL;
 }
 
 int	setup_pipe(int *pipe_fd)
@@ -151,6 +152,11 @@ void	ft_cleanup_heredoc_child(t_vars *vars)
 {
 	int	i;
 
+	if (vars->doc_file)
+    {
+        free(vars->doc_file);
+        vars->doc_file = NULL;
+    }
 	if (vars->all_commands)
 	{
 		i = 0;

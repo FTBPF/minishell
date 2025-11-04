@@ -54,7 +54,10 @@ typedef struct s_vars
 	bool	redirection_failed;
 	bool	in_pipeline;
 	char	**all_commands;
+	char	*doc_file;
 }			t_vars;
+
+extern t_vars *g_heredoc_vars;
 
 void		ft_cleanup_heredoc_child(t_vars *vars);
 void		ft_free_vars_in_child(t_vars *vars);

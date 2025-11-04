@@ -107,6 +107,8 @@ void	process_heredoc_expanded(t_vars *vars, char *doc_file, int fd,
 	int				lines;
 	struct termios	old_term;
 
+	g_heredoc_vars = vars;
+	vars->doc_file = doc_file;
 	disable_quit_echo(&old_term);
 	lines = 1;
 	write(1, "> ", 2);
@@ -125,6 +127,8 @@ void	process_heredoc_expanded(t_vars *vars, char *doc_file, int fd,
 	free(str);
 	get_next_line(-1);
 	free(doc_file);
+	vars->doc_file = NULL;
+	g_heredoc_vars = NULL;
 	ft_cleanup_heredoc_child(vars);
 	exit(g_exit_status = 0);
 }

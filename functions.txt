@@ -1,6 +1,112 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
+/*   built_ins.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/07 19:41:19 by frteixei          #+#    #+#             */
+/*   Updated: 2025/11/03 15:24:30 by frteixei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
+
+int	check_if_builtin(t_vars *vars)
+{
+	char	*cmd;
+
+	cmd = vars->cmd_flags[0];
+	if (!cmd)
+		return (0);
+	if (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "cd") == 0
+		|| ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "export") == 0
+		|| ft_strcmp(cmd, "unset") == 0 || ft_strcmp(cmd, "env") == 0
+		|| ft_strcmp(cmd, "exit") == 0)
+		return (1);
+	return (0);
+}
+
+void	run_builtin(t_vars *vars)
+{
+	char	*cmd;
+
+	cmd = vars->cmd_flags[0];
+	if (ft_strcmp(cmd, "echo") == 0)
+		ft_echo(vars->cmd_flags);
+	else if (ft_strcmp(cmd, "cd") == 0)
+		ft_cd(vars->cmd_flags, vars);
+	else if (ft_strcmp(cmd, "pwd") == 0)
+		ft_pwd();
+	else if (ft_strcmp(cmd, "export") == 0)
+		ft_export(vars, vars->cmd_flags);
+	else if (ft_strcmp(cmd, "unset") == 0)
+		ft_unset(vars, vars->cmd_flags);
+	else if (ft_strcmp(cmd, "env") == 0)
+		ft_env(vars);
+	else if (ft_strcmp(cmd, "exit") == 0)
+		ft_exit(vars, vars->cmd_flags);
+	else
+		g_exit_status = 1;
+	if (g_exit_status == -1)
+		g_exit_status = 0;
+	return ;
+}
+
+static int	handle_cd_special_cases(char **commands, t_vars *vars)
+{
+	char	*home;
+	char	*old_pwd;
+
+	home = get_env_var(vars, "HOME");
+	old_pwd = get_env_var(vars, "OLDPWD");
+	if (!commands[1])
+	{
+		if (home)
+			change_directory(home, vars);
+		else
+			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+		return (1);
+	}
+	if (ft_strcmp(commands[1], "-") == 0)
+	{
+		if (old_pwd)
+			change_directory(old_pwd, vars);
+		else
+			ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
+		return (1);
+	}
+	return (0);
+}
+
+void	ft_cd(char **commands, t_vars *vars)
+{
+	if (commands[2])
+	{
+		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
+		g_exit_status = 1;
+	}
+	if (handle_cd_special_cases(commands, vars))
+		return ;
+	change_directory(commands[1], vars);
+}
+
+void	ft_env(t_vars *vars)
+{
+	int	i;
+
+	i = 0;
+	while (vars->my_environ[i])
+	{
+		if (ft_strchr(vars->my_environ[i], '='))
+			ft_printf("%s\n", vars->my_environ[i]);
+		i++;
+	}
+	g_exit_status = 0;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
 /*   built_ins2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
@@ -823,420 +929,12 @@ void	ft_export(t_vars *vars, char **split_cmds)
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_ins.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 19:41:19 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/03 15:24:30 by frteixei         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../minishell.h"
-
-int	check_if_builtin(t_vars *vars)
-{
-	char	*cmd;
-
-	cmd = vars->cmd_flags[0];
-	if (!cmd)
-		return (0);
-	if (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "cd") == 0
-		|| ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "export") == 0
-		|| ft_strcmp(cmd, "unset") == 0 || ft_strcmp(cmd, "env") == 0
-		|| ft_strcmp(cmd, "exit") == 0)
-		return (1);
-	return (0);
-}
-
-void	run_builtin(t_vars *vars)
-{
-	char	*cmd;
-
-	cmd = vars->cmd_flags[0];
-	if (ft_strcmp(cmd, "echo") == 0)
-		ft_echo(vars->cmd_flags);
-	else if (ft_strcmp(cmd, "cd") == 0)
-		ft_cd(vars->cmd_flags, vars);
-	else if (ft_strcmp(cmd, "pwd") == 0)
-		ft_pwd();
-	else if (ft_strcmp(cmd, "export") == 0)
-		ft_export(vars, vars->cmd_flags);
-	else if (ft_strcmp(cmd, "unset") == 0)
-		ft_unset(vars, vars->cmd_flags);
-	else if (ft_strcmp(cmd, "env") == 0)
-		ft_env(vars);
-	else if (ft_strcmp(cmd, "exit") == 0)
-		ft_exit(vars, vars->cmd_flags);
-	else
-		g_exit_status = 1;
-	if (g_exit_status == -1)
-		g_exit_status = 0;
-	return ;
-}
-
-static int	handle_cd_special_cases(char **commands, t_vars *vars)
-{
-	char	*home;
-	char	*old_pwd;
-
-	home = get_env_var(vars, "HOME");
-	old_pwd = get_env_var(vars, "OLDPWD");
-	if (!commands[1])
-	{
-		if (home)
-			change_directory(home, vars);
-		else
-			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-		return (1);
-	}
-	if (ft_strcmp(commands[1], "-") == 0)
-	{
-		if (old_pwd)
-			change_directory(old_pwd, vars);
-		else
-			ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
-		return (1);
-	}
-	return (0);
-}
-
-void	ft_cd(char **commands, t_vars *vars)
-{
-	if (commands[2])
-	{
-		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
-		g_exit_status = 1;
-	}
-	if (handle_cd_special_cases(commands, vars))
-		return ;
-	change_directory(commands[1], vars);
-}
-
-void	ft_env(t_vars *vars)
-{
-	int	i;
-
-	i = 0;
-	while (vars->my_environ[i])
-	{
-		if (ft_strchr(vars->my_environ[i], '='))
-			ft_printf("%s\n", vars->my_environ[i]);
-		i++;
-	}
-	g_exit_status = 0;
-}
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   here_doc2.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/22 13:21:04 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/03 16:24:05 by frteixei         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../minishell.h"
-
-static int	open_temp_write_fd(t_vars *vars)
-{
-	int	fd;
-
-	fd = open(vars->temp, O_CREAT | O_TRUNC | O_RDWR, 0644);
-	if (fd == -1)
-	{
-		perror(vars->temp);
-		vars->redirection_failed = true;
-	}
-	return (fd);
-}
-
-static int	fork_heredoc(t_vars *vars, char *doc_file, int write_fd, int expand)
-{
-	int	id;
-
-	setup_heredoc_parent_signals();
-	id = fork();
-	if (id == 0)
-	{
-		setup_heredoc_signals();
-		process_heredoc_expanded(vars, doc_file, write_fd, expand);
-	}
-	return (id);
-}
-
-static void	check_final_fd(t_vars *vars, int *j)
-{
-	if (vars->here_doc_fd[*j] == -1)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		perror(vars->temp);
-		vars->redirection_failed = true;
-	}
-}
-
-void	open_doc_file_expanded(t_vars *vars, char *doc_file, int *j, int expand)
-{
-	int	id;
-	int	write_fd;
-	int	status;
-
-	if (vars->here_doc_fd)
-		vars->here_doc_fd[*j] = -1;
-	
-	write_fd = open_temp_write_fd(vars);
-	if (vars->redirection_failed)
-		return (free(doc_file));
-	id = fork_heredoc(vars, doc_file, write_fd, expand);
-	if (id == -1)
-		return ((void)(perror("fork"), close(write_fd), free(doc_file),
-			vars->redirection_failed = true));
-	close(write_fd);
-	waitpid(id, &status, 0);
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, SIG_DFL);
-	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
-	{
-		g_exit_status = 130;
-		vars->redirection_failed = true;
-		if (vars->temp)
-			unlink(vars->temp);
-	}
-	free(doc_file);
-	if (!vars->redirection_failed)
-		vars->here_doc_fd[*j] = open(vars->temp, O_RDONLY);
-	check_final_fd(vars, j);
-}
-
-void	ft_open_helper(int *i, char *commands)
-{
-	char	current_quote;
-	int		in_quotes;
-
-	in_quotes = -1;
-	current_quote = '\0';
-	while (commands[*i])
-	{
-		if (in_quotes == -1 && (commands[*i] == ' ' || commands[*i] == '<'
-				|| commands[*i] == '>'))
-			break ;
-		if ((commands[*i] == '\'' || commands[*i] == '\"') && (in_quotes == -1
-				|| current_quote == commands[*i]))
-		{
-			in_quotes *= -1;
-			if (in_quotes == 1)
-				current_quote = commands[*i];
-			else
-				current_quote = '\0';
-		}
-		(*i)++;
-	}
-}
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   heredoc3.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/28 16:45:27 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/03 16:09:24 by frteixei         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../minishell.h"
-
-char	*ft_strndup_aspas(char *commands, int len)
-{
-	int		i;
-	char	*new_str;
-
-	i = 0;
-	new_str = (char *)malloc(len + 1);
-	if (!new_str && !commands)
-		return (NULL);
-	ft_aspas_helper(len, &i, new_str, commands);
-	new_str[i] = '\0';
-	return (new_str);
-}
-
-void	heredoc_signal_handler(int sig)
-{
-	if (sig == SIGINT)
-	{
-		g_exit_status = 130;
-		write(1, "^C\n", 3);
-		close(STDIN_FILENO);
-		get_next_line(-1);
-		rl_clear_history();
-		exit(130);
-	}
-}
-
-void	setup_heredoc_signals(void)
-{
-	signal(SIGINT, heredoc_signal_handler);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void	setup_heredoc_parent_signals(void)
-{
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void	check_open_doc(t_vars *vars, char *doc_file, char *temp_name)
-{
-	if (!doc_file)
-	{
-		free(temp_name);
-		return (vars->redirection_failed = true, (void)0);
-	}
-	if (vars->temp)
-	{
-		unlink(vars->temp);
-		free(vars->temp);
-	}
-}
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   heredoc4.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/28 16:56:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/03 16:12:00 by frteixei         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../minishell.h"
-
-static char	*generate_temp_filename(void)
-{
-	static int	count = 0;
-	char		*num_str;
-	char		*temp;
-	char		*result;
-
-	num_str = ft_itoa(count++);
-	temp = ft_strjoin("/tmp/.heredoc_", num_str);
-	free(num_str);
-	result = ft_strjoin(temp, "_tmp");
-	free(temp);
-	return (result);
-}
-
-static int	delimiter_has_quotes(char *commands)
-{
-	int	i;
-
-	i = 0;
-	while (commands[i] && commands[i] != ' ' && commands[i] != '\t'
-		&& commands[i] != '<' && commands[i] != '>')
-	{
-		if (commands[i] == '\'' || commands[i] == '\"')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-static char	*get_delimiter(t_vars *vars, char *commands, int *should_expand)
-{
-	int		i;
-	char	*delimiter;
-
-	i = 0;
-	*should_expand = !delimiter_has_quotes(commands);
-	ft_open_helper(&i, commands);
-	delimiter = ft_strndup_aspas(commands, i);
-	if (!delimiter)
-		vars->redirection_failed = true;
-	return (delimiter);
-}
-
-static char	*create_doc_file(t_vars *vars, char *delimiter)
-{
-	char	*doc_file;
-
-	doc_file = ft_strjoin(delimiter, "\n");
-	free(delimiter);
-	if (!doc_file)
-		vars->redirection_failed = true;
-	return (doc_file);
-}
-
-void	open_doc(t_vars *vars, char *commands, int *j)
-{
-	char	*doc_file;
-	char	*delimiter;
-	char	*temp_name;
-	int		should_expand;
-
-	commands = ft_strchr(commands, '<');
-	if (!commands || *(commands + 2) == '\0')
-		return ((void)(vars->redirection_failed = true));
-	commands += 2;
-	while (*commands == ' ' || *commands == '\t')
-		commands++;
-	delimiter = get_delimiter(vars, commands, &should_expand);
-	if (vars->redirection_failed)
-		return ;
-	doc_file = create_doc_file(vars, delimiter);
-	if (vars->redirection_failed)
-		return ;
-	temp_name = generate_temp_filename();
-	check_open_doc(vars, doc_file, temp_name);
-	if (vars->redirection_failed && vars->temp != temp_name)
-	{
-		free(temp_name);
-		return ;
-	}
-	vars->temp = temp_name;
-	open_doc_file_expanded(vars, doc_file, j, should_expand);
-}
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   heredoc5.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/29 11:37:46 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/29 12:04:05 by frteixei         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../minishell.h"
-
-void	disable_quit_echo(struct termios *old_term)
-{
-	struct termios	new_term;
-
-	if (tcgetattr(STDIN_FILENO, old_term) == -1)
-		return ;
-	new_term = *old_term;
-	new_term.c_cc[VQUIT] = _POSIX_VDISABLE;
-	new_term.c_lflag &= ~0001000;
-	tcsetattr(STDIN_FILENO, TCSANOW, &new_term);
-}
-
-void	restore_terminal(struct termios *old_term)
-{
-	tcsetattr(STDIN_FILENO, TCSANOW, old_term);
-}
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:20:57 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/03 16:25:04 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/03 16:31:43 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1262,12 +960,7 @@ void	here_doc(t_vars *vars, char **commands)
 		ft_free_vars(vars);
 		return ;
 	}
-	i = 0;
-	while (i <= j)
-	{
-		vars->here_doc_fd[i] = -1;
-		i++;
-	}
+	vars->here_doc_fd[j] = -1;
 	i = -1;
 	j = 0;
 	while (commands[++i])
@@ -1355,6 +1048,301 @@ void	ft_aspas_helper(int len, int *i, char *new_str, char *commands)
 		}
 		j++;
 	}
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   here_doc2.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/22 13:21:04 by frteixei          #+#    #+#             */
+/*   Updated: 2025/11/03 16:40:23 by frteixei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
+
+static int	open_temp_write_fd(t_vars *vars)
+{
+	int	fd;
+
+	fd = open(vars->temp, O_CREAT | O_TRUNC | O_RDWR, 0644);
+	if (fd == -1)
+	{
+		perror(vars->temp);
+		vars->redirection_failed = true;
+	}
+	return (fd);
+}
+
+static int	fork_heredoc(t_vars *vars, char *doc_file, int write_fd, int expand)
+{
+	int	id;
+
+	setup_heredoc_parent_signals();
+	id = fork();
+	if (id == 0)
+	{
+		setup_heredoc_signals();
+		process_heredoc_expanded(vars, doc_file, write_fd, expand);
+	}
+	return (id);
+}
+
+static void	check_final_fd(t_vars *vars, int *j)
+{
+	if (vars->here_doc_fd[*j] == -1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		perror(vars->temp);
+		vars->redirection_failed = true;
+	}
+}
+
+void	open_doc_file_expanded(t_vars *vars, char *doc_file, int *j, int expand)
+{
+	int	id;
+	int	write_fd;
+	int	status;
+
+	write_fd = open_temp_write_fd(vars);
+	if (vars->redirection_failed)
+		return (free(doc_file));
+	id = fork_heredoc(vars, doc_file, write_fd, expand);
+	if (id == -1)
+		return ((void)(perror("fork"), close(write_fd), free(doc_file),
+			vars->redirection_failed = true));
+	close(write_fd);
+	waitpid(id, &status, 0);
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_DFL);
+	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
+	{
+		g_exit_status = 130;
+		vars->redirection_failed = true;
+		if (vars->temp)
+			unlink(vars->temp);
+	}
+	free(doc_file);
+	if (!vars->redirection_failed)
+		vars->here_doc_fd[*j] = open(vars->temp, O_RDONLY);
+	check_final_fd(vars, j);
+}
+
+void	ft_open_helper(int *i, char *commands)
+{
+	char	current_quote;
+	int		in_quotes;
+
+	in_quotes = -1;
+	current_quote = '\0';
+	while (commands[*i])
+	{
+		if (in_quotes == -1 && (commands[*i] == ' ' || commands[*i] == '<'
+				|| commands[*i] == '>'))
+			break ;
+		if ((commands[*i] == '\'' || commands[*i] == '\"') && (in_quotes == -1
+				|| current_quote == commands[*i]))
+		{
+			in_quotes *= -1;
+			if (in_quotes == 1)
+				current_quote = commands[*i];
+			else
+				current_quote = '\0';
+		}
+		(*i)++;
+	}
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc3.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/28 16:45:27 by frteixei          #+#    #+#             */
+/*   Updated: 2025/11/03 16:40:35 by frteixei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
+
+char	*ft_strndup_aspas(char *commands, int len)
+{
+	int		i;
+	char	*new_str;
+
+	i = 0;
+	new_str = (char *)malloc(len + 1);
+	if (!new_str && !commands)
+		return (NULL);
+	ft_aspas_helper(len, &i, new_str, commands);
+	new_str[i] = '\0';
+	return (new_str);
+}
+
+void	heredoc_signal_handler(int sig)
+{
+	if (sig == SIGINT)
+	{
+		g_exit_status = 130;
+		write(1, "^C\n", 3);
+		close(STDIN_FILENO);
+		get_next_line(-1);
+		if (g_heredoc_vars)
+			ft_cleanup_heredoc_child(g_heredoc_vars);
+		exit(130);
+	}
+}
+
+void	setup_heredoc_signals(void)
+{
+	signal(SIGINT, heredoc_signal_handler);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	setup_heredoc_parent_signals(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	check_open_doc(t_vars *vars, char *doc_file, char *temp_name)
+{
+	if (!doc_file)
+	{
+		free(temp_name);
+		return (vars->redirection_failed = true, (void)0);
+	}
+	if (vars->temp)
+	{
+		unlink(vars->temp);
+		free(vars->temp);
+	}
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc4.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/28 16:56:58 by frteixei          #+#    #+#             */
+/*   Updated: 2025/11/03 16:40:40 by frteixei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
+
+static char	*generate_temp_filename(void)
+{
+	static int	count = 0;
+	char		*num_str;
+	char		*temp;
+	char		*result;
+
+	num_str = ft_itoa(count++);
+	temp = ft_strjoin("/tmp/.heredoc_", num_str);
+	free(num_str);
+	result = ft_strjoin(temp, "_tmp");
+	free(temp);
+	return (result);
+}
+
+static int	delimiter_has_quotes(char *commands)
+{
+	int	i;
+
+	i = 0;
+	while (commands[i] && commands[i] != ' ' && commands[i] != '\t'
+		&& commands[i] != '<' && commands[i] != '>')
+	{
+		if (commands[i] == '\'' || commands[i] == '\"')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+static char	*get_delimiter(t_vars *vars, char *commands, int *should_expand)
+{
+	int		i;
+	char	*delimiter;
+
+	i = 0;
+	*should_expand = !delimiter_has_quotes(commands);
+	ft_open_helper(&i, commands);
+	delimiter = ft_strndup_aspas(commands, i);
+	if (!delimiter)
+		vars->redirection_failed = true;
+	return (delimiter);
+}
+
+static char	*create_doc_file(t_vars *vars, char *delimiter)
+{
+	char	*doc_file;
+
+	doc_file = ft_strjoin(delimiter, "\n");
+	free(delimiter);
+	if (!doc_file)
+		vars->redirection_failed = true;
+	return (doc_file);
+}
+
+void	open_doc(t_vars *vars, char *commands, int *j)
+{
+	char	*doc_file;
+	char	*delimiter;
+	char	*temp_name;
+	int		should_expand;
+
+	commands = ft_strchr(commands, '<');
+	if (!commands || *(commands + 2) == '\0')
+		return ((void)(vars->redirection_failed = true));
+	commands += 2;
+	while (*commands == ' ' || *commands == '\t')
+		commands++;
+	delimiter = get_delimiter(vars, commands, &should_expand);
+	if (vars->redirection_failed)
+		return ;
+	doc_file = create_doc_file(vars, delimiter);
+	if (vars->redirection_failed)
+		return ;
+	temp_name = generate_temp_filename();
+	check_open_doc(vars, doc_file, temp_name);
+	vars->temp = temp_name;
+	open_doc_file_expanded(vars, doc_file, j, should_expand);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc5.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/29 11:37:46 by frteixei          #+#    #+#             */
+/*   Updated: 2025/10/29 12:04:05 by frteixei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
+
+void	disable_quit_echo(struct termios *old_term)
+{
+	struct termios	new_term;
+
+	if (tcgetattr(STDIN_FILENO, old_term) == -1)
+		return ;
+	new_term = *old_term;
+	new_term.c_cc[VQUIT] = _POSIX_VDISABLE;
+	new_term.c_lflag &= ~0001000;
+	tcsetattr(STDIN_FILENO, TCSANOW, &new_term);
+}
+
+void	restore_terminal(struct termios *old_term)
+{
+	tcsetattr(STDIN_FILENO, TCSANOW, old_term);
 }
 /* ************************************************************************** */
 /*                                                                            */
@@ -1490,12 +1478,93 @@ int	check_flag_n(char *str)
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/22 13:21:20 by frteixei          #+#    #+#             */
+/*   Updated: 2025/11/03 16:30:03 by frteixei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
+
+int			g_exit_status = 0;
+
+void	minishell(char *input, char **env, t_vars *vars)
+{
+	int	i;
+
+	vars->redirection_failed = false;
+	i = minishell_helper(input, env, vars);
+	if (i == 0)
+		return ;
+	close(vars->pipe_fd[0]);
+}
+
+void	setup_shell(t_vars *vars, char **env)
+{
+	rl_catch_signals = 0;
+	rl_set_signals();
+	ft_vars_init(vars);
+	copy_environ(env, vars);
+}
+
+static void	setup_signals_parent(void)
+{
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	run_shell(t_vars *vars, char **env)
+{
+	char	*input;
+
+	while (1)
+	{
+		setup_signals_parent();
+		input = readline("myshell> ");
+		if (!ft_exit_ctrl_d(input))
+		{
+			g_exit_status = 1;
+			ft_free(vars->my_environ);
+			vars->my_environ = NULL;
+			ft_free_vars(vars);
+			rl_clear_history();
+			break ;
+		}
+		if (ft_strlen(input) != 0)
+		{
+			add_history(input);
+			minishell(input, env, vars);
+			if (vars)
+				ft_free_vars(vars);
+			free(input);
+		}
+		else
+			free(input);
+	}
+}
+
+int	main(int ac, char **av, char **env)
+{
+	t_vars	vars;
+
+	(void)ac;
+	(void)av;
+	setup_shell(&vars, env);
+	run_shell(&vars, env);
+	return (g_exit_status);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
 /*   main2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:26 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/03 16:24:31 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/03 16:28:44 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1578,16 +1647,12 @@ int	setup_commands(char *input, t_vars *vars, char ***commands)
 	}
 	vars->redirection_failed = false;
 	here_doc(vars, *commands);
-	if (vars->redirection_failed)
+	if (vars->redirection_failed && g_exit_status == 130)
 	{
-		if (g_exit_status == 130)  // Ctrl+C
-		{
-			ft_free(*commands);
-			*commands = NULL;
-			vars->all_commands = NULL;
-		}
-		if (g_exit_status == 130)
-			return (0);
+		ft_free(*commands);
+		*commands = NULL;
+		vars->all_commands = NULL;
+		return (0);
 	}
 	return (1);
 }
@@ -1626,7 +1691,7 @@ int	ft_has_invalid_pipe(char **commands)
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 17:24:01 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/03 16:01:12 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/04 12:40:37 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1640,8 +1705,6 @@ static void	execute_commands(t_vars *vars, char **env, char **commands)
 	while (commands[vars->i])
 	{
 		first_process(vars, env, &commands[vars->i], &vars->j);
-		free(commands[vars->i]);
-		vars->all_commands = NULL;
 		(vars->i)++;
 	}
 }
@@ -1686,7 +1749,7 @@ int	minishell_helper(char *input, char **env, t_vars *vars)
 		close(vars->p0);
 	if (commands)
 	{
-		free(commands);
+		ft_free(commands);
 		commands = NULL;
 	}
 	vars->all_commands = NULL;
@@ -1707,84 +1770,165 @@ int	minishell_helper(char *input, char **env, t_vars *vars)
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   processes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/22 13:21:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/03 16:10:17 by frteixei         ###   ########.fr       */
+/*   Created: 2025/10/22 13:21:31 by frteixei          #+#    #+#             */
+/*   Updated: 2025/11/04 12:36:52 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int			g_exit_status = 0;
+static void	execute_error(t_vars *vars, char **commands)
+{
+	struct stat	info;
 
-void	minishell(char *input, char **env, t_vars *vars)
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(commands[0], 2);
+	if (errno == EACCES)
+	{
+		if (stat(vars->cmd1_path, &info) == 0 && S_ISDIR(info.st_mode))
+			ft_putstr_fd(": Is a directory\n", 2);
+		else
+			ft_putstr_fd(": Permission denied\n", 2);
+		g_exit_status = 126;
+	}
+	else if (errno == ENOENT)
+	{
+		ft_putstr_fd(": No such file or directory\n", 2);
+		g_exit_status = 127;
+	}
+	else
+	{
+		ft_putstr_fd(": Execution failed\n", 2);
+		g_exit_status = 1;
+	}
+	exit(g_exit_status);
+}
+
+static void	cleanup_child_and_exit(t_vars *vars, int exit_code)
+{
+	if (vars->all_commands)
+	{
+		ft_free(vars->all_commands);
+		vars->all_commands = NULL;
+	}
+	if (vars->my_environ)
+		ft_free(vars->my_environ);
+	ft_free_vars_in_child(vars);
+	exit(exit_code);
+}
+
+static void	free_all_commands(t_vars *vars)
 {
 	int	i;
 
-	vars->redirection_failed = false;
-	i = minishell_helper(input, env, vars);
-	if (i == 0)
-		return ;
-	close(vars->pipe_fd[0]);
-}
-
-void	setup_shell(t_vars *vars, char **env)
-{
-	rl_catch_signals = 0;
-	rl_set_signals();
-	ft_vars_init(vars);
-	copy_environ(env, vars);
-}
-
-static void	setup_signals_parent(void)
-{
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void	run_shell(t_vars *vars, char **env)
-{
-	char	*input;
-
-	while (1)
+	if (vars->all_commands)
 	{
-		setup_signals_parent();
-		input = readline("myshell> ");
-		if (!ft_exit_ctrl_d(input))
+		i = 0;
+		while (vars->all_commands[i])
 		{
-			g_exit_status = 1;
-			ft_free(vars->my_environ);
-			vars->my_environ = NULL;
-			ft_free_vars(vars);
-			rl_clear_history();
-			break ;
+			free(vars->all_commands[i]);
+			vars->all_commands[i++] = NULL;
 		}
-		if (ft_strlen(input) != 0)
-		{
-			add_history(input);
-			minishell(input, env, vars);
-			if (vars)
-				ft_free_vars(vars);
-			free(input);
-		}
-		else
-			free(input);
-		rl_free_undo_list();
+		free(vars->all_commands);
+		vars->all_commands = NULL;
 	}
 }
 
-int	main(int ac, char **av, char **env)
+void	execute_command(t_vars *vars, char **commands, char **envp)
 {
-	t_vars	vars;
+	if (vars->redirection_failed)
+		cleanup_child_and_exit(vars, 1);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	remove_quotes_from_array(vars->cmd_flags);
+	if (check_if_builtin(vars))
+	{
+		run_builtin(vars);
+		free_all_commands(vars);
+		cleanup_child_and_exit(vars, g_exit_status);
+	}
+	vars->cmd1_path = check_valid_cmd(vars->cmd_flags[0], vars->my_environ);
+	if (vars->cmd1_path == NULL)
+	{
+		free_all_commands(vars);
+		cleanup_child_and_exit(vars, 127);
+	}
+	if (vars->my_environ)
+	{
+		ft_free(vars->my_environ);
+		vars->my_environ = NULL;
+	}
+	if (vars->here_doc_fd)
+	{
+		free(vars->here_doc_fd);
+		vars->here_doc_fd = NULL;
+	}
+	if (vars->temp)
+	{
+		free(vars->temp);
+		vars->temp = NULL;
+	}
+	if (execve(vars->cmd1_path, vars->cmd_flags, envp) == -1)
+	{
+		execute_error(vars, commands);
+		if (vars->cmd1_path)
+		{
+			free(vars->cmd1_path);
+			vars->cmd1_path = NULL;
+		}
+		cleanup_child_and_exit(vars, g_exit_status);
+	}
+}
 
-	(void)ac;
-	(void)av;
-	setup_shell(&vars, env);
-	run_shell(&vars, env);
-	return (g_exit_status);
+void	cleanup_temp_file(t_vars *vars)
+{
+	if (vars->temp != NULL)
+	{
+		unlink(vars->temp);
+		free(vars->temp);
+		vars->temp = NULL;
+	}
+	if (vars->cmd_flags)
+		ft_free(vars->cmd_flags);
+	vars->cmd_flags = NULL;
+	if (vars->cmd1_path)
+	{
+		free(vars->cmd1_path);
+		vars->cmd1_path = NULL;
+	}
+}
+
+char	*find_unquoted_char(char *str, char c)
+{
+	int		in_quotes;
+	char	quote_char;
+
+	in_quotes = 0;
+	quote_char = '\0';
+	while (*str)
+	{
+		if (*str == '\'' || *str == '"')
+		{
+			if (!in_quotes)
+			{
+				in_quotes = 1;
+				quote_char = *str;
+			}
+			else if (*str == quote_char)
+			{
+				in_quotes = 0;
+				quote_char = '\0';
+			}
+		}
+		else if (!in_quotes && *str == c)
+			return (str);
+		str++;
+	}
+	return (NULL);
 }
 /* ************************************************************************** */
 /*                                                                            */
@@ -2018,158 +2162,91 @@ void	first_process(t_vars *vars, char **envp, char **commands, int *j)
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   processes.c                                        :+:      :+:    :+:   */
+/*   split_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/22 13:21:31 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/03 15:51:18 by frteixei         ###   ########.fr       */
+/*   Created: 2025/07/07 19:42:27 by frteixei          #+#    #+#             */
+/*   Updated: 2025/10/22 17:21:03 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	execute_error(t_vars *vars, char **commands)
+static bool	is_escaped(const char *str, int pos)
 {
-	struct stat	info;
+	int	backslashes;
 
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(commands[0], 2);
-	if (errno == EACCES)
+	backslashes = 0;
+	pos--;
+	while (pos >= 0 && str[pos] == '\\')
 	{
-		if (stat(vars->cmd1_path, &info) == 0 && S_ISDIR(info.st_mode))
-			ft_putstr_fd(": Is a directory\n", 2);
-		else
-			ft_putstr_fd(": Permission denied\n", 2);
-		g_exit_status = 126;
+		backslashes++;
+		pos--;
 	}
-	else if (errno == ENOENT)
-	{
-		ft_putstr_fd(": No such file or directory\n", 2);
-		g_exit_status = 127;
-	}
-	else
-	{
-		ft_putstr_fd(": Execution failed\n", 2);
-		g_exit_status = 1;
-	}
-	exit(g_exit_status);
+	return ((backslashes % 2) == 1);
 }
 
-static void	cleanup_child_and_exit(t_vars *vars, int exit_code)
+static void	update_quotes(const char *s, int i, bool *sq, bool *dq)
 {
-	vars->all_commands = NULL;
-	if (vars->my_environ)
-		ft_free(vars->my_environ);
-	ft_free_vars_in_child(vars);
-	exit(exit_code);
+	if (s[i] == '\'' && !*dq && !is_escaped(s, i))
+		*sq = !*sq;
+	else if (s[i] == '"' && !*sq && !is_escaped(s, i))
+		*dq = !*dq;
 }
 
-static void	free_all_commands(t_vars *vars)
+static void	record_redir(const char *s, int i, t_redir *r, int *count)
 {
-	int	i;
-
-	if (vars->all_commands)
+	if (i == 0 || s[i - 1] != s[i])
 	{
-		i = 0;
-		while (vars->all_commands[i])
+		r[*count].type = s[i];
+		r[*count].index = i;
+		(*count)++;
+	}
+}
+
+void	scan_redirections(const char *str, t_redir *results, int *count)
+{
+	bool	in_single;
+	bool	in_double;
+	int		i;
+	char	c;
+
+	in_single = false;
+	in_double = false;
+	i = 0;
+	while (str[i] != '\0')
+	{
+		c = str[i];
+		update_quotes(str, i, &in_single, &in_double);
+		if (!in_single && !in_double && (c == '<' || c == '>'))
+			record_redir(str, i, results, count);
+		i++;
+	}
+}
+
+t_redir	*find_redirections(const char *str, int *count)
+{
+	int		capacity;
+	t_redir	*results;
+
+	capacity = 16;
+	*count = 0;
+	results = malloc(capacity * sizeof(t_redir));
+	if (!results)
+		return (NULL);
+	scan_redirections(str, results, count);
+	if (*count >= capacity)
+	{
+		capacity *= 2;
+		results = realloc(results, capacity * sizeof(t_redir));
+		if (!results)
 		{
-			free(vars->all_commands[i]);
-			vars->all_commands[i++] = NULL;
+			perror("realloc");
+			exit(1);
 		}
-		free(vars->all_commands);
-		vars->all_commands = NULL;
 	}
-}
-
-void	execute_command(t_vars *vars, char **commands, char **envp)
-{
-	if (vars->redirection_failed)
-		cleanup_child_and_exit(vars, 1);
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-	remove_quotes_from_array(vars->cmd_flags);
-	if (check_if_builtin(vars))
-	{
-		run_builtin(vars);
-		free_all_commands(vars);
-		cleanup_child_and_exit(vars, g_exit_status);
-	}
-	vars->cmd1_path = check_valid_cmd(vars->cmd_flags[0], vars->my_environ);
-	if (vars->cmd1_path == NULL)
-	{
-		free_all_commands(vars);
-		cleanup_child_and_exit(vars, 127);
-	}
-	if (vars->my_environ)
-	{
-		ft_free(vars->my_environ);
-		vars->my_environ = NULL;
-	}
-	if (vars->here_doc_fd)
-	{
-		free(vars->here_doc_fd);
-		vars->here_doc_fd = NULL;
-	}
-	if (vars->temp)
-	{
-		free(vars->temp);
-		vars->temp = NULL;
-	}
-	if (execve(vars->cmd1_path, vars->cmd_flags, envp) == -1)
-	{
-		execute_error(vars, commands);
-		if (vars->cmd1_path)
-			free(vars->cmd1_path);
-		exit(g_exit_status);
-	}
-}
-
-void	cleanup_temp_file(t_vars *vars)
-{
-	if (vars->temp != NULL)
-	{
-		unlink(vars->temp);
-		free(vars->temp);
-		vars->temp = NULL;
-	}
-	if (vars->cmd_flags)
-		ft_free(vars->cmd_flags);
-	vars->cmd_flags = NULL;
-	if (vars->cmd1_path)
-	{
-		free(vars->cmd1_path);
-		vars->cmd1_path = NULL;
-	}
-}
-
-char	*find_unquoted_char(char *str, char c)
-{
-	int		in_quotes;
-	char	quote_char;
-
-	in_quotes = 0;
-	quote_char = '\0';
-	while (*str)
-	{
-		if (*str == '\'' || *str == '"')
-		{
-			if (!in_quotes)
-			{
-				in_quotes = 1;
-				quote_char = *str;
-			}
-			else if (*str == quote_char)
-			{
-				in_quotes = 0;
-				quote_char = '\0';
-			}
-		}
-		else if (!in_quotes && *str == c)
-			return (str);
-		str++;
-	}
-	return (NULL);
+	return (results);
 }
 /* ************************************************************************** */
 /*                                                                            */
@@ -2532,7 +2609,7 @@ int	process_single_input_redir(char *cmd, int pos, t_vars *vars, int *j)
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 17:21:39 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/03 16:23:27 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/03 16:37:52 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2601,13 +2678,12 @@ static void	print_eof_warning(char *delimiter, int line_count)
 		ft_putstr_fd("')\n", 2);
 		return;
 	}
-	
 	ft_putstr_fd("minishell: warning: here-document at line ", 2);
 	ft_putnbr_fd(line_count, 2);
 	ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
 	ft_putstr_fd(trimmed, 2);
 	ft_putstr_fd("')\n", 2);
-	free(trimmed);  // ADD THIS
+	free(trimmed);
 }
 
 static void	write_line(int fd, char *str, int expand, t_vars *vars)
@@ -2634,6 +2710,7 @@ void	process_heredoc_expanded(t_vars *vars, char *doc_file, int fd,
 	int				lines;
 	struct termios	old_term;
 
+	g_heredoc_vars = vars;
 	disable_quit_echo(&old_term);
 	lines = 1;
 	write(1, "> ", 2);
@@ -2652,6 +2729,7 @@ void	process_heredoc_expanded(t_vars *vars, char *doc_file, int fd,
 	free(str);
 	get_next_line(-1);
 	free(doc_file);
+	g_heredoc_vars = NULL;
 	ft_cleanup_heredoc_child(vars);
 	exit(g_exit_status = 0);
 }
@@ -2744,91 +2822,88 @@ char	*expand_heredoc_line(t_vars *vars, char *line)
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_cmds.c                                       :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 19:42:27 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 17:21:03 by frteixei         ###   ########.fr       */
+/*   Created: 2025/07/07 19:42:34 by frteixei          #+#    #+#             */
+/*   Updated: 2025/10/31 15:36:24 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static bool	is_escaped(const char *str, int pos)
+char	*find_path(char **envp)
 {
-	int	backslashes;
-
-	backslashes = 0;
-	pos--;
-	while (pos >= 0 && str[pos] == '\\')
+	if (!envp)
+		return (NULL);
+	while (ft_strncmp("PATH=", *envp, 5))
 	{
-		backslashes++;
-		pos--;
+		envp++;
 	}
-	return ((backslashes % 2) == 1);
+	if (*envp == NULL)
+		return (NULL);
+	return (*envp + 5);
 }
 
-static void	update_quotes(const char *s, int i, bool *sq, bool *dq)
+int	count_words(char *str, char *delimiters)
 {
-	if (s[i] == '\'' && !*dq && !is_escaped(s, i))
-		*sq = !*sq;
-	else if (s[i] == '"' && !*sq && !is_escaped(s, i))
-		*dq = !*dq;
-}
+	int		count;
+	int		token_length;
+	char	*token_start;
 
-static void	record_redir(const char *s, int i, t_redir *r, int *count)
-{
-	if (i == 0 || s[i - 1] != s[i])
+	count = 0;
+	if (!str)
+		return (0);
+	token_start = get_next_token(str, delimiters);
+	while (token_start)
 	{
-		r[*count].type = s[i];
-		r[*count].index = i;
-		(*count)++;
+		count++;
+		token_length = get_token_length(token_start, delimiters);
+		token_start = get_next_token(token_start + token_length, delimiters);
 	}
+	return (count);
 }
 
-void	scan_redirections(const char *str, t_redir *results, int *count)
+int	ft_strcmp(char *s1, char *s2)
 {
-	bool	in_single;
-	bool	in_double;
-	int		i;
-	char	c;
+	int	i;
 
-	in_single = false;
-	in_double = false;
 	i = 0;
-	while (str[i] != '\0')
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return ((int)s1[i] - (int)s2[i]);
+}
+
+int	ft_exit_ctrl_d(char *input)
+{
+	if (!input)
 	{
-		c = str[i];
-		update_quotes(str, i, &in_single, &in_double);
-		if (!in_single && !in_double && (c == '<' || c == '>'))
-			record_redir(str, i, results, count);
+		ft_printf("exit\n");
+		rl_clear_history();
+		return (0);
+	}
+	return (1);
+}
+
+char	*ft_strstr(const char *haystack, const char *needle)
+{
+	int	i;
+	int	j;
+
+	if (!needle || !*needle)
+		return ((char *)haystack);
+	i = 0;
+	while (haystack[i])
+	{
+		j = 0;
+		while (haystack[i + j] && needle[j] && haystack[i + j] == needle[j])
+			j++;
+		if (!needle[j])
+			return ((char *)&haystack[i]);
 		i++;
 	}
-}
-
-t_redir	*find_redirections(const char *str, int *count)
-{
-	int		capacity;
-	t_redir	*results;
-
-	capacity = 16;
-	*count = 0;
-	results = malloc(capacity * sizeof(t_redir));
-	if (!results)
-		return (NULL);
-	scan_redirections(str, results, count);
-	if (*count >= capacity)
-	{
-		capacity *= 2;
-		results = realloc(results, capacity * sizeof(t_redir));
-		if (!results)
-		{
-			perror("realloc");
-			exit(1);
-		}
-	}
-	return (results);
+	return (NULL);
 }
 /* ************************************************************************** */
 /*                                                                            */
@@ -2949,7 +3024,7 @@ void	signal_handler(int sig)
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:44 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/03 16:25:25 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/03 16:40:59 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -3008,10 +3083,8 @@ void	ft_free_vars(t_vars *vars)
 	if (vars->here_doc_fd)
 	{
 		i = 0;
-		while (i < 100)  // reasonable upper bound
+		while (vars->here_doc_fd[i] != -1)
 		{
-			if (vars->here_doc_fd[i] == -1)
-				break;
 			if (vars->here_doc_fd[i] > 0)
 				close(vars->here_doc_fd[i]);
 			i++;
@@ -3111,7 +3184,6 @@ void	ft_cleanup_heredoc_child(t_vars *vars)
 	}
 	if (vars->temp)
 	{
-		unlink(vars->temp);
 		free(vars->temp);
 		vars->temp = NULL;
 	}
@@ -3120,8 +3192,6 @@ void	ft_cleanup_heredoc_child(t_vars *vars)
 		ft_free(vars->my_environ);
 		vars->my_environ = NULL;
 	}
-	rl_clear_history();
-    get_next_line(-1);
 }
 /* ************************************************************************** */
 /*                                                                            */
@@ -3400,179 +3470,6 @@ int	ft_is_empty_command(const char *cmd)
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 19:42:34 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/31 15:36:24 by frteixei         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../minishell.h"
-
-char	*find_path(char **envp)
-{
-	if (!envp)
-		return (NULL);
-	while (ft_strncmp("PATH=", *envp, 5))
-	{
-		envp++;
-	}
-	if (*envp == NULL)
-		return (NULL);
-	return (*envp + 5);
-}
-
-int	count_words(char *str, char *delimiters)
-{
-	int		count;
-	int		token_length;
-	char	*token_start;
-
-	count = 0;
-	if (!str)
-		return (0);
-	token_start = get_next_token(str, delimiters);
-	while (token_start)
-	{
-		count++;
-		token_length = get_token_length(token_start, delimiters);
-		token_start = get_next_token(token_start + token_length, delimiters);
-	}
-	return (count);
-}
-
-int	ft_strcmp(char *s1, char *s2)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return ((int)s1[i] - (int)s2[i]);
-}
-
-int	ft_exit_ctrl_d(char *input)
-{
-	if (!input)
-	{
-		ft_printf("exit\n");
-		rl_clear_history();
-		return (0);
-	}
-	return (1);
-}
-
-char	*ft_strstr(const char *haystack, const char *needle)
-{
-	int	i;
-	int	j;
-
-	if (!needle || !*needle)
-		return ((char *)haystack);
-	i = 0;
-	while (haystack[i])
-	{
-		j = 0;
-		while (haystack[i + j] && needle[j] && haystack[i + j] == needle[j])
-			j++;
-		if (!needle[j])
-			return ((char *)&haystack[i]);
-		i++;
-	}
-	return (NULL);
-}
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   var_expander2.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/22 13:23:09 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/03 15:24:18 by frteixei         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../minishell.h"
-
-char	*replace_exit_status(char *commands, int j)
-{
-	char	*temp;
-	char	*temp2;
-	char	*num;
-
-	temp = NULL;
-	temp2 = NULL;
-	if (j >= 2)
-		temp = ft_substr(commands, 0, j - 2);
-	else
-		temp = ft_strdup("");
-	temp2 = ft_substr(commands, j, ft_strlen(commands) - j);
-	num = ft_itoa(g_exit_status);
-	free(commands);
-	commands = ft_strjoin_three(temp, num, temp2);
-	free(temp);
-	free(num);
-	free(temp2);
-	return (commands);
-}
-
-int	check_if_exit_stat(char **commands, int i, int j)
-{
-	if (commands[i][j] == '$' && commands[i][j + 1] == '?')
-	{
-		commands[i] = replace_exit_status(commands[i], j + 2);
-		return (1);
-	}
-	return (0);
-}
-
-void	ft_expander_helper2(char **commands, t_vars *vars, int i)
-{
-	int	j;
-	int	in_quotes;
-	int	in_squotes;
-	int	len;
-
-	j = 0;
-	in_quotes = -1;
-	in_squotes = -1;
-	while (commands[i] && commands[i][j])
-	{
-		len = ft_strlen(commands[i]);
-		if (j >= len)
-			break ;
-		if (in_squotes == -1 && commands[i][j] == '$' && (j + 1) < len
-			&& commands[i][j + 1] == '?')
-		{
-			commands[i] = replace_exit_status(commands[i], j + 2);
-			if (!commands[i])
-				return ;
-			j = 0;
-			continue ;
-		}
-		else if (in_squotes == -1 && commands[i][j] == '$' && (j + 1) < len
-			&& commands[i][j + 1] != ' ' && commands[i][j + 1] != '\0'
-			&& commands[i][j + 1] != '\"')
-		{
-			commands[i] = replace_var(vars, commands[i], j + 1);
-			if (!commands[i])
-				return ;
-			j = 0;
-			continue ;
-		}
-		if (commands[i][j] == '"' && in_squotes == -1)
-			in_quotes *= -1;
-		if (commands[i][j] == 39 && in_quotes == -1)
-			in_squotes *= -1;
-		j++;
-	}
-}
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
 /*   var_expander.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
@@ -3700,5 +3597,92 @@ void	var_expander(t_vars *vars, char **commands)
 		if (strchr(commands[i], '$'))
 			ft_expander_helper2(commands, vars, i);
 		i++;
+	}
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   var_expander2.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/22 13:23:09 by frteixei          #+#    #+#             */
+/*   Updated: 2025/11/03 15:24:18 by frteixei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
+
+char	*replace_exit_status(char *commands, int j)
+{
+	char	*temp;
+	char	*temp2;
+	char	*num;
+
+	temp = NULL;
+	temp2 = NULL;
+	if (j >= 2)
+		temp = ft_substr(commands, 0, j - 2);
+	else
+		temp = ft_strdup("");
+	temp2 = ft_substr(commands, j, ft_strlen(commands) - j);
+	num = ft_itoa(g_exit_status);
+	free(commands);
+	commands = ft_strjoin_three(temp, num, temp2);
+	free(temp);
+	free(num);
+	free(temp2);
+	return (commands);
+}
+
+int	check_if_exit_stat(char **commands, int i, int j)
+{
+	if (commands[i][j] == '$' && commands[i][j + 1] == '?')
+	{
+		commands[i] = replace_exit_status(commands[i], j + 2);
+		return (1);
+	}
+	return (0);
+}
+
+void	ft_expander_helper2(char **commands, t_vars *vars, int i)
+{
+	int	j;
+	int	in_quotes;
+	int	in_squotes;
+	int	len;
+
+	j = 0;
+	in_quotes = -1;
+	in_squotes = -1;
+	while (commands[i] && commands[i][j])
+	{
+		len = ft_strlen(commands[i]);
+		if (j >= len)
+			break ;
+		if (in_squotes == -1 && commands[i][j] == '$' && (j + 1) < len
+			&& commands[i][j + 1] == '?')
+		{
+			commands[i] = replace_exit_status(commands[i], j + 2);
+			if (!commands[i])
+				return ;
+			j = 0;
+			continue ;
+		}
+		else if (in_squotes == -1 && commands[i][j] == '$' && (j + 1) < len
+			&& commands[i][j + 1] != ' ' && commands[i][j + 1] != '\0'
+			&& commands[i][j + 1] != '\"')
+		{
+			commands[i] = replace_var(vars, commands[i], j + 1);
+			if (!commands[i])
+				return ;
+			j = 0;
+			continue ;
+		}
+		if (commands[i][j] == '"' && in_squotes == -1)
+			in_quotes *= -1;
+		if (commands[i][j] == 39 && in_quotes == -1)
+			in_squotes *= -1;
+		j++;
 	}
 }

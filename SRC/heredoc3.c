@@ -12,6 +12,8 @@
 
 #include "../minishell.h"
 
+t_vars *g_heredoc_vars = NULL;
+
 char	*ft_strndup_aspas(char *commands, int len)
 {
 	int		i;
@@ -34,6 +36,8 @@ void	heredoc_signal_handler(int sig)
 		write(1, "^C\n", 3);
 		close(STDIN_FILENO);
 		get_next_line(-1);
+		if (g_heredoc_vars)
+			ft_cleanup_heredoc_child(g_heredoc_vars);
 		exit(130);
 	}
 }
