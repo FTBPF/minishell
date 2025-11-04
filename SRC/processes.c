@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:31 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/03 15:51:18 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/04 12:36:52 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,11 @@ static void	execute_error(t_vars *vars, char **commands)
 
 static void	cleanup_child_and_exit(t_vars *vars, int exit_code)
 {
-	vars->all_commands = NULL;
+	if (vars->all_commands)
+	{
+		ft_free(vars->all_commands);
+		vars->all_commands = NULL;
+	}
 	if (vars->my_environ)
 		ft_free(vars->my_environ);
 	ft_free_vars_in_child(vars);
@@ -103,8 +107,11 @@ void	execute_command(t_vars *vars, char **commands, char **envp)
 	{
 		execute_error(vars, commands);
 		if (vars->cmd1_path)
+		{
 			free(vars->cmd1_path);
-		exit(g_exit_status);
+			vars->cmd1_path = NULL;
+		}
+		cleanup_child_and_exit(vars, g_exit_status);
 	}
 }
 
