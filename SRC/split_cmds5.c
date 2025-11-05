@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 17:21:39 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/05 16:47:36 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:47:37 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static void	read_heredoc_lines(t_vars *vars, char *doc_file, int fd, int expand)
 void	process_heredoc_expanded(t_vars *vars, char *doc_file, int fd,
 		int expand)
 {
-	struct termios	old_term;
+	static struct termios	old_term;
 
 	g_heredoc_vars = vars;
 	vars->doc_file = doc_file;

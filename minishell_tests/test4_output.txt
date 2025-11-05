@@ -1,55 +1,38 @@
-==48175== Memcheck, a memory error detector
-==48175== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==48175== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==48175== Command: /home/frteixei/work42/42cursus/minishell/minishell
-==48175== 
+==52709== Memcheck, a memory error detector
+==52709== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==52709== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==52709== Command: /home/frteixei/Documents/testes/minishell/minishell
+==52709== 
 myshell> cat << EOF
-> > > > ==48176== Syscall param ioctl(TCSET{S,SW,SF}) points to uninitialised byte(s)
-==48176==    at 0x49DEE55: tcsetattr (tcsetattr.c:83)
-==48176==    by 0x408A18: restore_terminal (heredoc5.c:29)
-==48176==    by 0x403EB5: process_heredoc_expanded (split_cmds5.c:104)
-==48176==    by 0x4082B4: fork_heredoc (here_doc2.c:37)
-==48176==    by 0x408181: open_doc_file_expanded (here_doc2.c:64)
-==48176==    by 0x408766: open_doc (heredoc4.c:92)
-==48176==    by 0x407F3B: handle_heredoc (here_doc.c:80)
-==48176==    by 0x407D9B: here_doc (here_doc.c:60)
-==48176==    by 0x4017AF: handle_heredoc_phase (main2.c:37)
-==48176==    by 0x4016BB: setup_commands (main2.c:57)
-==48176==    by 0x40196C: minishell_helper (main3.c:73)
-==48176==    by 0x401C3C: minishell (main3.c:92)
-==48176==  Address 0x1ffefff930 is on thread 1's stack
-==48176==  in frame #0, created by tcsetattr (tcsetattr.c:45)
-==48176== 
-==48176== 
-==48176== HEAP SUMMARY:
-==48176==     in use at exit: 208,235 bytes in 226 blocks
-==48176==   total heap usage: 511 allocs, 285 frees, 235,845 bytes allocated
-==48176== 
-==48176== LEAK SUMMARY:
-==48176==    definitely lost: 0 bytes in 0 blocks
-==48176==    indirectly lost: 0 bytes in 0 blocks
-==48176==      possibly lost: 0 bytes in 0 blocks
-==48176==    still reachable: 0 bytes in 0 blocks
-==48176==         suppressed: 208,235 bytes in 226 blocks
-==48176== 
-==48176== Use --track-origins=yes to see where uninitialised values come from
-==48176== For lists of detected and suppressed errors, rerun with: -s
-==48176== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+> > > > ==52710== 
+==52710== HEAP SUMMARY:
+==52710==     in use at exit: 208,235 bytes in 226 blocks
+==52710==   total heap usage: 511 allocs, 285 frees, 235,847 bytes allocated
+==52710== 
+==52710== LEAK SUMMARY:
+==52710==    definitely lost: 0 bytes in 0 blocks
+==52710==    indirectly lost: 0 bytes in 0 blocks
+==52710==      possibly lost: 0 bytes in 0 blocks
+==52710==    still reachable: 0 bytes in 0 blocks
+==52710==         suppressed: 208,235 bytes in 226 blocks
+==52710== 
+==52710== For lists of detected and suppressed errors, rerun with: -s
+==52710== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 hello heredoc
 multiple lines
 test
 myshell> exit
-==48175== 
-==48175== HEAP SUMMARY:
-==48175==     in use at exit: 208,177 bytes in 222 blocks
-==48175==   total heap usage: 510 allocs, 288 frees, 235,942 bytes allocated
-==48175== 
-==48175== LEAK SUMMARY:
-==48175==    definitely lost: 0 bytes in 0 blocks
-==48175==    indirectly lost: 0 bytes in 0 blocks
-==48175==      possibly lost: 0 bytes in 0 blocks
-==48175==    still reachable: 0 bytes in 0 blocks
-==48175==         suppressed: 208,177 bytes in 222 blocks
-==48175== 
-==48175== For lists of detected and suppressed errors, rerun with: -s
-==48175== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==52709== 
+==52709== HEAP SUMMARY:
+==52709==     in use at exit: 208,177 bytes in 222 blocks
+==52709==   total heap usage: 510 allocs, 288 frees, 235,944 bytes allocated
+==52709== 
+==52709== LEAK SUMMARY:
+==52709==    definitely lost: 0 bytes in 0 blocks
+==52709==    indirectly lost: 0 bytes in 0 blocks
+==52709==      possibly lost: 0 bytes in 0 blocks
+==52709==    still reachable: 0 bytes in 0 blocks
+==52709==         suppressed: 208,177 bytes in 222 blocks
+==52709== 
+==52709== For lists of detected and suppressed errors, rerun with: -s
+==52709== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
