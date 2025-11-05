@@ -75,8 +75,10 @@ void	open_doc_file_expanded(t_vars *vars, char *doc_file, int *j, int expand)
 	}
 	free(doc_file);
 	if (!vars->redirection_failed)
+	{
 		vars->here_doc_fd[*j] = open(vars->temp, O_RDONLY);
-	check_final_fd(vars, j);
+		check_final_fd(vars, j);
+	}
 }
 
 void	ft_open_helper(int *i, char *commands)
