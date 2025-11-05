@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:04 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/03 16:40:23 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 15:02:34 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	open_doc_file_expanded(t_vars *vars, char *doc_file, int *j, int expand)
 	signal(SIGQUIT, SIG_DFL);
 	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
 	{
-		g_exit_status = 130;
+		*exit_status() = 130;
 		vars->redirection_failed = true;
 		if (vars->temp)
 			unlink(vars->temp);

@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:44 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/03 16:40:59 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 15:27:06 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	ft_vars_init(t_vars *vars)
 	vars->redirection_failed = false;
 	vars->all_commands = NULL;
 	vars->doc_file = NULL;
+	vars->shelllevel = 1;
 }
 
 int	setup_pipe(int *pipe_fd)

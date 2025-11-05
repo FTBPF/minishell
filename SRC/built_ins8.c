@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:20:47 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 13:20:48 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 15:02:34 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	change_directory(char *path, t_vars *vars)
 	else
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
-		g_exit_status = 1;
+		*exit_status() = 1;
 		perror(path);
 	}
 }
@@ -61,5 +61,5 @@ void	ft_echo(char **commands)
 	ft_echo2(commands, i);
 	if (!n_flag)
 		ft_printf("\n");
-	g_exit_status = 0;
+	*exit_status() = 0;
 }

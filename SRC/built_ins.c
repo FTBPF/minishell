@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:41:19 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/03 15:24:30 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 15:25:17 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ void	run_builtin(t_vars *vars)
 	else if (ft_strcmp(cmd, "exit") == 0)
 		ft_exit(vars, vars->cmd_flags);
 	else
-		g_exit_status = 1;
-	if (g_exit_status == -1)
-		g_exit_status = 0;
+		*exit_status() = 1;
+	if (*exit_status() == -1)
+		*exit_status() = 0;
 	return ;
 }
 
@@ -84,7 +84,7 @@ void	ft_cd(char **commands, t_vars *vars)
 	if (commands[2])
 	{
 		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
-		g_exit_status = 1;
+		*exit_status() = 1;
 	}
 	if (handle_cd_special_cases(commands, vars))
 		return ;
@@ -102,5 +102,5 @@ void	ft_env(t_vars *vars)
 			ft_printf("%s\n", vars->my_environ[i]);
 		i++;
 	}
-	g_exit_status = 0;
+	*exit_status() = 0;
 }

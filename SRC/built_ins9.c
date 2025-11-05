@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:20:52 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 13:20:54 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 15:02:34 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	is_valid_identifier(char *str)
 
 static void	print_export_error(char *str)
 {
-	g_exit_status = 1;
+	*exit_status() = 1;
 	ft_putstr_fd("minishell: export: `", 2);
 	if (str)
 		ft_putstr_fd(str, 2);
@@ -92,7 +92,7 @@ void	ft_export(t_vars *vars, char **split_cmds)
 	i = 1;
 	if (!split_cmds[1])
 	{
-		g_exit_status = 0;
+		*exit_status() = 0;
 		print_exported_vars(vars);
 		return ;
 	}

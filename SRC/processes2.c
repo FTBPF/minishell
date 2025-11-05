@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 16:47:42 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/23 18:11:41 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 15:02:34 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	open_and_assign_fd(t_vars *vars, char *infile)
 	cleaned_filename = remove_quotes_from_string(infile);
 	if (!cleaned_filename)
 	{
-		g_exit_status = 1;
+		*exit_status() = 1;
 		return (vars->redirection_failed = true, -1);
 	}
 	fd = open(cleaned_filename, O_RDONLY);
@@ -97,7 +97,7 @@ int	open_and_assign_fd(t_vars *vars, char *infile)
 		ft_putstr_fd(cleaned_filename, 2);
 		ft_putstr_fd(": ", 2);
 		ft_putendl_fd(strerror(errno), 2);
-		g_exit_status = 1;
+		*exit_status() = 1;
 		vars->redirection_failed = true;
 		return (free(cleaned_filename), -1);
 	}
@@ -120,7 +120,7 @@ void	handle_output_redirection(t_vars *vars, char *outfile)
 		ft_putstr_fd(vars->outfile_name, 2);
 		ft_putstr_fd(": ", 2);
 		ft_putendl_fd(strerror(errno), 2);
-		g_exit_status = 1;
+		*exit_status() = 1;
 		vars->redirection_failed = true;
 	}
 }

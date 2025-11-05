@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 17:01:17 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/28 17:02:28 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 15:02:34 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	*expand_exit_status(char *result, int *i)
 	char	*temp;
 	char	*num;
 
-	num = ft_itoa(g_exit_status);
+	num = ft_itoa(*exit_status());
 	temp = result;
 	result = ft_strjoin(result, num);
 	free(temp);

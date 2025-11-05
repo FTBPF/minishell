@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/03 15:19:09 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 15:14:04 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,199 +28,203 @@
 # include <sys/wait.h>
 # include <termios.h>
 
-extern int	g_exit_status;
+extern int		*exit_status(void);
 
 typedef struct s_vars
 {
-	int		i;
-	int		j;
-	int		fd[2];
-	int		pipe_fd[2];
-	int		pid1;
-	int		fd1;
-	int		fd0;
-	int		p0;
-	char	*temp;
-	char	*cmd1_path;
-	char	*cmd2_path;
-	char	**cmd_flags;
-	char	**cmd2_flags;
-	int		*here_doc_fd;
-	char	**my_environ;
-	int		num_env_vars;
-	int		in_child_process;
-	char	*infile_name;
-	char	*outfile_name;
-	bool	redirection_failed;
-	bool	in_pipeline;
-	char	**all_commands;
-	char	*doc_file;
-}			t_vars;
+	int			i;
+	int			j;
+	int			fd[2];
+	int			pipe_fd[2];
+	int			pid1;
+	int			fd1;
+	int			fd0;
+	int			p0;
+	char		*temp;
+	char		*cmd1_path;
+	char		*cmd2_path;
+	char		**cmd_flags;
+	char		**cmd2_flags;
+	int			*here_doc_fd;
+	char		**my_environ;
+	int			num_env_vars;
+	int			in_child_process;
+	char		*infile_name;
+	char		*outfile_name;
+	bool		redirection_failed;
+	bool		in_pipeline;
+	char		**all_commands;
+	char		*doc_file;
+	int			shelllevel;
+}				t_vars;
 
-extern t_vars *g_heredoc_vars;
+extern t_vars	*g_heredoc_vars;
 
-void		ft_cleanup_heredoc_child(t_vars *vars);
-void		ft_free_vars_in_child(t_vars *vars);
+void			ft_cleanup_heredoc_child(t_vars *vars);
+void			ft_free_vars_in_child(t_vars *vars);
 
-void		disable_quit_echo(struct termios *old_term);
-void		restore_terminal(struct termios *old_term);
+void			disable_quit_echo(struct termios *old_term);
+void			restore_terminal(struct termios *old_term);
 
 typedef struct s_redirection_context
 {
-	char	**temp;
-	int		*i;
-	int		*j;
-	char	**infile;
-}			t_redirection_context;
+	char		**temp;
+	int			*i;
+	int			*j;
+	char		**infile;
+}				t_redirection_context;
 
 typedef struct s_redir
 {
-	char	type;
-	int		index;
-}			t_redir;
+	char		type;
+	int			index;
+}				t_redir;
 
-char		*expand_heredoc_line(t_vars *vars, char *line);
-void		check_open_doc(t_vars *vars, char *doc_file, char *temp_name);
-void		heredoc_signal_handler(int sig);
-void		setup_heredoc_signals(void);
-void		setup_heredoc_parent_signals(void);
+int				*exit_status(void);
+char			*expand_heredoc_line(t_vars *vars, char *line);
+void			check_open_doc(t_vars *vars, char *doc_file, char *temp_name);
+void			heredoc_signal_handler(int sig);
+void			setup_heredoc_signals(void);
+void			setup_heredoc_parent_signals(void);
 
-void		open_doc_file_expanded(t_vars *vars, char *doc_file, int *j,
-				int should_expand);
-void		process_heredoc_expanded(t_vars *vars, char *doc_file, int fd,
-				int should_expand);
+void			open_doc_file_expanded(t_vars *vars, char *doc_file, int *j,
+					int should_expand);
+void			process_heredoc_expanded(t_vars *vars, char *doc_file, int fd,
+					int should_expand);
 
 // Input Sanitize.c
-char		*check_executable(char *command, char **split_paths);
-char		*check_command(char *command, char **split_paths);
-char		*check_valid_cmd_builtin(char *command);
-char		*check_valid_cmd(char *argv, char **envp);
-int			check_flag_n(char *str);
+char			*check_executable(char *command, char **split_paths);
+char			*check_command(char *command, char **split_paths);
+char			*check_valid_cmd_builtin(char *command);
+char			*check_valid_cmd(char *argv, char **envp);
+int				check_flag_n(char *str);
 
 // split_cmds.c
-int			process_single_input_redir(char *cmd, int redir_pos, t_vars *vars,
-				int *j);
-char		*parse_outfile_token(char *temp, int *i);
-char		*skip_whitespace(char *str);
-t_redir		*find_redirections(const char *str, int *count);
-int			has_unquoted_heredoc(const char *s);
-char		*get_next_token(char *str, char *delimiters);
-int			get_token_length(char *str, char *delimiters);
-char		**ft_split_commands(char *str, char *delimiters);
-void		setup_redirections(char **commands, t_vars *vars, int *j);
+int				process_single_input_redir(char *cmd, int redir_pos,
+					t_vars *vars, int *j);
+char			*parse_outfile_token(char *temp, int *i);
+char			*skip_whitespace(char *str);
+t_redir			*find_redirections(const char *str, int *count);
+int				has_unquoted_heredoc(const char *s);
+char			*get_next_token(char *str, char *delimiters);
+int				get_token_length(char *str, char *delimiters);
+char			**ft_split_commands(char *str, char *delimiters);
+void			setup_redirections(char **commands, t_vars *vars, int *j);
 
 // Processes.c
-char		*find_unquoted_char(char *str, char c);
-void		cleanup_temp_file(t_vars *vars);
-void		execute_command(t_vars *vars, char **commands, char **envp);
-void		first_process(t_vars *vars, char **envp, char **commands, int *j);
+char			*find_unquoted_char(char *str, char c);
+void			cleanup_temp_file(t_vars *vars);
+void			execute_command(t_vars *vars, char **commands, char **envp);
+void			first_process(t_vars *vars, char **envp, char **commands,
+					int *j);
 
 // Processes2.c
-char		*parse_infile_name(char *temp, int *i);
-int			open_and_assign_fd(t_vars *vars, char *infile);
+char			*parse_infile_name(char *temp, int *i);
+int				open_and_assign_fd(t_vars *vars, char *infile);
 
 // utils.c
-char		*ft_strstr(const char *haystack, const char *needle);
-char		*find_path(char **envp);
-int			count_words(char *str, char *delimiters);
-int			ft_strcmp(char *s1, char *s2);
-int			ft_exit_ctrl_d(char *input);
+char			*ft_strstr(const char *haystack, const char *needle);
+char			*find_path(char **envp);
+int				count_words(char *str, char *delimiters);
+int				ft_strcmp(char *s1, char *s2);
+int				ft_exit_ctrl_d(char *input);
 
 // util2.c
-int			get_token_length_no_redirection(char *str, char *delimiters);
-char		*get_next_token_no_redirection(char *str, char *delimiters);
-int			count_words_no_redirection(char *str, char *delimiters);
-char		**ft_split_commands_no_redirection(char *str, char *delimiters);
+int				get_token_length_no_redirection(char *str, char *delimiters);
+char			*get_next_token_no_redirection(char *str, char *delimiters);
+int				count_words_no_redirection(char *str, char *delimiters);
+char			**ft_split_commands_no_redirection(char *str, char *delimiters);
 
 // utils3.c
-void		ft_free(char **matrix);
-void		signal_handler(int sig);
-void		ft_free_vars(t_vars *vars);
-void		ft_vars_init(t_vars *vars);
-int			setup_pipe(int *pipe_fd);
+void			ft_free(char **matrix);
+void			signal_handler(int sig);
+void			ft_free_vars(t_vars *vars);
+void			ft_vars_init(t_vars *vars);
+int				setup_pipe(int *pipe_fd);
 
 // utils4.c
-char		*remove_quotes_from_string(char *str);
-void		remove_quotes_from_array(char **arr);
-char		*ft_strjoin_char(char *str1, char c);
-char		*get_value_for_expand(char *str);
+char			*remove_quotes_from_string(char *str);
+void			remove_quotes_from_array(char **arr);
+char			*ft_strjoin_char(char *str1, char c);
+char			*get_value_for_expand(char *str);
 
 // utils5.c
-void		ft_get_next_token_noredirection_helper(char chr, int *in_quotes,
-				char *current_quote);
-void		ft_get_token_l_noredirection_helper(int *len, char *ts,
-				char *delimiters, char cq);
-void		ft_remove_quotes_helper(char *str, char *new_str, int *i);
-int			str_is_spaces_only(char *input);
-int			find_env_line_nbr(t_vars *vars, char *name);
+void			ft_get_next_token_noredirection_helper(char chr, int *in_quotes,
+					char *current_quote);
+void			ft_get_token_l_noredirection_helper(int *len, char *ts,
+					char *delimiters, char cq);
+void			ft_remove_quotes_helper(char *str, char *new_str, int *i);
+int				str_is_spaces_only(char *input);
+int				find_env_line_nbr(t_vars *vars, char *name);
 
 // utils6.c
-char		*skip_redirection_token(char *str, char *delimiters);
-char		*ft_strjoin_three_help(char *s1, char *s2, char *s3, char *str);
+char			*skip_redirection_token(char *str, char *delimiters);
+char			*ft_strjoin_three_help(char *s1, char *s2, char *s3, char *str);
 
 // Built_ins.c
-int			check_if_builtin(t_vars *vars);
-void		run_builtin(t_vars *vars);
-void		ft_echo2(char **commands, int i);
-void		ft_echo(char **commands);
-void		ft_cd(char **commands, t_vars *vars);
+int				check_if_builtin(t_vars *vars);
+void			run_builtin(t_vars *vars);
+void			ft_echo2(char **commands, int i);
+void			ft_echo(char **commands);
+void			ft_cd(char **commands, t_vars *vars);
 
 // Built_ins2.c
-char		*ft_strjoin_three(char *s1, char *s2, char *s3);
-void		add_env_var(t_vars *vars, char *name, char *value);
-void		modify_env_var(t_vars *vars, char *name, char *new_value);
-char		*get_env_var(t_vars *vars, char *name);
-void		copy_environ(char **environ, t_vars *vars);
+char			*ft_strjoin_three(char *s1, char *s2, char *s3);
+void			add_env_var(t_vars *vars, char *name, char *value);
+void			modify_env_var(t_vars *vars, char *name, char *new_value);
+char			*get_env_var(t_vars *vars, char *name);
+void			copy_environ(char **environ, t_vars *vars);
 
 // Built_ins3.c
-void		ft_exit(t_vars *vars, char **split_cmds);
-void		ft_env(t_vars *vars);
-void		ft_export(t_vars *vars, char **split_cmds);
+void			ft_exit(t_vars *vars, char **split_cmds);
+void			ft_env(t_vars *vars);
+void			ft_export(t_vars *vars, char **split_cmds);
 
 // Built_ins4.c
-void		ft_pwd(void);
-int			env_num(t_vars *vars, char **commands);
-int			is_command_in_env(char *env_var, char **commands);
-void		ft_unset(t_vars *vars, char **commands);
-int			check_cd_ex_uns(char **commands, t_vars *vars);
+void			ft_pwd(void);
+int				env_num(t_vars *vars, char **commands);
+int				is_command_in_env(char *env_var, char **commands);
+void			ft_unset(t_vars *vars, char **commands);
+int				check_cd_ex_uns(char **commands, t_vars *vars);
 
 // Built_ins5.c
-char		**ft_split_novo_e_melhorado(char const *s, char c);
+char			**ft_split_novo_e_melhorado(char const *s, char c);
 
 // Built_ins6.c
-char		*new_get_value(char *str);
+char			*new_get_value(char *str);
 
 // Built_ins7.c
-void		ctp_helper(char const *s, char c, char *d, size_t *i);
-void		put_matrix_helper(char const **s, char c, char *d, char *str);
-void		change_directory(char *path, t_vars *vars);
+void			ctp_helper(char const *s, char c, char *d, size_t *i);
+void			put_matrix_helper(char const **s, char c, char *d, char *str);
+void			change_directory(char *path, t_vars *vars);
 
 // Built_ins10.c
-void		print_exported_vars(t_vars *vars);
+void			print_exported_vars(t_vars *vars);
 
 // here_doc.c
-void		open_doc(t_vars *vars, char *commands, int *j);
-void		here_doc(t_vars *vars, char **commands);
-void		handle_heredoc(t_vars *vars, char *tmp, int *j);
+void			open_doc(t_vars *vars, char *commands, int *j);
+void			here_doc(t_vars *vars, char **commands);
+void			handle_heredoc(t_vars *vars, char *tmp, int *j);
 
 // here_doc2.c
-void		ft_open_helper(int *i, char *commands);
-void		ft_aspas_helper(int len, int *i, char *new_str, char *commands);
-char		*ft_strndup_aspas(char *commands, int len);
+void			ft_open_helper(int *i, char *commands);
+void			ft_aspas_helper(int len, int *i, char *new_str, char *commands);
+char			*ft_strndup_aspas(char *commands, int len);
 
 // Main
-int			setup_commands(char *input, t_vars *vars, char ***commands);
-int			minishell_helper(char *input, char **env, t_vars *vars);
+int				setup_commands(char *input, t_vars *vars, char ***commands);
+int				minishell_helper(char *input, char **env, t_vars *vars);
 
 // var_expander.c
-void		ft_replace_helper2(char *commands, int j, char *tmp, char **freee);
-int			ft_replace_helper(char *commands, int j, char **tmp);
-char		*replace_var(t_vars *vars, char *commands, int j);
-void		var_expander(t_vars *vars, char **commands);
+void			ft_replace_helper2(char *commands, int j, char *tmp,
+					char **freee);
+int				ft_replace_helper(char *commands, int j, char **tmp);
+char			*replace_var(t_vars *vars, char *commands, int j);
+void			var_expander(t_vars *vars, char **commands);
 
 // var_expander.c
-char		*replace_exit_status(char *commands, int j);
-int			check_if_exit_stat(char **commands, int i, int j);
-void		ft_expander_helper2(char **commands, t_vars *vars, int i);
+char			*replace_exit_status(char *commands, int j);
+int				check_if_exit_stat(char **commands, int i, int j);
+void			ft_expander_helper2(char **commands, t_vars *vars, int i);
 
 #endif

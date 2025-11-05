@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:20:23 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/03 15:21:50 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 15:02:34 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_pwd(void)
 	}
 	else
 		perror("pwd");
-	g_exit_status = 0;
+	*exit_status() = 0;
 }
 
 int	env_num(t_vars *vars, char **commands)
@@ -115,7 +115,7 @@ int	check_cd_ex_uns(char **commands, t_vars *vars)
 		&& split_cmds[2])
 	{
 		ft_putendl_fd("minishell: exit: too many arguments", 2);
-		g_exit_status = 1;
+		*exit_status() = 1;
 		result = 1;
 	}
 	else if (ft_strcmp(split_cmds[0], "exit") == 0)

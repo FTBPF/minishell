@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:31 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/04 12:36:52 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 15:41:51 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,19 @@ static void	execute_error(t_vars *vars, char **commands)
 			ft_putstr_fd(": Is a directory\n", 2);
 		else
 			ft_putstr_fd(": Permission denied\n", 2);
-		g_exit_status = 126;
+		*exit_status() = 126;
 	}
 	else if (errno == ENOENT)
 	{
 		ft_putstr_fd(": No such file or directory\n", 2);
-		g_exit_status = 127;
+		*exit_status() = 127;
 	}
 	else
 	{
 		ft_putstr_fd(": Execution failed\n", 2);
-		g_exit_status = 1;
+		*exit_status() = 1;
 	}
-	exit(g_exit_status);
+	exit(*exit_status());
 }
 
 static void	cleanup_child_and_exit(t_vars *vars, int exit_code)
@@ -80,7 +80,7 @@ void	execute_command(t_vars *vars, char **commands, char **envp)
 	{
 		run_builtin(vars);
 		free_all_commands(vars);
-		cleanup_child_and_exit(vars, g_exit_status);
+		cleanup_child_and_exit(vars, *exit_status());
 	}
 	vars->cmd1_path = check_valid_cmd(vars->cmd_flags[0], vars->my_environ);
 	if (vars->cmd1_path == NULL)
@@ -111,7 +111,7 @@ void	execute_command(t_vars *vars, char **commands, char **envp)
 			free(vars->cmd1_path);
 			vars->cmd1_path = NULL;
 		}
-		cleanup_child_and_exit(vars, g_exit_status);
+		cleanup_child_and_exit(vars, *exit_status());
 	}
 }
 

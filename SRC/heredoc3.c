@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 16:45:27 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/03 16:40:35 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 15:02:00 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,17 @@ char	*ft_strndup_aspas(char *commands, int len)
 	return (new_str);
 }
 
+int	*exit_status(void)
+{
+	static int exit_status;
+	return (&exit_status);
+}
+
 void	heredoc_signal_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		g_exit_status = 130;
+		*exit_status() = 130;
 		write(1, "^C\n", 3);
 		close(STDIN_FILENO);
 		get_next_line(-1);

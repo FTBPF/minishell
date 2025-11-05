@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:23:09 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/03 15:24:18 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 15:02:34 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*replace_exit_status(char *commands, int j)
 	else
 		temp = ft_strdup("");
 	temp2 = ft_substr(commands, j, ft_strlen(commands) - j);
-	num = ft_itoa(g_exit_status);
+	num = ft_itoa(*exit_status());
 	free(commands);
 	commands = ft_strjoin_three(temp, num, temp2);
 	free(temp);

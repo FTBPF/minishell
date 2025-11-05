@@ -1,148 +1,95 @@
-==176010== Memcheck, a memory error detector
-==176010== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==176010== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==176010== Command: /home/frteixei/work42/42cursus/minishell/minishell
-==176010== 
+==32614== Memcheck, a memory error detector
+==32614== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==32614== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==32614== Command: /home/frteixei/work42/42cursus/minishell/minishell
+==32614== 
 myshell> echo hello world
 hello world
-==176011== 
-==176011== HEAP SUMMARY:
-==176011==     in use at exit: 208,247 bytes in 226 blocks
-==176011==   total heap usage: 507 allocs, 281 frees, 235,998 bytes allocated
-==176011== 
-==176011== LEAK SUMMARY:
-==176011==    definitely lost: 0 bytes in 0 blocks
-==176011==    indirectly lost: 0 bytes in 0 blocks
-==176011==      possibly lost: 0 bytes in 0 blocks
-==176011==    still reachable: 0 bytes in 0 blocks
-==176011==         suppressed: 208,247 bytes in 226 blocks
-==176011== 
-==176011== For lists of detected and suppressed errors, rerun with: -s
-==176011== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==32615== 
+==32615== HEAP SUMMARY:
+==32615==     in use at exit: 208,249 bytes in 227 blocks
+==32615==   total heap usage: 507 allocs, 280 frees, 235,933 bytes allocated
+==32615== 
+==32615== 2 bytes in 1 blocks are definitely lost in loss record 1 of 68
+==32615==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==32615==    by 0x40B7F2: ft_itoa (in /home/frteixei/work42/42cursus/minishell/minishell)
+==32615==    by 0x401437: setup_shell (main.c:41)
+==32615==    by 0x4015AC: main (main.c:88)
+==32615== 
+==32615== LEAK SUMMARY:
+==32615==    definitely lost: 2 bytes in 1 blocks
+==32615==    indirectly lost: 0 bytes in 0 blocks
+==32615==      possibly lost: 0 bytes in 0 blocks
+==32615==    still reachable: 0 bytes in 0 blocks
+==32615==         suppressed: 208,247 bytes in 226 blocks
+==32615== 
+==32615== For lists of detected and suppressed errors, rerun with: -s
+==32615== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 myshell> pwd
 /home/frteixei/work42/42cursus/minishell/minishell_tests
-==176012== 
-==176012== HEAP SUMMARY:
-==176012==     in use at exit: 208,274 bytes in 229 blocks
-==176012==   total heap usage: 523 allocs, 294 frees, 240,434 bytes allocated
-==176012== 
-==176012== LEAK SUMMARY:
-==176012==    definitely lost: 0 bytes in 0 blocks
-==176012==    indirectly lost: 0 bytes in 0 blocks
-==176012==      possibly lost: 0 bytes in 0 blocks
-==176012==    still reachable: 0 bytes in 0 blocks
-==176012==         suppressed: 208,274 bytes in 229 blocks
-==176012== 
-==176012== For lists of detected and suppressed errors, rerun with: -s
-==176012== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==32616== 
+==32616== HEAP SUMMARY:
+==32616==     in use at exit: 208,276 bytes in 230 blocks
+==32616==   total heap usage: 523 allocs, 293 frees, 240,369 bytes allocated
+==32616== 
+==32616== 2 bytes in 1 blocks are definitely lost in loss record 1 of 68
+==32616==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==32616==    by 0x40B7F2: ft_itoa (in /home/frteixei/work42/42cursus/minishell/minishell)
+==32616==    by 0x401437: setup_shell (main.c:41)
+==32616==    by 0x4015AC: main (main.c:88)
+==32616== 
+==32616== LEAK SUMMARY:
+==32616==    definitely lost: 2 bytes in 1 blocks
+==32616==    indirectly lost: 0 bytes in 0 blocks
+==32616==      possibly lost: 0 bytes in 0 blocks
+==32616==    still reachable: 0 bytes in 0 blocks
+==32616==         suppressed: 208,274 bytes in 229 blocks
+==32616== 
+==32616== For lists of detected and suppressed errors, rerun with: -s
+==32616== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 myshell> env | head -3
-LANGUAGE=en
 USER=frteixei
 XDG_SESSION_TYPE=x11
-==176013== 
-==176013== Process terminating with default action of signal 13 (SIGPIPE)
-==176013==    at 0x49D98F7: write (write.c:26)
-==176013==    by 0x40A573: ft_putstr (in /home/frteixei/work42/42cursus/minishell/minishell)
-==176013==    by 0x409EA9: put_arg (in /home/frteixei/work42/42cursus/minishell/minishell)
-==176013==    by 0x40A305: ft_printf (in /home/frteixei/work42/42cursus/minishell/minishell)
-==176013==    by 0x40523E: ft_env (built_ins.c:102)
-==176013==    by 0x4050D9: run_builtin (built_ins.c:46)
-==176013==    by 0x402253: execute_command (processes.c:77)
-==176013==    by 0x402CC3: first_process (processes3.c:98)
-==176013==    by 0x401C00: execute_commands (main3.c:22)
-==176013==    by 0x401AA2: minishell_helper (main3.c:63)
-==176013==    by 0x40137C: minishell (main.c:22)
-==176013==    by 0x40148D: run_shell (main.c:62)
-==176013== 
-==176013== HEAP SUMMARY:
-==176013==     in use at exit: 221,628 bytes in 322 blocks
-==176013==   total heap usage: 538 allocs, 216 frees, 236,615 bytes allocated
-==176013== 
-==176013== 4 bytes in 1 blocks are still reachable in loss record 1 of 88
-==176013==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==176013==    by 0x408063: here_doc (here_doc.c:29)
-==176013==    by 0x40166F: setup_commands (main2.c:91)
-==176013==    by 0x401A7C: minishell_helper (main3.c:61)
-==176013==    by 0x40137C: minishell (main.c:22)
-==176013==    by 0x40148D: run_shell (main.c:62)
-==176013==    by 0x40153C: main (main.c:79)
-==176013== 
-==176013== 4 bytes in 1 blocks are still reachable in loss record 2 of 88
-==176013==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==176013==    by 0x4078DB: remove_quotes_from_string (utils4.c:21)
-==176013==    by 0x407956: remove_quotes_from_array (utils4.c:37)
-==176013==    by 0x402238: execute_command (processes.c:74)
-==176013==    by 0x402CC3: first_process (processes3.c:98)
-==176013==    by 0x401C00: execute_commands (main3.c:22)
-==176013==    by 0x401AA2: minishell_helper (main3.c:63)
-==176013==    by 0x40137C: minishell (main.c:22)
-==176013==    by 0x40148D: run_shell (main.c:62)
-==176013==    by 0x40153C: main (main.c:79)
-==176013== 
-==176013== 14 bytes in 2 blocks are still reachable in loss record 14 of 88
-==176013==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==176013==    by 0x40AF1F: ft_strndup (in /home/frteixei/work42/42cursus/minishell/minishell)
-==176013==    by 0x40403D: ft_split_commands (split_cmds5.c:32)
-==176013==    by 0x401598: setup_commands (main2.c:76)
-==176013==    by 0x401A7C: minishell_helper (main3.c:61)
-==176013==    by 0x40137C: minishell (main.c:22)
-==176013==    by 0x40148D: run_shell (main.c:62)
-==176013==    by 0x40153C: main (main.c:79)
-==176013== 
-==176013== 16 bytes in 1 blocks are still reachable in loss record 18 of 88
-==176013==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==176013==    by 0x404D69: ft_split_commands_no_redirection (utils2.c:83)
-==176013==    by 0x402C5D: first_process (processes3.c:91)
-==176013==    by 0x401C00: execute_commands (main3.c:22)
-==176013==    by 0x401AA2: minishell_helper (main3.c:63)
-==176013==    by 0x40137C: minishell (main.c:22)
-==176013==    by 0x40148D: run_shell (main.c:62)
-==176013==    by 0x40153C: main (main.c:79)
-==176013== 
-==176013== 24 bytes in 1 blocks are still reachable in loss record 23 of 88
-==176013==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==176013==    by 0x403FE1: ft_split_commands (split_cmds5.c:24)
-==176013==    by 0x401598: setup_commands (main2.c:76)
-==176013==    by 0x401A7C: minishell_helper (main3.c:61)
-==176013==    by 0x40137C: minishell (main.c:22)
-==176013==    by 0x40148D: run_shell (main.c:62)
-==176013==    by 0x40153C: main (main.c:79)
-==176013== 
-==176013== 472 bytes in 1 blocks are still reachable in loss record 43 of 88
-==176013==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==176013==    by 0x405943: copy_environ (built_ins2.c:123)
-==176013==    by 0x4013E5: setup_shell (main.c:33)
-==176013==    by 0x40152C: main (main.c:78)
-==176013== 
-==176013== 3,617 bytes in 58 blocks are still reachable in loss record 61 of 88
-==176013==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==176013==    by 0x40AE59: ft_strdup (in /home/frteixei/work42/42cursus/minishell/minishell)
-==176013==    by 0x40598D: copy_environ (built_ins2.c:129)
-==176013==    by 0x4013E5: setup_shell (main.c:33)
-==176013==    by 0x40152C: main (main.c:78)
-==176013== 
-==176013== LEAK SUMMARY:
-==176013==    definitely lost: 0 bytes in 0 blocks
-==176013==    indirectly lost: 0 bytes in 0 blocks
-==176013==      possibly lost: 0 bytes in 0 blocks
-==176013==    still reachable: 4,151 bytes in 65 blocks
-==176013==         suppressed: 217,477 bytes in 257 blocks
-==176013== 
-==176013== For lists of detected and suppressed errors, rerun with: -s
-==176013== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+SHLVL=3
+==32617== 
+==32617== HEAP SUMMARY:
+==32617==     in use at exit: 208,336 bytes in 233 blocks
+==32617==   total heap usage: 538 allocs, 305 frees, 236,550 bytes allocated
+==32617== 
+==32617== 2 bytes in 1 blocks are definitely lost in loss record 1 of 68
+==32617==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==32617==    by 0x40B7F2: ft_itoa (in /home/frteixei/work42/42cursus/minishell/minishell)
+==32617==    by 0x401437: setup_shell (main.c:41)
+==32617==    by 0x4015AC: main (main.c:88)
+==32617== 
+==32617== LEAK SUMMARY:
+==32617==    definitely lost: 2 bytes in 1 blocks
+==32617==    indirectly lost: 0 bytes in 0 blocks
+==32617==      possibly lost: 0 bytes in 0 blocks
+==32617==    still reachable: 0 bytes in 0 blocks
+==32617==         suppressed: 208,334 bytes in 232 blocks
+==32617== 
+==32617== For lists of detected and suppressed errors, rerun with: -s
+==32617== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 myshell> exit
 exit
-==176010== 
-==176010== HEAP SUMMARY:
-==176010==     in use at exit: 208,182 bytes in 223 blocks
-==176010==   total heap usage: 553 allocs, 330 frees, 236,919 bytes allocated
-==176010== 
-==176010== LEAK SUMMARY:
-==176010==    definitely lost: 0 bytes in 0 blocks
-==176010==    indirectly lost: 0 bytes in 0 blocks
-==176010==      possibly lost: 0 bytes in 0 blocks
-==176010==    still reachable: 0 bytes in 0 blocks
-==176010==         suppressed: 208,182 bytes in 223 blocks
-==176010== 
-==176010== For lists of detected and suppressed errors, rerun with: -s
-==176010== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==32614== 
+==32614== HEAP SUMMARY:
+==32614==     in use at exit: 208,184 bytes in 224 blocks
+==32614==   total heap usage: 553 allocs, 329 frees, 236,854 bytes allocated
+==32614== 
+==32614== 2 bytes in 1 blocks are definitely lost in loss record 1 of 65
+==32614==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==32614==    by 0x40B7F2: ft_itoa (in /home/frteixei/work42/42cursus/minishell/minishell)
+==32614==    by 0x401437: setup_shell (main.c:41)
+==32614==    by 0x4015AC: main (main.c:88)
+==32614== 
+==32614== LEAK SUMMARY:
+==32614==    definitely lost: 2 bytes in 1 blocks
+==32614==    indirectly lost: 0 bytes in 0 blocks
+==32614==      possibly lost: 0 bytes in 0 blocks
+==32614==    still reachable: 0 bytes in 0 blocks
+==32614==         suppressed: 208,182 bytes in 223 blocks
+==32614== 
+==32614== For lists of detected and suppressed errors, rerun with: -s
+==32614== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)

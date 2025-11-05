@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:41 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/30 17:36:08 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 15:11:34 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	setup_pipe_and_fork(t_vars *vars, char **commands)
 {
 	if (commands[1] && pipe(vars->pipe_fd) < 0)
 	{
-		g_exit_status = 1;
+		*exit_status() = 1;
 		perror("pipe");
 		return (-1);
 	}

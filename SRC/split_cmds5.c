@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 17:21:39 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/03 16:37:52 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 15:02:34 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,5 +130,5 @@ void	process_heredoc_expanded(t_vars *vars, char *doc_file, int fd,
 	vars->doc_file = NULL;
 	g_heredoc_vars = NULL;
 	ft_cleanup_heredoc_child(vars);
-	exit(g_exit_status = 0);
+	exit(*exit_status() = 0);
 }

@@ -1,101 +1,137 @@
-==176062== Memcheck, a memory error detector
-==176062== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==176062== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==176062== Command: /home/frteixei/work42/42cursus/minishell/minishell
-==176062== 
+==32666== Memcheck, a memory error detector
+==32666== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==32666== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==32666== Command: /home/frteixei/work42/42cursus/minishell/minishell
+==32666== 
 myshell> echo 'single quotes $USER'
 single quotes $USER
-==176063== 
-==176063== HEAP SUMMARY:
-==176063==     in use at exit: 208,267 bytes in 226 blocks
-==176063==   total heap usage: 505 allocs, 279 frees, 236,074 bytes allocated
-==176063== 
-==176063== LEAK SUMMARY:
-==176063==    definitely lost: 0 bytes in 0 blocks
-==176063==    indirectly lost: 0 bytes in 0 blocks
-==176063==      possibly lost: 0 bytes in 0 blocks
-==176063==    still reachable: 0 bytes in 0 blocks
-==176063==         suppressed: 208,267 bytes in 226 blocks
-==176063== 
-==176063== For lists of detected and suppressed errors, rerun with: -s
-==176063== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==32667== 
+==32667== HEAP SUMMARY:
+==32667==     in use at exit: 208,269 bytes in 227 blocks
+==32667==   total heap usage: 505 allocs, 278 frees, 236,009 bytes allocated
+==32667== 
+==32667== 2 bytes in 1 blocks are definitely lost in loss record 1 of 68
+==32667==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==32667==    by 0x40B7F2: ft_itoa (in /home/frteixei/work42/42cursus/minishell/minishell)
+==32667==    by 0x401437: setup_shell (main.c:41)
+==32667==    by 0x4015AC: main (main.c:88)
+==32667== 
+==32667== LEAK SUMMARY:
+==32667==    definitely lost: 2 bytes in 1 blocks
+==32667==    indirectly lost: 0 bytes in 0 blocks
+==32667==      possibly lost: 0 bytes in 0 blocks
+==32667==    still reachable: 0 bytes in 0 blocks
+==32667==         suppressed: 208,267 bytes in 226 blocks
+==32667== 
+==32667== For lists of detected and suppressed errors, rerun with: -s
+==32667== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 myshell> echo "double quotes $USER"
 double quotes frteixei
-==176064== 
-==176064== HEAP SUMMARY:
-==176064==     in use at exit: 208,330 bytes in 229 blocks
-==176064==   total heap usage: 552 allocs, 323 frees, 236,827 bytes allocated
-==176064== 
-==176064== LEAK SUMMARY:
-==176064==    definitely lost: 0 bytes in 0 blocks
-==176064==    indirectly lost: 0 bytes in 0 blocks
-==176064==      possibly lost: 0 bytes in 0 blocks
-==176064==    still reachable: 0 bytes in 0 blocks
-==176064==         suppressed: 208,330 bytes in 229 blocks
-==176064== 
-==176064== For lists of detected and suppressed errors, rerun with: -s
-==176064== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==32668== 
+==32668== HEAP SUMMARY:
+==32668==     in use at exit: 208,332 bytes in 230 blocks
+==32668==   total heap usage: 552 allocs, 322 frees, 236,762 bytes allocated
+==32668== 
+==32668== 2 bytes in 1 blocks are definitely lost in loss record 1 of 68
+==32668==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==32668==    by 0x40B7F2: ft_itoa (in /home/frteixei/work42/42cursus/minishell/minishell)
+==32668==    by 0x401437: setup_shell (main.c:41)
+==32668==    by 0x4015AC: main (main.c:88)
+==32668== 
+==32668== LEAK SUMMARY:
+==32668==    definitely lost: 2 bytes in 1 blocks
+==32668==    indirectly lost: 0 bytes in 0 blocks
+==32668==      possibly lost: 0 bytes in 0 blocks
+==32668==    still reachable: 0 bytes in 0 blocks
+==32668==         suppressed: 208,330 bytes in 229 blocks
+==32668== 
+==32668== For lists of detected and suppressed errors, rerun with: -s
+==32668== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 myshell> echo "mixed 'quotes' test"
 mixed 'quotes' test
-==176065== 
-==176065== HEAP SUMMARY:
-==176065==     in use at exit: 208,393 bytes in 232 blocks
-==176065==   total heap usage: 571 allocs, 339 frees, 237,283 bytes allocated
-==176065== 
-==176065== LEAK SUMMARY:
-==176065==    definitely lost: 0 bytes in 0 blocks
-==176065==    indirectly lost: 0 bytes in 0 blocks
-==176065==      possibly lost: 0 bytes in 0 blocks
-==176065==    still reachable: 0 bytes in 0 blocks
-==176065==         suppressed: 208,393 bytes in 232 blocks
-==176065== 
-==176065== For lists of detected and suppressed errors, rerun with: -s
-==176065== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==32669== 
+==32669== HEAP SUMMARY:
+==32669==     in use at exit: 208,395 bytes in 233 blocks
+==32669==   total heap usage: 571 allocs, 338 frees, 237,218 bytes allocated
+==32669== 
+==32669== 2 bytes in 1 blocks are definitely lost in loss record 1 of 68
+==32669==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==32669==    by 0x40B7F2: ft_itoa (in /home/frteixei/work42/42cursus/minishell/minishell)
+==32669==    by 0x401437: setup_shell (main.c:41)
+==32669==    by 0x4015AC: main (main.c:88)
+==32669== 
+==32669== LEAK SUMMARY:
+==32669==    definitely lost: 2 bytes in 1 blocks
+==32669==    indirectly lost: 0 bytes in 0 blocks
+==32669==      possibly lost: 0 bytes in 0 blocks
+==32669==    still reachable: 0 bytes in 0 blocks
+==32669==         suppressed: 208,393 bytes in 232 blocks
+==32669== 
+==32669== For lists of detected and suppressed errors, rerun with: -s
+==32669== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 myshell> echo ""
 
-==176066== 
-==176066== HEAP SUMMARY:
-==176066==     in use at exit: 208,418 bytes in 235 blocks
-==176066==   total heap usage: 589 allocs, 354 frees, 237,596 bytes allocated
-==176066== 
-==176066== LEAK SUMMARY:
-==176066==    definitely lost: 0 bytes in 0 blocks
-==176066==    indirectly lost: 0 bytes in 0 blocks
-==176066==      possibly lost: 0 bytes in 0 blocks
-==176066==    still reachable: 0 bytes in 0 blocks
-==176066==         suppressed: 208,418 bytes in 235 blocks
-==176066== 
-==176066== For lists of detected and suppressed errors, rerun with: -s
-==176066== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==32670== 
+==32670== HEAP SUMMARY:
+==32670==     in use at exit: 208,420 bytes in 236 blocks
+==32670==   total heap usage: 589 allocs, 353 frees, 237,531 bytes allocated
+==32670== 
+==32670== 2 bytes in 1 blocks are definitely lost in loss record 1 of 68
+==32670==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==32670==    by 0x40B7F2: ft_itoa (in /home/frteixei/work42/42cursus/minishell/minishell)
+==32670==    by 0x401437: setup_shell (main.c:41)
+==32670==    by 0x4015AC: main (main.c:88)
+==32670== 
+==32670== LEAK SUMMARY:
+==32670==    definitely lost: 2 bytes in 1 blocks
+==32670==    indirectly lost: 0 bytes in 0 blocks
+==32670==      possibly lost: 0 bytes in 0 blocks
+==32670==    still reachable: 0 bytes in 0 blocks
+==32670==         suppressed: 208,418 bytes in 235 blocks
+==32670== 
+==32670== For lists of detected and suppressed errors, rerun with: -s
+==32670== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 myshell> echo ''
 
-==176067== 
-==176067== HEAP SUMMARY:
-==176067==     in use at exit: 208,462 bytes in 238 blocks
-==176067==   total heap usage: 607 allocs, 369 frees, 237,928 bytes allocated
-==176067== 
-==176067== LEAK SUMMARY:
-==176067==    definitely lost: 0 bytes in 0 blocks
-==176067==    indirectly lost: 0 bytes in 0 blocks
-==176067==      possibly lost: 0 bytes in 0 blocks
-==176067==    still reachable: 0 bytes in 0 blocks
-==176067==         suppressed: 208,462 bytes in 238 blocks
-==176067== 
-==176067== For lists of detected and suppressed errors, rerun with: -s
-==176067== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==32671== 
+==32671== HEAP SUMMARY:
+==32671==     in use at exit: 208,464 bytes in 239 blocks
+==32671==   total heap usage: 607 allocs, 368 frees, 237,863 bytes allocated
+==32671== 
+==32671== 2 bytes in 1 blocks are definitely lost in loss record 1 of 68
+==32671==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==32671==    by 0x40B7F2: ft_itoa (in /home/frteixei/work42/42cursus/minishell/minishell)
+==32671==    by 0x401437: setup_shell (main.c:41)
+==32671==    by 0x4015AC: main (main.c:88)
+==32671== 
+==32671== LEAK SUMMARY:
+==32671==    definitely lost: 2 bytes in 1 blocks
+==32671==    indirectly lost: 0 bytes in 0 blocks
+==32671==      possibly lost: 0 bytes in 0 blocks
+==32671==    still reachable: 0 bytes in 0 blocks
+==32671==         suppressed: 208,462 bytes in 238 blocks
+==32671== 
+==32671== For lists of detected and suppressed errors, rerun with: -s
+==32671== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 myshell> exit
 exit
-==176062== 
-==176062== HEAP SUMMARY:
-==176062==     in use at exit: 208,182 bytes in 223 blocks
-==176062==   total heap usage: 617 allocs, 394 frees, 238,068 bytes allocated
-==176062== 
-==176062== LEAK SUMMARY:
-==176062==    definitely lost: 0 bytes in 0 blocks
-==176062==    indirectly lost: 0 bytes in 0 blocks
-==176062==      possibly lost: 0 bytes in 0 blocks
-==176062==    still reachable: 0 bytes in 0 blocks
-==176062==         suppressed: 208,182 bytes in 223 blocks
-==176062== 
-==176062== For lists of detected and suppressed errors, rerun with: -s
-==176062== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==32666== 
+==32666== HEAP SUMMARY:
+==32666==     in use at exit: 208,184 bytes in 224 blocks
+==32666==   total heap usage: 617 allocs, 393 frees, 238,003 bytes allocated
+==32666== 
+==32666== 2 bytes in 1 blocks are definitely lost in loss record 1 of 65
+==32666==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==32666==    by 0x40B7F2: ft_itoa (in /home/frteixei/work42/42cursus/minishell/minishell)
+==32666==    by 0x401437: setup_shell (main.c:41)
+==32666==    by 0x4015AC: main (main.c:88)
+==32666== 
+==32666== LEAK SUMMARY:
+==32666==    definitely lost: 2 bytes in 1 blocks
+==32666==    indirectly lost: 0 bytes in 0 blocks
+==32666==      possibly lost: 0 bytes in 0 blocks
+==32666==    still reachable: 0 bytes in 0 blocks
+==32666==         suppressed: 208,182 bytes in 223 blocks
+==32666== 
+==32666== For lists of detected and suppressed errors, rerun with: -s
+==32666== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)

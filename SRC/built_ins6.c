@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:20:35 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 13:20:37 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 15:02:34 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ char	*new_get_value(char *str)
 	value = malloc(sizeof(char) * (get_value_helper(str, i - 1) + 1));
 	if (!value)
 	{
-		g_exit_status = 1;
-		exit(g_exit_status);
+		*exit_status() = 1;
+		exit(*exit_status());
 	}
 	new_improved_strcpy(value, str + i);
 	return (value);
