@@ -6,23 +6,22 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:41 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/05 17:09:15 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:51:44 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	close_pipe_read_if_needed(t_vars *vars, char **commands)
-{
-	if (commands[1])
-		close(vars->pipe_fd[0]);
-}
-
-static void	prepare_child_io(t_vars *vars, int prev_read_fd, char **commands)
+static void	prepare_child_signal(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGPIPE, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+}
+
+static void	prepare_child_io(t_vars *vars, int prev_read_fd, char **commands)
+{
+	prepare_child_signal();
 	if (vars->fd0 != 0)
 	{
 		if (vars->fd0 == -1)

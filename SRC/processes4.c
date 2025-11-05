@@ -6,7 +6,7 @@
 /*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 16:45:52 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/05 17:59:01 by marada           ###   ########.fr       */
+/*   Updated: 2025/11/05 18:00:39 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,10 @@ void	execute_command(t_vars *vars, char **commands, char **envp)
 	free_doc_temp(vars);
 	if (execve(vars->cmd1_path, vars->cmd_flags, vars->my_environ) == -1)
 		handle_exec_error(vars, commands);
+}
+
+void	close_pipe_read_if_needed(t_vars *vars, char **commands)
+{
+	if (commands[1])
+		close(vars->pipe_fd[0]);
 }

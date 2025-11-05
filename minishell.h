@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/05 16:52:36 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:51:59 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct s_redir
 	int			index;
 }				t_redir;
 
+void			close_pipe_read_if_needed(t_vars *vars, char **commands);
 void			execute_error(t_vars *vars, char **commands);
 void			cleanup_child_and_exit(t_vars *vars, int exit_code);
 void			free_all_commands(t_vars *vars);
