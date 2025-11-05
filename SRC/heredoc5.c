@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc5.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marada <marada@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 11:37:46 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/05 16:36:24 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:45:07 by marada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ void	disable_quit_echo(struct termios *old_term)
 	struct termios	new_term;
 
 	if (tcgetattr(STDIN_FILENO, old_term) == -1)
+	{
+		printf("hello\n");
 		return ;
+	}
 	new_term = *old_term;
 	new_term.c_cc[VQUIT] = _POSIX_VDISABLE;
 	new_term.c_lflag &= ~0001000;

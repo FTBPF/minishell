@@ -1,71 +1,71 @@
-==48149== Memcheck, a memory error detector
-==48149== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==48149== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==48149== Command: /home/frteixei/work42/42cursus/minishell/minishell
-==48149== 
+==5240== Memcheck, a memory error detector
+==5240== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==5240== Using Valgrind-3.26.0 and LibVEX; rerun with -h for copyright info
+==5240== Command: /home/marada/Desktop/minishell/minishell
+==5240== 
 myshell> echo hello world
 hello world
-==48150== 
-==48150== HEAP SUMMARY:
-==48150==     in use at exit: 208,247 bytes in 226 blocks
-==48150==   total heap usage: 507 allocs, 281 frees, 235,933 bytes allocated
-==48150== 
-==48150== LEAK SUMMARY:
-==48150==    definitely lost: 0 bytes in 0 blocks
-==48150==    indirectly lost: 0 bytes in 0 blocks
-==48150==      possibly lost: 0 bytes in 0 blocks
-==48150==    still reachable: 0 bytes in 0 blocks
-==48150==         suppressed: 208,247 bytes in 226 blocks
-==48150== 
-==48150== For lists of detected and suppressed errors, rerun with: -s
-==48150== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==5241== 
+==5241== HEAP SUMMARY:
+==5241==     in use at exit: 220,512 bytes in 236 blocks
+==5241==   total heap usage: 565 allocs, 329 frees, 253,790 bytes allocated
+==5241== 
+==5241== LEAK SUMMARY:
+==5241==    definitely lost: 0 bytes in 0 blocks
+==5241==    indirectly lost: 0 bytes in 0 blocks
+==5241==      possibly lost: 0 bytes in 0 blocks
+==5241==    still reachable: 0 bytes in 0 blocks
+==5241==         suppressed: 220,512 bytes in 236 blocks
+==5241== 
+==5241== For lists of detected and suppressed errors, rerun with: -s
+==5241== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 myshell> pwd
-/home/frteixei/work42/42cursus/minishell/minishell_tests
-==48151== 
-==48151== HEAP SUMMARY:
-==48151==     in use at exit: 208,274 bytes in 229 blocks
-==48151==   total heap usage: 523 allocs, 294 frees, 240,369 bytes allocated
-==48151== 
-==48151== LEAK SUMMARY:
-==48151==    definitely lost: 0 bytes in 0 blocks
-==48151==    indirectly lost: 0 bytes in 0 blocks
-==48151==      possibly lost: 0 bytes in 0 blocks
-==48151==    still reachable: 0 bytes in 0 blocks
-==48151==         suppressed: 208,274 bytes in 229 blocks
-==48151== 
-==48151== For lists of detected and suppressed errors, rerun with: -s
-==48151== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+/home/marada/Desktop/minishell/minishell_tests
+==5242== 
+==5242== HEAP SUMMARY:
+==5242==     in use at exit: 220,539 bytes in 239 blocks
+==5242==   total heap usage: 583 allocs, 344 frees, 258,236 bytes allocated
+==5242== 
+==5242== LEAK SUMMARY:
+==5242==    definitely lost: 0 bytes in 0 blocks
+==5242==    indirectly lost: 0 bytes in 0 blocks
+==5242==      possibly lost: 0 bytes in 0 blocks
+==5242==    still reachable: 0 bytes in 0 blocks
+==5242==         suppressed: 220,539 bytes in 239 blocks
+==5242== 
+==5242== For lists of detected and suppressed errors, rerun with: -s
+==5242== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 myshell> env | head -3
-USER=frteixei
-XDG_SESSION_TYPE=x11
-SHLVL=3
-==48152== 
-==48152== HEAP SUMMARY:
-==48152==     in use at exit: 208,334 bytes in 232 blocks
-==48152==   total heap usage: 538 allocs, 306 frees, 236,550 bytes allocated
-==48152== 
-==48152== LEAK SUMMARY:
-==48152==    definitely lost: 0 bytes in 0 blocks
-==48152==    indirectly lost: 0 bytes in 0 blocks
-==48152==      possibly lost: 0 bytes in 0 blocks
-==48152==    still reachable: 0 bytes in 0 blocks
-==48152==         suppressed: 208,334 bytes in 232 blocks
-==48152== 
-==48152== For lists of detected and suppressed errors, rerun with: -s
-==48152== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+SHELL=/bin/sh
+SESSION_MANAGER=local/c2r4s4.42lisboa.com:@/tmp/.ICE-unix/20665,unix/c2r4s4.42lisboa.com:/tmp/.ICE-unix/20665
+__EGL_EXTERNAL_PLATFORM_CONFIG_DIRS=/etc/egl/egl_external_platform.d:/usr/lib/x86_64-linux-gnu/GL/egl/egl_external_platform.d:/usr/share/egl/egl_external_platform.d
+==5243== 
+==5243== HEAP SUMMARY:
+==5243==     in use at exit: 220,599 bytes in 242 blocks
+==5243==   total heap usage: 600 allocs, 358 frees, 254,447 bytes allocated
+==5243== 
+==5243== LEAK SUMMARY:
+==5243==    definitely lost: 0 bytes in 0 blocks
+==5243==    indirectly lost: 0 bytes in 0 blocks
+==5243==      possibly lost: 0 bytes in 0 blocks
+==5243==    still reachable: 0 bytes in 0 blocks
+==5243==         suppressed: 220,599 bytes in 242 blocks
+==5243== 
+==5243== For lists of detected and suppressed errors, rerun with: -s
+==5243== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 myshell> exit
 exit
-==48149== 
-==48149== HEAP SUMMARY:
-==48149==     in use at exit: 208,182 bytes in 223 blocks
-==48149==   total heap usage: 553 allocs, 330 frees, 236,854 bytes allocated
-==48149== 
-==48149== LEAK SUMMARY:
-==48149==    definitely lost: 0 bytes in 0 blocks
-==48149==    indirectly lost: 0 bytes in 0 blocks
-==48149==      possibly lost: 0 bytes in 0 blocks
-==48149==    still reachable: 0 bytes in 0 blocks
-==48149==         suppressed: 208,182 bytes in 223 blocks
-==48149== 
-==48149== For lists of detected and suppressed errors, rerun with: -s
-==48149== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==5240== 
+==5240== HEAP SUMMARY:
+==5240==     in use at exit: 220,447 bytes in 233 blocks
+==5240==   total heap usage: 617 allocs, 384 frees, 254,771 bytes allocated
+==5240== 
+==5240== LEAK SUMMARY:
+==5240==    definitely lost: 0 bytes in 0 blocks
+==5240==    indirectly lost: 0 bytes in 0 blocks
+==5240==      possibly lost: 0 bytes in 0 blocks
+==5240==    still reachable: 0 bytes in 0 blocks
+==5240==         suppressed: 220,447 bytes in 233 blocks
+==5240== 
+==5240== For lists of detected and suppressed errors, rerun with: -s
+==5240== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

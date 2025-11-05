@@ -1,24 +1,24 @@
-==48185== Memcheck, a memory error detector
-==48185== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==48185== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==48185== Command: /home/frteixei/work42/42cursus/minishell/minishell
-==48185== 
+==5283== Memcheck, a memory error detector
+==5283== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==5283== Using Valgrind-3.26.0 and LibVEX; rerun with -h for copyright info
+==5283== Command: /home/marada/Desktop/minishell/minishell
+==5283== 
 myshell> echo $?
 0
-==48186== 
-==48186== HEAP SUMMARY:
-==48186==     in use at exit: 208,229 bytes in 226 blocks
-==48186==   total heap usage: 508 allocs, 282 frees, 235,876 bytes allocated
-==48186== 
-==48186== LEAK SUMMARY:
-==48186==    definitely lost: 0 bytes in 0 blocks
-==48186==    indirectly lost: 0 bytes in 0 blocks
-==48186==      possibly lost: 0 bytes in 0 blocks
-==48186==    still reachable: 0 bytes in 0 blocks
-==48186==         suppressed: 208,229 bytes in 226 blocks
-==48186== 
-==48186== For lists of detected and suppressed errors, rerun with: -s
-==48186== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==5284== 
+==5284== HEAP SUMMARY:
+==5284==     in use at exit: 220,494 bytes in 236 blocks
+==5284==   total heap usage: 566 allocs, 330 frees, 253,733 bytes allocated
+==5284== 
+==5284== LEAK SUMMARY:
+==5284==    definitely lost: 0 bytes in 0 blocks
+==5284==    indirectly lost: 0 bytes in 0 blocks
+==5284==      possibly lost: 0 bytes in 0 blocks
+==5284==    still reachable: 0 bytes in 0 blocks
+==5284==         suppressed: 220,494 bytes in 236 blocks
+==5284== 
+==5284== For lists of detected and suppressed errors, rerun with: -s
+==5284== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 myshell> ls
 output.txt
 test10_output.txt
@@ -53,51 +53,51 @@ test9_output.txt
 test9.txt
 myshell> echo $?
 0
-==48188== 
-==48188== HEAP SUMMARY:
-==48188==     in use at exit: 208,312 bytes in 232 blocks
-==48188==   total heap usage: 546 allocs, 314 frees, 236,513 bytes allocated
-==48188== 
-==48188== LEAK SUMMARY:
-==48188==    definitely lost: 0 bytes in 0 blocks
-==48188==    indirectly lost: 0 bytes in 0 blocks
-==48188==      possibly lost: 0 bytes in 0 blocks
-==48188==    still reachable: 0 bytes in 0 blocks
-==48188==         suppressed: 208,312 bytes in 232 blocks
-==48188== 
-==48188== For lists of detected and suppressed errors, rerun with: -s
-==48188== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==5286== 
+==5286== HEAP SUMMARY:
+==5286==     in use at exit: 220,577 bytes in 242 blocks
+==5286==   total heap usage: 608 allocs, 366 frees, 254,410 bytes allocated
+==5286== 
+==5286== LEAK SUMMARY:
+==5286==    definitely lost: 0 bytes in 0 blocks
+==5286==    indirectly lost: 0 bytes in 0 blocks
+==5286==      possibly lost: 0 bytes in 0 blocks
+==5286==    still reachable: 0 bytes in 0 blocks
+==5286==         suppressed: 220,577 bytes in 242 blocks
+==5286== 
+==5286== For lists of detected and suppressed errors, rerun with: -s
+==5286== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 myshell> ls nonexistent_file_12345
 ls: cannot access 'nonexistent_file_12345': No such file or directory
 myshell> echo $?
 2
-==48190== 
-==48190== HEAP SUMMARY:
-==48190==     in use at exit: 208,418 bytes in 238 blocks
-==48190==   total heap usage: 587 allocs, 349 frees, 237,313 bytes allocated
-==48190== 
-==48190== LEAK SUMMARY:
-==48190==    definitely lost: 0 bytes in 0 blocks
-==48190==    indirectly lost: 0 bytes in 0 blocks
-==48190==      possibly lost: 0 bytes in 0 blocks
-==48190==    still reachable: 0 bytes in 0 blocks
-==48190==         suppressed: 208,418 bytes in 238 blocks
-==48190== 
-==48190== For lists of detected and suppressed errors, rerun with: -s
-==48190== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==5288== 
+==5288== HEAP SUMMARY:
+==5288==     in use at exit: 220,683 bytes in 248 blocks
+==5288==   total heap usage: 653 allocs, 405 frees, 255,250 bytes allocated
+==5288== 
+==5288== LEAK SUMMARY:
+==5288==    definitely lost: 0 bytes in 0 blocks
+==5288==    indirectly lost: 0 bytes in 0 blocks
+==5288==      possibly lost: 0 bytes in 0 blocks
+==5288==    still reachable: 0 bytes in 0 blocks
+==5288==         suppressed: 220,683 bytes in 248 blocks
+==5288== 
+==5288== For lists of detected and suppressed errors, rerun with: -s
+==5288== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 myshell> exit
 exit
-==48185== 
-==48185== HEAP SUMMARY:
-==48185==     in use at exit: 208,182 bytes in 223 blocks
-==48185==   total heap usage: 597 allocs, 374 frees, 237,454 bytes allocated
-==48185== 
-==48185== LEAK SUMMARY:
-==48185==    definitely lost: 0 bytes in 0 blocks
-==48185==    indirectly lost: 0 bytes in 0 blocks
-==48185==      possibly lost: 0 bytes in 0 blocks
-==48185==    still reachable: 0 bytes in 0 blocks
-==48185==         suppressed: 208,182 bytes in 223 blocks
-==48185== 
-==48185== For lists of detected and suppressed errors, rerun with: -s
-==48185== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==5283== 
+==5283== HEAP SUMMARY:
+==5283==     in use at exit: 220,447 bytes in 233 blocks
+==5283==   total heap usage: 665 allocs, 432 frees, 255,411 bytes allocated
+==5283== 
+==5283== LEAK SUMMARY:
+==5283==    definitely lost: 0 bytes in 0 blocks
+==5283==    indirectly lost: 0 bytes in 0 blocks
+==5283==      possibly lost: 0 bytes in 0 blocks
+==5283==    still reachable: 0 bytes in 0 blocks
+==5283==         suppressed: 220,447 bytes in 233 blocks
+==5283== 
+==5283== For lists of detected and suppressed errors, rerun with: -s
+==5283== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
