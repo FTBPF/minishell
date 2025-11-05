@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:31 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/05 15:41:51 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:17:41 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ static void	free_all_commands(t_vars *vars)
 
 void	execute_command(t_vars *vars, char **commands, char **envp)
 {
+	(void)envp;	
 	if (vars->redirection_failed)
 		cleanup_child_and_exit(vars, 1);
 	signal(SIGINT, SIG_DFL);
@@ -88,11 +89,6 @@ void	execute_command(t_vars *vars, char **commands, char **envp)
 		free_all_commands(vars);
 		cleanup_child_and_exit(vars, 127);
 	}
-	if (vars->my_environ)
-	{
-		ft_free(vars->my_environ);
-		vars->my_environ = NULL;
-	}
 	if (vars->here_doc_fd)
 	{
 		free(vars->here_doc_fd);
@@ -103,13 +99,18 @@ void	execute_command(t_vars *vars, char **commands, char **envp)
 		free(vars->temp);
 		vars->temp = NULL;
 	}
-	if (execve(vars->cmd1_path, vars->cmd_flags, envp) == -1)
+	if (execve(vars->cmd1_path, vars->cmd_flags, vars->my_environ) == -1)
 	{
 		execute_error(vars, commands);
 		if (vars->cmd1_path)
 		{
 			free(vars->cmd1_path);
 			vars->cmd1_path = NULL;
+		}
+		if (vars->my_environ)
+		{
+			ft_free(vars->my_environ);
+			vars->my_environ = NULL;
 		}
 		cleanup_child_and_exit(vars, *exit_status());
 	}

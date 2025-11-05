@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/05 15:42:48 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:13:51 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,23 @@ void	minishell(char *input, char **env, t_vars *vars)
 
 void	setup_shell(t_vars *vars, char **env)
 {
-	char    *shlvl_str;
-    int     shlvl;
+	char	*shlvl_str;
+	char	*new_shlvl_str;
+	int		shlvl;
 
 	rl_catch_signals = 0;
 	rl_set_signals();
 	ft_vars_init(vars);
 	copy_environ(env, vars);
 	shlvl_str = get_env_var(vars, "SHLVL");
-    if (shlvl_str)
-        shlvl = ft_atoi(shlvl_str) + 1;
+	if (shlvl_str)
+		shlvl = ft_atoi(shlvl_str) + 1;
 	else
-        shlvl = 1;
+		shlvl = 1;
 	vars->shelllevel = shlvl;
-    shlvl_str = ft_itoa(shlvl);
-    modify_env_var(vars, "SHLVL", shlvl_str);
+	new_shlvl_str = ft_itoa(shlvl);
+	modify_env_var(vars, "SHLVL", new_shlvl_str);
+	free(new_shlvl_str);
 }
 
 static void	setup_signals_parent(void)

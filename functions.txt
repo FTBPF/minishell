@@ -1702,7 +1702,7 @@ int	minishell_helper(char *input, char **env, t_vars *vars)
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/05 15:28:30 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 15:42:48 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2022,7 +2022,7 @@ void	first_process(t_vars *vars, char **envp, char **commands, int *j)
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:31 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/05 15:30:11 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 15:41:51 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2119,7 +2119,7 @@ void	execute_command(t_vars *vars, char **commands, char **envp)
 		free(vars->temp);
 		vars->temp = NULL;
 	}
-	if (execve(vars->cmd1_path, vars->cmd_flags, vars->my_environ) == -1)
+	if (execve(vars->cmd1_path, vars->cmd_flags, envp) == -1)
 	{
 		execute_error(vars, commands);
 		if (vars->cmd1_path)
