@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:23:00 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 17:29:57 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:23:28 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,37 @@ int	ft_is_empty_command(const char *cmd)
 		trimmed++;
 	}
 	return (1);
+}
+
+static void	ft_free_2d_array(char **arr)
+{
+	int	i;
+
+	if (!arr)
+		return ;
+	i = 0;
+	while (arr[i])
+		free(arr[i++]);
+	free(arr);
+}
+
+void	ft_cleanup_heredoc_child(t_vars *vars)
+{
+	if (!vars)
+		return ;
+	if (vars->doc_file)
+		free(vars->doc_file);
+	if (vars->all_commands)
+		ft_free_2d_array(vars->all_commands);
+	if (vars->here_doc_fd)
+		free(vars->here_doc_fd);
+	if (vars->temp)
+		free(vars->temp);
+	if (vars->my_environ)
+		ft_free(vars->my_environ);
+	vars->doc_file = NULL;
+	vars->all_commands = NULL;
+	vars->here_doc_fd = NULL;
+	vars->temp = NULL;
+	vars->my_environ = NULL;
 }

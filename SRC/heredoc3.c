@@ -6,13 +6,13 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 16:45:27 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/05 15:02:00 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:53:34 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_vars *g_heredoc_vars = NULL;
+t_vars	*g_heredoc_vars = NULL;
 
 char	*ft_strndup_aspas(char *commands, int len)
 {
@@ -26,12 +26,6 @@ char	*ft_strndup_aspas(char *commands, int len)
 	ft_aspas_helper(len, &i, new_str, commands);
 	new_str[i] = '\0';
 	return (new_str);
-}
-
-int	*exit_status(void)
-{
-	static int exit_status;
-	return (&exit_status);
 }
 
 void	heredoc_signal_handler(int sig)

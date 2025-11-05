@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:20:47 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/05 15:02:34 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:42:11 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,40 @@ void	ft_echo(char **commands)
 	if (!n_flag)
 		ft_printf("\n");
 	*exit_status() = 0;
+}
+
+void	ctp_helper(char const *s, char c, char *d, size_t *i)
+{
+	while (s[*i] && (s[*i] != c || *d != '+'))
+	{
+		if (s[*i] == '\"' || s[*i] == '\'')
+		{
+			if (s[*i] == *d)
+				*d = '+';
+			else if (*d == '+')
+				*d = s[*i];
+		}
+		(*i)++;
+	}
+}
+
+void	put_matrix_helper(char const **s, char c, char *d, char *str)
+{
+	int	i;
+
+	i = 0;
+	while (**s && (**s != c || *d != '+'))
+	{
+		if (**s == '\"' || **s == '\'')
+		{
+			if (**s == *d)
+				*d = '+';
+			else if (*d == '+')
+				*d = **s;
+		}
+		str[i] = **s;
+		i++;
+		(*s)++;
+	}
+	str[i] = '\0';
 }

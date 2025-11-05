@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:40:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/05 15:14:04 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:52:36 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,16 @@ typedef struct s_redir
 	int			index;
 }				t_redir;
 
+void			execute_error(t_vars *vars, char **commands);
+void			cleanup_child_and_exit(t_vars *vars, int exit_code);
+void			free_all_commands(t_vars *vars);
+void			minishell(char *input, char **env, t_vars *vars);
+void			check_final_fd(t_vars *vars, int *j);
+void			handle_fork_error(t_vars *vars, int fd, char *doc_file);
+int				check_pipe_syntax(char *input);
+int				validate_commands(char **cmds);
+void			print_heredoc_error(void);
+void			handle_redirection_failure(t_vars *vars, int *printed);
 int				*exit_status(void);
 char			*expand_heredoc_line(t_vars *vars, char *line);
 void			check_open_doc(t_vars *vars, char *doc_file, char *temp_name);

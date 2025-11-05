@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:20:31 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/30 16:33:34 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:50:02 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,27 @@ char	**ft_split_novo_e_melhorado(char const *s, char c)
 		return (0);
 	matrix = ft_putmatrix(matrix, s, c, ft_ctp(s, c));
 	return (matrix);
+}
+
+int	env_num(t_vars *vars, char **commands)
+{
+	int	i;
+	int	j;
+	int	x;
+
+	i = 0;
+	j = 0;
+	while (vars->my_environ[i] != NULL)
+	{
+		x = 1;
+		while (commands[x])
+		{
+			if (ft_strncmp(commands[x], vars->my_environ[i],
+					ft_strlen(commands[x])) == 0)
+				j++;
+			x++;
+		}
+		i++;
+	}
+	return (j);
 }

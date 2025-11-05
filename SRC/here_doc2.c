@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:04 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/05 15:02:34 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:43:57 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,31 +39,8 @@ static int	fork_heredoc(t_vars *vars, char *doc_file, int write_fd, int expand)
 	return (id);
 }
 
-static void	check_final_fd(t_vars *vars, int *j)
+static void	handle_heredoc_status(t_vars *vars, int status)
 {
-	if (vars->here_doc_fd[*j] == -1)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		perror(vars->temp);
-		vars->redirection_failed = true;
-	}
-}
-
-void	open_doc_file_expanded(t_vars *vars, char *doc_file, int *j, int expand)
-{
-	int	id;
-	int	write_fd;
-	int	status;
-
-	write_fd = open_temp_write_fd(vars);
-	if (vars->redirection_failed)
-		return (free(doc_file));
-	id = fork_heredoc(vars, doc_file, write_fd, expand);
-	if (id == -1)
-		return ((void)(perror("fork"), close(write_fd), free(doc_file),
-			vars->redirection_failed = true));
-	close(write_fd);
-	waitpid(id, &status, 0);
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_DFL);
 	if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
@@ -73,6 +50,23 @@ void	open_doc_file_expanded(t_vars *vars, char *doc_file, int *j, int expand)
 		if (vars->temp)
 			unlink(vars->temp);
 	}
+}
+
+void	open_doc_file_expanded(t_vars *vars, char *doc_file, int *j, int expand)
+{
+	int	id;
+	int	fd;
+	int	status;
+
+	fd = open_temp_write_fd(vars);
+	if (vars->redirection_failed)
+		return (free(doc_file));
+	id = fork_heredoc(vars, doc_file, fd, expand);
+	if (id == -1)
+		return (handle_fork_error(vars, fd, doc_file));
+	close(fd);
+	waitpid(id, &status, 0);
+	handle_heredoc_status(vars, status);
 	free(doc_file);
 	if (!vars->redirection_failed)
 	{

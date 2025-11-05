@@ -6,53 +6,11 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:26 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/05 15:02:34 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:39:52 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static int	check_pipe_syntax(char *input)
-{
-	int	i;
-	int	len;
-
-	if (str_is_spaces_only(input))
-		return (1);
-	if (input[0] == '|')
-	{
-		ft_printf("minishell: syntax error near unexpected token `|'\n");
-		return (1);
-	}
-	len = ft_strlen(input);
-	i = len - 1;
-	while (i >= 0 && (input[i] == ' ' || input[i] == '\t'))
-		i--;
-	if (i >= 0 && input[i] == '|')
-	{
-		ft_printf("minishell: syntax error near unexpected token `|'\n");
-		return (1);
-	}
-	return (0);
-}
-
-static int	validate_commands(char **cmds)
-{
-	int	i;
-
-	i = 0;
-	while (cmds[i])
-	{
-		if (str_is_spaces_only(cmds[i]))
-		{
-			ft_printf("minishell: syntax error near unexpected token `|'\n");
-			ft_free(cmds);
-			return (0);
-		}
-		i++;
-	}
-	return (1);
-}
 
 static int	handle_cd_and_expansion(t_vars *vars, char **cmds, char *input)
 {
@@ -66,37 +24,37 @@ static int	handle_cd_and_expansion(t_vars *vars, char **cmds, char *input)
 	return (0);
 }
 
-int	setup_commands(char *input, t_vars *vars, char ***commands)
+static int	handle_setup_error(char ***cmds, t_vars *vars)
 {
-	int	invalid;
+	ft_free(*cmds);
+	*cmds = NULL;
+	vars->all_commands = NULL;
+	return (0);
+}
 
-	invalid = check_pipe_syntax(input);
-	if (invalid)
-		return (0);
-	*commands = ft_split_commands(input, "|");
-	if (!*commands)
-		return (0);
-	vars->all_commands = *commands;
-	if (!validate_commands(*commands))
-		return (0);
-	vars->in_pipeline = ((*commands)[1] != NULL);
-	if (handle_cd_and_expansion(vars, *commands, input))
-	{
-		ft_free(*commands);
-		*commands = NULL;
-		vars->all_commands = NULL;
-		return (0);
-	}
-	vars->redirection_failed = false;
-	here_doc(vars, *commands);
+static int	handle_heredoc_phase(t_vars *vars, char ***cmds)
+{
+	here_doc(vars, *cmds);
 	if (vars->redirection_failed && *exit_status() == 130)
-	{
-		ft_free(*commands);
-		*commands = NULL;
-		vars->all_commands = NULL;
-		return (0);
-	}
+		return (handle_setup_error(cmds, vars));
 	return (1);
+}
+
+int	setup_commands(char *input, t_vars *vars, char ***cmds)
+{
+	if (check_pipe_syntax(input))
+		return (0);
+	*cmds = ft_split_commands(input, "|");
+	if (!*cmds)
+		return (0);
+	vars->all_commands = *cmds;
+	if (!validate_commands(*cmds))
+		return (0);
+	vars->in_pipeline = ((*cmds)[1] != NULL);
+	if (handle_cd_and_expansion(vars, *cmds, input))
+		return (handle_setup_error(cmds, vars));
+	vars->redirection_failed = false;
+	return (handle_heredoc_phase(vars, cmds));
 }
 
 int	ft_has_invalid_pipe(char **commands)

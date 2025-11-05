@@ -6,39 +6,11 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:23:05 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/03 15:23:48 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:26:46 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	ft_replace_helper2(char *commands, int j, char *tmp, char **freee)
-{
-	int		k;
-	char	*result;
-	char	*new_result;
-
-	(void)tmp;
-	if (*freee)
-	{
-		free(*freee);
-		*freee = NULL;
-	}
-	result = ft_strdup("");
-	if (!result)
-		return ;
-	k = 0;
-	while (k < j - 1 && commands[k])
-	{
-		new_result = ft_strjoin_char(result, commands[k]);
-		free(result);
-		result = new_result;
-		if (!result)
-			return ;
-		k++;
-	}
-	*freee = result;
-}
 
 int	ft_replace_helper(char *commands, int j, char **tmp)
 {
@@ -68,52 +40,59 @@ int	ft_replace_helper(char *commands, int j, char **tmp)
 	return (i);
 }
 
-char	*replace_var(t_vars *vars, char *commands, int j)
+static char	*get_env_value(t_vars *vars, char *key)
+{
+	int		line_nbr;
+	char	*value;
+
+	line_nbr = find_env_line_nbr(vars, key);
+	if (line_nbr != -1 && vars->my_environ[line_nbr])
+		value = get_value_for_expand(vars->my_environ[line_nbr]);
+	else
+		value = ft_strdup("");
+	return (value);
+}
+
+static char	*build_replaced_str(char *cmds, int j, int i, char *insert)
+{
+	char	*freeme;
+	char	*result;
+
+	freeme = NULL;
+	ft_replace_helper2(cmds, j, NULL, &freeme);
+	if (!freeme)
+		return (NULL);
+	if (i + j <= (int)ft_strlen(cmds))
+		result = ft_strjoin_three(freeme, insert, &cmds[i + j]);
+	else
+		result = ft_strjoin_three(freeme, insert, "");
+	free(freeme);
+	return (result);
+}
+
+char	*replace_var(t_vars *vars, char *cmds, int j)
 {
 	int		i;
-	int		line_nbr;
-	char	*tmp;
-	char	*tmp2;
-	char	*tmp3;
-	char	*freeme;
+	char	*key;
+	char	*val;
+	char	*new_str;
 
-	if (!commands || j >= (int)ft_strlen(commands))
-		return (commands);
-	tmp = NULL;
-	i = ft_replace_helper(commands, j, &tmp);
-	if (!tmp || i == 0)
-	{
-		if (tmp)
-			free(tmp);
-		return (commands);
-	}
-	line_nbr = find_env_line_nbr(vars, tmp);
-	if (line_nbr != -1 && vars->my_environ[line_nbr])
-		tmp2 = get_value_for_expand(vars->my_environ[line_nbr]);
-	else
-		tmp2 = ft_strdup("");
-	if (!tmp2)
-	{
-		free(tmp);
-		return (commands);
-	}
-	freeme = NULL;
-	ft_replace_helper2(commands, j, NULL, &freeme);
-	if (!freeme)
-	{
-		free(tmp);
-		free(tmp2);
-		return (commands);
-	}
-	if (i + j <= (int)ft_strlen(commands))
-		tmp3 = ft_strjoin_three(freeme, tmp2, &commands[i + j]);
-	else
-		tmp3 = ft_strjoin_three(freeme, tmp2, "");
-	free(freeme);
-	free(tmp);
-	free(tmp2);
-	free(commands);
-	return (tmp3);
+	if (!cmds || j >= (int)ft_strlen(cmds))
+		return (cmds);
+	key = NULL;
+	i = ft_replace_helper(cmds, j, &key);
+	if (!key || i == 0)
+		return (free(key), cmds);
+	val = get_env_value(vars, key);
+	if (!val)
+		return (free(key), cmds);
+	new_str = build_replaced_str(cmds, j, i, val);
+	free(key);
+	free(val);
+	free(cmds);
+	if (!new_str)
+		return (cmds);
+	return (new_str);
 }
 
 void	var_expander(t_vars *vars, char **commands)

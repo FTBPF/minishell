@@ -6,34 +6,52 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:20:57 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/05 15:02:34 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:36:12 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	here_doc(t_vars *vars, char **commands)
+static void	init_here_doc_fds(t_vars *vars, int count)
 {
-	char	*tmp;
-	int		i;
-	int		j;
+	int	k;
+
+	k = 0;
+	while (k <= count)
+	{
+		vars->here_doc_fd[k] = -1;
+		k++;
+	}
+}
+
+static int	count_heredocs(char **commands)
+{
+	int	i;
+	int	count;
 
 	i = 0;
-	j = 0;
+	count = 0;
 	while (commands[i])
 	{
 		if (has_unquoted_heredoc(commands[i]))
-			j++;
+			count++;
 		i++;
 	}
-	vars->here_doc_fd = malloc(sizeof(int) * (j + 1));
+	return (count);
+}
+
+void	here_doc(t_vars *vars, char **commands)
+{
+	int		i;
+	int		j;
+	int		count;
+	char	*tmp;
+
+	count = count_heredocs(commands);
+	vars->here_doc_fd = malloc(sizeof(int) * (count + 1));
 	if (!vars->here_doc_fd)
-	{
-		ft_free_vars(vars);
-		return ;
-	}
-	for (int k = 0; k <= j; k++)
-    	vars->here_doc_fd[k] = -1;
+		return (ft_free_vars(vars));
+	init_here_doc_fds(vars, count);
 	i = -1;
 	j = 0;
 	while (commands[++i])
@@ -42,29 +60,6 @@ void	here_doc(t_vars *vars, char **commands)
 		handle_heredoc(vars, tmp, &j);
 		if (vars->redirection_failed)
 			return ;
-	}
-}
-
-static void	print_heredoc_error(void)
-{
-	ft_putstr_fd("minishell: syntax error near", 2);
-	ft_putstr_fd(" unexpected token `newline'\n", 2);
-	*exit_status() = 2;
-}
-
-static void	handle_redirection_failure(t_vars *vars, int *printed)
-{
-	if (vars->redirection_failed && *printed == 0)
-	{
-		(*printed)++;
-		if (vars->temp)
-		{
-			unlink(vars->temp);
-			free(vars->temp);
-			vars->temp = NULL;
-		}
-		if (*exit_status() != 130)
-			print_heredoc_error();
 	}
 }
 

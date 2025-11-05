@@ -6,22 +6,11 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/05 16:13:51 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:38:24 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	minishell(char *input, char **env, t_vars *vars)
-{
-	int	i;
-
-	vars->redirection_failed = false;
-	i = minishell_helper(input, env, vars);
-	if (i == 0)
-		return ;
-	close(vars->pipe_fd[0]);
-}
 
 void	setup_shell(t_vars *vars, char **env)
 {
@@ -51,6 +40,15 @@ static void	setup_signals_parent(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
+static void	handle_ctrl_d(t_vars *vars)
+{
+	*exit_status() = 1;
+	ft_free(vars->my_environ);
+	vars->my_environ = NULL;
+	ft_free_vars(vars);
+	rl_clear_history();
+}
+
 void	run_shell(t_vars *vars, char **env)
 {
 	char	*input;
@@ -61,23 +59,17 @@ void	run_shell(t_vars *vars, char **env)
 		input = readline("myshell> ");
 		if (!ft_exit_ctrl_d(input))
 		{
-			*exit_status() = 1;
-			ft_free(vars->my_environ);
-			vars->my_environ = NULL;
-			ft_free_vars(vars);
-			rl_clear_history();
+			handle_ctrl_d(vars);
 			break ;
 		}
-		if (ft_strlen(input) != 0)
+		if (ft_strlen(input))
 		{
 			add_history(input);
 			minishell(input, env, vars);
 			if (vars)
 				ft_free_vars(vars);
-			free(input);
 		}
-		else
-			free(input);
+		free(input);
 	}
 }
 

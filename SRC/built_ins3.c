@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:19:58 by frteixei          #+#    #+#             */
-/*   Updated: 2025/10/22 13:19:59 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:49:47 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,19 @@ void	print_exported_vars(t_vars *vars)
 		return ;
 	print_sorted_env(sorted_env, vars->num_env_vars);
 	ft_free(sorted_env);
+}
+
+void	ft_pwd(void)
+{
+	char	*pwd;
+
+	pwd = getcwd(NULL, 0);
+	if (pwd)
+	{
+		ft_printf("%s\n", pwd);
+		free(pwd);
+	}
+	else
+		perror("pwd");
+	*exit_status() = 0;
 }

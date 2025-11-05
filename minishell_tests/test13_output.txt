@@ -1,69 +1,88 @@
-==34831== Memcheck, a memory error detector
-==34831== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==34831== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==34831== Command: /home/frteixei/work42/42cursus/minishell/minishell
-==34831== 
+==40322== Memcheck, a memory error detector
+==40322== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==40322== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==40322== Command: /home/frteixei/work42/42cursus/minishell/minishell
+==40322== 
 myshell> nonexistent_command
 nonexistent_command: command not found
-==34832== 
-==34832== HEAP SUMMARY:
-==34832==     in use at exit: 208,253 bytes in 226 blocks
-==34832==   total heap usage: 532 allocs, 306 frees, 236,571 bytes allocated
-==34832== 
-==34832== LEAK SUMMARY:
-==34832==    definitely lost: 0 bytes in 0 blocks
-==34832==    indirectly lost: 0 bytes in 0 blocks
-==34832==      possibly lost: 0 bytes in 0 blocks
-==34832==    still reachable: 0 bytes in 0 blocks
-==34832==         suppressed: 208,253 bytes in 226 blocks
-==34832== 
-==34832== For lists of detected and suppressed errors, rerun with: -s
-==34832== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==40323== 
+==40323== HEAP SUMMARY:
+==40323==     in use at exit: 208,253 bytes in 226 blocks
+==40323==   total heap usage: 532 allocs, 306 frees, 236,571 bytes allocated
+==40323== 
+==40323== LEAK SUMMARY:
+==40323==    definitely lost: 0 bytes in 0 blocks
+==40323==    indirectly lost: 0 bytes in 0 blocks
+==40323==      possibly lost: 0 bytes in 0 blocks
+==40323==    still reachable: 0 bytes in 0 blocks
+==40323==         suppressed: 208,253 bytes in 226 blocks
+==40323== 
+==40323== For lists of detected and suppressed errors, rerun with: -s
+==40323== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 myshell> another_fake_command
 another_fake_command: command not found
-==34833== 
-==34833== HEAP SUMMARY:
-==34833==     in use at exit: 208,311 bytes in 229 blocks
-==34833==   total heap usage: 548 allocs, 319 frees, 236,963 bytes allocated
-==34833== 
-==34833== LEAK SUMMARY:
-==34833==    definitely lost: 0 bytes in 0 blocks
-==34833==    indirectly lost: 0 bytes in 0 blocks
-==34833==      possibly lost: 0 bytes in 0 blocks
-==34833==    still reachable: 0 bytes in 0 blocks
-==34833==         suppressed: 208,311 bytes in 229 blocks
-==34833== 
-==34833== For lists of detected and suppressed errors, rerun with: -s
-==34833== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==40324== 
+==40324== HEAP SUMMARY:
+==40324==     in use at exit: 208,311 bytes in 229 blocks
+==40324==   total heap usage: 548 allocs, 319 frees, 236,963 bytes allocated
+==40324== 
+==40324== LEAK SUMMARY:
+==40324==    definitely lost: 0 bytes in 0 blocks
+==40324==    indirectly lost: 0 bytes in 0 blocks
+==40324==      possibly lost: 0 bytes in 0 blocks
+==40324==    still reachable: 0 bytes in 0 blocks
+==40324==         suppressed: 208,311 bytes in 229 blocks
+==40324== 
+==40324== For lists of detected and suppressed errors, rerun with: -s
+==40324== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 myshell> asjdnasjdnajsd
 asjdnasjdnajsd: command not found
-==34834== 
-==34834== HEAP SUMMARY:
-==34834==     in use at exit: 208,356 bytes in 232 blocks
-==34834==   total heap usage: 564 allocs, 332 frees, 237,248 bytes allocated
-==34834== 
-==34834== LEAK SUMMARY:
-==34834==    definitely lost: 0 bytes in 0 blocks
-==34834==    indirectly lost: 0 bytes in 0 blocks
-==34834==      possibly lost: 0 bytes in 0 blocks
-==34834==    still reachable: 0 bytes in 0 blocks
-==34834==         suppressed: 208,356 bytes in 232 blocks
-==34834== 
-==34834== For lists of detected and suppressed errors, rerun with: -s
-==34834== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==40325== 
+==40325== HEAP SUMMARY:
+==40325==     in use at exit: 208,356 bytes in 232 blocks
+==40325==   total heap usage: 564 allocs, 332 frees, 237,248 bytes allocated
+==40325== 
+==40325== LEAK SUMMARY:
+==40325==    definitely lost: 0 bytes in 0 blocks
+==40325==    indirectly lost: 0 bytes in 0 blocks
+==40325==      possibly lost: 0 bytes in 0 blocks
+==40325==    still reachable: 0 bytes in 0 blocks
+==40325==         suppressed: 208,356 bytes in 232 blocks
+==40325== 
+==40325== For lists of detected and suppressed errors, rerun with: -s
+==40325== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 myshell> exit
 exit
-==34831== 
-==34831== HEAP SUMMARY:
-==34831==     in use at exit: 208,182 bytes in 223 blocks
-==34831==   total heap usage: 544 allocs, 321 frees, 236,779 bytes allocated
-==34831== 
-==34831== LEAK SUMMARY:
-==34831==    definitely lost: 0 bytes in 0 blocks
-==34831==    indirectly lost: 0 bytes in 0 blocks
-==34831==      possibly lost: 0 bytes in 0 blocks
-==34831==    still reachable: 0 bytes in 0 blocks
-==34831==         suppressed: 208,182 bytes in 223 blocks
-==34831== 
-==34831== For lists of detected and suppressed errors, rerun with: -s
-==34831== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==40322== 
+==40322== HEAP SUMMARY:
+==40322==     in use at exit: 208,203 bytes in 225 blocks
+==40322==   total heap usage: 544 allocs, 319 frees, 236,779 bytes allocated
+==40322== 
+==40322== 5 bytes in 1 blocks are still reachable in loss record 2 of 66
+==40322==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==40322==    by 0x40B50F: ft_strndup (in /home/frteixei/work42/42cursus/minishell/minishell)
+==40322==    by 0x4045AD: ft_split_commands (split_cmds6.c:105)
+==40322==    by 0x4015E4: setup_commands (main2.c:47)
+==40322==    by 0x40194C: minishell_helper (main3.c:73)
+==40322==    by 0x401C1C: minishell (main3.c:92)
+==40322==    by 0x401484: run_shell (main.c:68)
+==40322==    by 0x40158C: main (main.c:83)
+==40322== 
+==40322== 16 bytes in 1 blocks are still reachable in loss record 12 of 66
+==40322==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==40322==    by 0x404551: ft_split_commands (split_cmds6.c:97)
+==40322==    by 0x4015E4: setup_commands (main2.c:47)
+==40322==    by 0x40194C: minishell_helper (main3.c:73)
+==40322==    by 0x401C1C: minishell (main3.c:92)
+==40322==    by 0x401484: run_shell (main.c:68)
+==40322==    by 0x40158C: main (main.c:83)
+==40322== 
+==40322== LEAK SUMMARY:
+==40322==    definitely lost: 0 bytes in 0 blocks
+==40322==    indirectly lost: 0 bytes in 0 blocks
+==40322==      possibly lost: 0 bytes in 0 blocks
+==40322==    still reachable: 21 bytes in 2 blocks
+==40322==         suppressed: 208,182 bytes in 223 blocks
+==40322== 
+==40322== For lists of detected and suppressed errors, rerun with: -s
+==40322== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

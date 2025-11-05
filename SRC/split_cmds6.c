@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 17:01:17 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/05 15:02:34 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:50:16 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,33 @@ char	*expand_heredoc_line(t_vars *vars, char *line)
 			res = append_char(res, line[i++]);
 	}
 	return (res);
+}
+
+char	**ft_split_commands(char *str, char *delimiters)
+{
+	int		num_words;
+	char	**words;
+	char	*token_start;
+	int		token_length;
+	int		i;
+
+	num_words = count_words(str, delimiters);
+	words = (char **)malloc((num_words + 1) * sizeof(char *));
+	if (!words)
+		return (NULL);
+	i = 0;
+	token_start = get_next_token(str, delimiters);
+	while (token_start)
+	{
+		token_length = get_token_length(token_start, delimiters);
+		words[i] = ft_strndup(token_start, token_length);
+		if (!words[i++])
+		{
+			ft_free(words);
+			return (NULL);
+		}
+		token_start = get_next_token(token_start + token_length, delimiters);
+	}
+	words[num_words] = NULL;
+	return (words);
 }

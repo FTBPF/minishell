@@ -6,49 +6,11 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:20:23 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/05 15:02:34 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:49:58 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	ft_pwd(void)
-{
-	char	*pwd;
-
-	pwd = getcwd(NULL, 0);
-	if (pwd)
-	{
-		ft_printf("%s\n", pwd);
-		free(pwd);
-	}
-	else
-		perror("pwd");
-	*exit_status() = 0;
-}
-
-int	env_num(t_vars *vars, char **commands)
-{
-	int	i;
-	int	j;
-	int	x;
-
-	i = 0;
-	j = 0;
-	while (vars->my_environ[i] != NULL)
-	{
-		x = 1;
-		while (commands[x])
-		{
-			if (ft_strncmp(commands[x], vars->my_environ[i],
-					ft_strlen(commands[x])) == 0)
-				j++;
-			x++;
-		}
-		i++;
-	}
-	return (j);
-}
 
 int	is_command_in_env(char *env_var, char **commands)
 {
@@ -90,49 +52,60 @@ void	ft_unset(t_vars *vars, char **commands)
 	vars->my_environ = new_environ;
 }
 
+static int	handle_cd_exit(char **cmds, t_vars *vars)
+{
+	if (ft_strcmp(cmds[0], "cd") == 0)
+	{
+		ft_cd(cmds, vars);
+		return (1);
+	}
+	if (ft_strcmp(cmds[0], "exit") == 0 && cmds[1] && cmds[2])
+	{
+		ft_putendl_fd("minishell: exit: too many arguments", 2);
+		*exit_status() = 1;
+		return (1);
+	}
+	if (ft_strcmp(cmds[0], "exit") == 0)
+	{
+		ft_exit(vars, cmds);
+		return (1);
+	}
+	return (0);
+}
+
+static int	handle_export_unset(char **cmds, t_vars *vars)
+{
+	if (ft_strcmp(cmds[0], "unset") == 0)
+	{
+		ft_unset(vars, cmds);
+		return (1);
+	}
+	if (ft_strcmp(cmds[0], "export") == 0 && cmds[1])
+	{
+		ft_export(vars, cmds);
+		return (1);
+	}
+	return (0);
+}
+
 int	check_cd_ex_uns(char **commands, t_vars *vars)
 {
-	char	**split_cmds;
+	char	**cmds;
 	int		result;
 
 	if (vars->in_pipeline && (ft_strstr(commands[0], "export")
 			|| ft_strstr(commands[0], "unset")))
 		return (0);
-	split_cmds = ft_split_novo_e_melhorado(commands[0], ' ');
-	if (!split_cmds || !split_cmds[0])
+	cmds = ft_split_novo_e_melhorado(commands[0], ' ');
+	if (!cmds || !cmds[0])
 	{
-		if (split_cmds)
-			ft_free(split_cmds);
+		if (cmds)
+			ft_free(cmds);
 		return (0);
 	}
-	result = 0;
-	if (ft_strcmp(split_cmds[0], "cd") == 0)
-	{
-		ft_cd(split_cmds, vars);
-		result = 1;
-	}
-	else if (ft_strcmp(split_cmds[0], "exit") == 0 && split_cmds[1]
-		&& split_cmds[2])
-	{
-		ft_putendl_fd("minishell: exit: too many arguments", 2);
-		*exit_status() = 1;
-		result = 1;
-	}
-	else if (ft_strcmp(split_cmds[0], "exit") == 0)
-	{
-		ft_free(commands);
-		ft_exit(vars, split_cmds);
-	}
-	else if (ft_strcmp(split_cmds[0], "unset") == 0)
-	{
-		ft_unset(vars, split_cmds);
-		result = 1;
-	}
-	else if (ft_strcmp(split_cmds[0], "export") == 0 && split_cmds[1])
-	{
-		ft_export(vars, split_cmds);
-		result = 1;
-	}
-	ft_free(split_cmds);
+	result = handle_cd_exit(cmds, vars);
+	if (!result)
+		result = handle_export_unset(cmds, vars);
+	ft_free(cmds);
 	return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 17:24:01 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/05 15:02:34 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:38:28 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,24 @@ static int	collect_status(void)
 	return (last);
 }
 
+static void	close_here_doc_fds(t_vars *vars)
+{
+	int	i;
+
+	i = 0;
+	while (vars->here_doc_fd[i] != -1)
+	{
+		if (vars->here_doc_fd[i] > 0)
+			close(vars->here_doc_fd[i]);
+		i++;
+	}
+	free(vars->here_doc_fd);
+	vars->here_doc_fd = NULL;
+}
+
 int	minishell_helper(char *input, char **env, t_vars *vars)
 {
 	char	**commands;
-	int		i;
 
 	commands = NULL;
 	if (!setup_commands(input, vars, &commands))
@@ -63,22 +77,20 @@ int	minishell_helper(char *input, char **env, t_vars *vars)
 	if (vars->p0 != 0)
 		close(vars->p0);
 	if (commands)
-	{
 		ft_free(commands);
-		commands = NULL;
-	}
 	vars->all_commands = NULL;
 	if (vars->here_doc_fd)
-	{
-		i = 0;
-		while (vars->here_doc_fd[i] != -1)
-		{
-			if (vars->here_doc_fd[i] > 0)
-				close(vars->here_doc_fd[i]);
-			i++;
-		}
-		free(vars->here_doc_fd);
-		vars->here_doc_fd = NULL;
-	}
+		close_here_doc_fds(vars);
 	return (vars->i);
+}
+
+void	minishell(char *input, char **env, t_vars *vars)
+{
+	int	i;
+
+	vars->redirection_failed = false;
+	i = minishell_helper(input, env, vars);
+	if (i == 0)
+		return ;
+	close(vars->pipe_fd[0]);
 }

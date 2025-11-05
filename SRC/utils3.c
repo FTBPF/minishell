@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 19:42:44 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/05 15:27:06 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:20:18 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,81 +104,4 @@ int	setup_pipe(int *pipe_fd)
 		return (0);
 	}
 	return (1);
-}
-
-void	ft_free_vars_in_child(t_vars *vars)
-{
-	int	i;
-
-	if (vars->cmd_flags)
-	{
-		ft_free(vars->cmd_flags);
-		vars->cmd_flags = NULL;
-	}
-	if (vars->here_doc_fd)
-	{
-		i = 0;
-		while (vars->here_doc_fd[i] != -1)
-		{
-			if (vars->here_doc_fd[i] > 0)
-				close(vars->here_doc_fd[i]);
-			i++;
-		}
-		free(vars->here_doc_fd);
-		vars->here_doc_fd = NULL;
-	}
-	if (vars->temp)
-	{
-		free(vars->temp);
-		vars->temp = NULL;
-	}
-	if (vars->infile_name)
-	{
-		free(vars->infile_name);
-		vars->infile_name = NULL;
-	}
-	if (vars->outfile_name)
-	{
-		free(vars->outfile_name);
-		vars->outfile_name = NULL;
-	}
-	if (vars->cmd1_path)
-	{
-		free(vars->cmd1_path);
-		vars->cmd1_path = NULL;
-	}
-}
-
-void	ft_cleanup_heredoc_child(t_vars *vars)
-{
-	int	i;
-
-	if (vars->doc_file)
-    {
-        free(vars->doc_file);
-        vars->doc_file = NULL;
-    }
-	if (vars->all_commands)
-	{
-		i = 0;
-		while (vars->all_commands[i])
-			free(vars->all_commands[i++]);
-		free(vars->all_commands);
-		vars->all_commands = NULL;
-	}
-	if (vars->here_doc_fd)
-	{
-		free(vars->here_doc_fd);
-		vars->here_doc_fd = NULL;
-	}
-	if (vars->temp)
-	{
-		free(vars->temp);
-		vars->temp = NULL;
-	}
-	if (vars->my_environ)
-	{
-		ft_free(vars->my_environ);
-		vars->my_environ = NULL;
-	}
 }
