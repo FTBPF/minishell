@@ -1,111 +1,92 @@
-==40282== Memcheck, a memory error detector
-==40282== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==40282== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==40282== Command: /home/frteixei/work42/42cursus/minishell/minishell
-==40282== 
+==48192== Memcheck, a memory error detector
+==48192== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==48192== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==48192== Command: /home/frteixei/work42/42cursus/minishell/minishell
+==48192== 
 myshell> export MYVAR=hello
 myshell> echo $MYVAR
 hello
-==40283== 
-==40283== HEAP SUMMARY:
-==40283==     in use at exit: 208,292 bytes in 229 blocks
-==40283==   total heap usage: 535 allocs, 306 frees, 236,643 bytes allocated
-==40283== 
-==40283== LEAK SUMMARY:
-==40283==    definitely lost: 0 bytes in 0 blocks
-==40283==    indirectly lost: 0 bytes in 0 blocks
-==40283==      possibly lost: 0 bytes in 0 blocks
-==40283==    still reachable: 0 bytes in 0 blocks
-==40283==         suppressed: 208,292 bytes in 229 blocks
-==40283== 
-==40283== For lists of detected and suppressed errors, rerun with: -s
-==40283== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==48193== 
+==48193== HEAP SUMMARY:
+==48193==     in use at exit: 208,292 bytes in 229 blocks
+==48193==   total heap usage: 535 allocs, 306 frees, 236,643 bytes allocated
+==48193== 
+==48193== LEAK SUMMARY:
+==48193==    definitely lost: 0 bytes in 0 blocks
+==48193==    indirectly lost: 0 bytes in 0 blocks
+==48193==      possibly lost: 0 bytes in 0 blocks
+==48193==    still reachable: 0 bytes in 0 blocks
+==48193==         suppressed: 208,292 bytes in 229 blocks
+==48193== 
+==48193== For lists of detected and suppressed errors, rerun with: -s
+==48193== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 myshell> export MYVAR2=world
 myshell> echo $MYVAR $MYVAR2
 hello hello2
-==40284== 
-==40284== HEAP SUMMARY:
-==40284==     in use at exit: 208,412 bytes in 235 blocks
-==40284==   total heap usage: 607 allocs, 372 frees, 237,958 bytes allocated
-==40284== 
-==40284== LEAK SUMMARY:
-==40284==    definitely lost: 0 bytes in 0 blocks
-==40284==    indirectly lost: 0 bytes in 0 blocks
-==40284==      possibly lost: 0 bytes in 0 blocks
-==40284==    still reachable: 0 bytes in 0 blocks
-==40284==         suppressed: 208,412 bytes in 235 blocks
-==40284== 
-==40284== For lists of detected and suppressed errors, rerun with: -s
-==40284== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==48194== 
+==48194== HEAP SUMMARY:
+==48194==     in use at exit: 208,412 bytes in 235 blocks
+==48194==   total heap usage: 607 allocs, 372 frees, 237,958 bytes allocated
+==48194== 
+==48194== LEAK SUMMARY:
+==48194==    definitely lost: 0 bytes in 0 blocks
+==48194==    indirectly lost: 0 bytes in 0 blocks
+==48194==      possibly lost: 0 bytes in 0 blocks
+==48194==    still reachable: 0 bytes in 0 blocks
+==48194==         suppressed: 208,412 bytes in 235 blocks
+==48194== 
+==48194== For lists of detected and suppressed errors, rerun with: -s
+==48194== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 myshell> unset MYVAR
 myshell> echo $MYVAR
 
-==40285== 
-==40285== HEAP SUMMARY:
-==40285==     in use at exit: 208,500 bytes in 241 blocks
-==40285==   total heap usage: 705 allocs, 464 frees, 242,546 bytes allocated
-==40285== 
-==40285== LEAK SUMMARY:
-==40285==    definitely lost: 0 bytes in 0 blocks
-==40285==    indirectly lost: 0 bytes in 0 blocks
-==40285==      possibly lost: 0 bytes in 0 blocks
-==40285==    still reachable: 0 bytes in 0 blocks
-==40285==         suppressed: 208,500 bytes in 241 blocks
-==40285== 
-==40285== For lists of detected and suppressed errors, rerun with: -s
-==40285== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==48195== 
+==48195== HEAP SUMMARY:
+==48195==     in use at exit: 208,500 bytes in 241 blocks
+==48195==   total heap usage: 705 allocs, 464 frees, 242,546 bytes allocated
+==48195== 
+==48195== LEAK SUMMARY:
+==48195==    definitely lost: 0 bytes in 0 blocks
+==48195==    indirectly lost: 0 bytes in 0 blocks
+==48195==      possibly lost: 0 bytes in 0 blocks
+==48195==    still reachable: 0 bytes in 0 blocks
+==48195==         suppressed: 208,500 bytes in 241 blocks
+==48195== 
+==48195== For lists of detected and suppressed errors, rerun with: -s
+==48195== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 myshell> export | head -5
 declare -x COLORTERM="truecolor"
 declare -x DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/101625/bus"
 declare -x DESKTOP_SESSION="ubuntu"
 declare -x DISPLAY=":0"
 declare -x DOCKER_HOST="unix:///run/user/101625/docker.sock"
-==40286== 
-==40286== HEAP SUMMARY:
-==40286==     in use at exit: 208,558 bytes in 244 blocks
-==40286==   total heap usage: 777 allocs, 533 frees, 246,920 bytes allocated
-==40286== 
-==40286== LEAK SUMMARY:
-==40286==    definitely lost: 0 bytes in 0 blocks
-==40286==    indirectly lost: 0 bytes in 0 blocks
-==40286==      possibly lost: 0 bytes in 0 blocks
-==40286==    still reachable: 0 bytes in 0 blocks
-==40286==         suppressed: 208,558 bytes in 244 blocks
-==40286== 
-==40286== For lists of detected and suppressed errors, rerun with: -s
-==40286== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==48196== 
+==48196== HEAP SUMMARY:
+==48196==     in use at exit: 208,558 bytes in 244 blocks
+==48196==   total heap usage: 777 allocs, 533 frees, 246,920 bytes allocated
+==48196== 
+==48196== LEAK SUMMARY:
+==48196==    definitely lost: 0 bytes in 0 blocks
+==48196==    indirectly lost: 0 bytes in 0 blocks
+==48196==      possibly lost: 0 bytes in 0 blocks
+==48196==    still reachable: 0 bytes in 0 blocks
+==48196==         suppressed: 208,558 bytes in 244 blocks
+==48196== 
+==48196== For lists of detected and suppressed errors, rerun with: -s
+==48196== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 myshell> exit
 exit
-==40282== 
-==40282== HEAP SUMMARY:
-==40282==     in use at exit: 208,203 bytes in 225 blocks
-==40282==   total heap usage: 735 allocs, 510 frees, 243,175 bytes allocated
-==40282== 
-==40282== 5 bytes in 1 blocks are still reachable in loss record 2 of 66
-==40282==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==40282==    by 0x40B50F: ft_strndup (in /home/frteixei/work42/42cursus/minishell/minishell)
-==40282==    by 0x4045AD: ft_split_commands (split_cmds6.c:105)
-==40282==    by 0x4015E4: setup_commands (main2.c:47)
-==40282==    by 0x40194C: minishell_helper (main3.c:73)
-==40282==    by 0x401C1C: minishell (main3.c:92)
-==40282==    by 0x401484: run_shell (main.c:68)
-==40282==    by 0x40158C: main (main.c:83)
-==40282== 
-==40282== 16 bytes in 1 blocks are still reachable in loss record 12 of 66
-==40282==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==40282==    by 0x404551: ft_split_commands (split_cmds6.c:97)
-==40282==    by 0x4015E4: setup_commands (main2.c:47)
-==40282==    by 0x40194C: minishell_helper (main3.c:73)
-==40282==    by 0x401C1C: minishell (main3.c:92)
-==40282==    by 0x401484: run_shell (main.c:68)
-==40282==    by 0x40158C: main (main.c:83)
-==40282== 
-==40282== LEAK SUMMARY:
-==40282==    definitely lost: 0 bytes in 0 blocks
-==40282==    indirectly lost: 0 bytes in 0 blocks
-==40282==      possibly lost: 0 bytes in 0 blocks
-==40282==    still reachable: 21 bytes in 2 blocks
-==40282==         suppressed: 208,182 bytes in 223 blocks
-==40282== 
-==40282== For lists of detected and suppressed errors, rerun with: -s
-==40282== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==48192== 
+==48192== HEAP SUMMARY:
+==48192==     in use at exit: 208,182 bytes in 223 blocks
+==48192==   total heap usage: 735 allocs, 512 frees, 243,175 bytes allocated
+==48192== 
+==48192== LEAK SUMMARY:
+==48192==    definitely lost: 0 bytes in 0 blocks
+==48192==    indirectly lost: 0 bytes in 0 blocks
+==48192==      possibly lost: 0 bytes in 0 blocks
+==48192==    still reachable: 0 bytes in 0 blocks
+==48192==         suppressed: 208,182 bytes in 223 blocks
+==48192== 
+==48192== For lists of detected and suppressed errors, rerun with: -s
+==48192== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

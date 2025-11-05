@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:20 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/05 16:38:24 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:30:33 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	setup_shell(&vars, env);
 	run_shell(&vars, env);
+	if (vars.my_environ)
+		ft_free(vars.my_environ);
 	return (*exit_status());
 }

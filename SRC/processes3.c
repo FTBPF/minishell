@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:21:41 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/05 15:11:34 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:09:15 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	close_pipe_read_if_needed(t_vars *vars, char **commands)
 static void	prepare_child_io(t_vars *vars, int prev_read_fd, char **commands)
 {
 	signal(SIGINT, SIG_DFL);
+	signal(SIGPIPE, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (vars->fd0 != 0)
 	{

@@ -1,5 +1,0 @@
-echo     multiple    spaces
-echo	tabs	test
-
-
-echo after empty lines

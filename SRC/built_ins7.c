@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 13:20:40 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/05 16:42:06 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:01:23 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ static void	ft_exit_error(char *msg, char *arg, int status, t_vars *vars)
 	ft_putstr_fd(msg, 2);
 	if (vars->my_environ)
 		ft_free(vars->my_environ);
+	if (vars->all_commands)
+	{
+		ft_free(vars->all_commands);
+		vars->all_commands = NULL;
+	}
 	exit(status);
 }
 
@@ -83,5 +88,10 @@ void	ft_exit(t_vars *vars, char **cmds)
 	rl_clear_history();
 	if (vars->my_environ)
 		ft_free(vars->my_environ);
+	if (vars->all_commands)
+	{
+		ft_free(vars->all_commands);
+		vars->all_commands = NULL;
+	}
 	exit((unsigned char)*exit_status());
 }

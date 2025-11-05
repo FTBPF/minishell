@@ -1,53 +1,53 @@
-==40317== Memcheck, a memory error detector
-==40317== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==40317== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==40317== Command: /home/frteixei/work42/42cursus/minishell/minishell
-==40317== 
+==48227== Memcheck, a memory error detector
+==48227== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==48227== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==48227== Command: /home/frteixei/work42/42cursus/minishell/minishell
+==48227== 
 myshell> cat << EOF | grep hello
-> > > > ==40318== Syscall param ioctl(TCSET{S,SW,SF}) points to uninitialised byte(s)
-==40318==    at 0x49DEE55: tcsetattr (tcsetattr.c:83)
-==40318==    by 0x408988: restore_terminal (heredoc5.c:29)
-==40318==    by 0x403E85: process_heredoc_expanded (split_cmds5.c:104)
-==40318==    by 0x408224: fork_heredoc (here_doc2.c:37)
-==40318==    by 0x4080F1: open_doc_file_expanded (here_doc2.c:64)
-==40318==    by 0x4086D6: open_doc (heredoc4.c:92)
-==40318==    by 0x407EAB: handle_heredoc (here_doc.c:80)
-==40318==    by 0x407D0B: here_doc (here_doc.c:60)
-==40318==    by 0x40178F: handle_heredoc_phase (main2.c:37)
-==40318==    by 0x40169B: setup_commands (main2.c:57)
-==40318==    by 0x40194C: minishell_helper (main3.c:73)
-==40318==    by 0x401C1C: minishell (main3.c:92)
-==40318==  Address 0x1ffefff930 is on thread 1's stack
-==40318==  in frame #0, created by tcsetattr (tcsetattr.c:45)
-==40318== 
-==40318== 
-==40318== HEAP SUMMARY:
-==40318==     in use at exit: 208,261 bytes in 226 blocks
-==40318==   total heap usage: 513 allocs, 287 frees, 235,906 bytes allocated
-==40318== 
-==40318== LEAK SUMMARY:
-==40318==    definitely lost: 0 bytes in 0 blocks
-==40318==    indirectly lost: 0 bytes in 0 blocks
-==40318==      possibly lost: 0 bytes in 0 blocks
-==40318==    still reachable: 0 bytes in 0 blocks
-==40318==         suppressed: 208,261 bytes in 226 blocks
-==40318== 
-==40318== Use --track-origins=yes to see where uninitialised values come from
-==40318== For lists of detected and suppressed errors, rerun with: -s
-==40318== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+> > > > ==48228== Syscall param ioctl(TCSET{S,SW,SF}) points to uninitialised byte(s)
+==48228==    at 0x49DEE55: tcsetattr (tcsetattr.c:83)
+==48228==    by 0x408A18: restore_terminal (heredoc5.c:29)
+==48228==    by 0x403EB5: process_heredoc_expanded (split_cmds5.c:104)
+==48228==    by 0x4082B4: fork_heredoc (here_doc2.c:37)
+==48228==    by 0x408181: open_doc_file_expanded (here_doc2.c:64)
+==48228==    by 0x408766: open_doc (heredoc4.c:92)
+==48228==    by 0x407F3B: handle_heredoc (here_doc.c:80)
+==48228==    by 0x407D9B: here_doc (here_doc.c:60)
+==48228==    by 0x4017AF: handle_heredoc_phase (main2.c:37)
+==48228==    by 0x4016BB: setup_commands (main2.c:57)
+==48228==    by 0x40196C: minishell_helper (main3.c:73)
+==48228==    by 0x401C3C: minishell (main3.c:92)
+==48228==  Address 0x1ffefff930 is on thread 1's stack
+==48228==  in frame #0, created by tcsetattr (tcsetattr.c:45)
+==48228== 
+==48228== 
+==48228== HEAP SUMMARY:
+==48228==     in use at exit: 208,261 bytes in 226 blocks
+==48228==   total heap usage: 513 allocs, 287 frees, 235,906 bytes allocated
+==48228== 
+==48228== LEAK SUMMARY:
+==48228==    definitely lost: 0 bytes in 0 blocks
+==48228==    indirectly lost: 0 bytes in 0 blocks
+==48228==      possibly lost: 0 bytes in 0 blocks
+==48228==    still reachable: 0 bytes in 0 blocks
+==48228==         suppressed: 208,261 bytes in 226 blocks
+==48228== 
+==48228== Use --track-origins=yes to see where uninitialised values come from
+==48228== For lists of detected and suppressed errors, rerun with: -s
+==48228== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 hello world
 myshell> exit
-==40317== 
-==40317== HEAP SUMMARY:
-==40317==     in use at exit: 208,177 bytes in 222 blocks
-==40317==   total heap usage: 516 allocs, 294 frees, 236,184 bytes allocated
-==40317== 
-==40317== LEAK SUMMARY:
-==40317==    definitely lost: 0 bytes in 0 blocks
-==40317==    indirectly lost: 0 bytes in 0 blocks
-==40317==      possibly lost: 0 bytes in 0 blocks
-==40317==    still reachable: 0 bytes in 0 blocks
-==40317==         suppressed: 208,177 bytes in 222 blocks
-==40317== 
-==40317== For lists of detected and suppressed errors, rerun with: -s
-==40317== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==48227== 
+==48227== HEAP SUMMARY:
+==48227==     in use at exit: 208,177 bytes in 222 blocks
+==48227==   total heap usage: 516 allocs, 294 frees, 236,184 bytes allocated
+==48227== 
+==48227== LEAK SUMMARY:
+==48227==    definitely lost: 0 bytes in 0 blocks
+==48227==    indirectly lost: 0 bytes in 0 blocks
+==48227==      possibly lost: 0 bytes in 0 blocks
+==48227==    still reachable: 0 bytes in 0 blocks
+==48227==         suppressed: 208,177 bytes in 222 blocks
+==48227== 
+==48227== For lists of detected and suppressed errors, rerun with: -s
+==48227== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

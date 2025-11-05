@@ -6,7 +6,7 @@
 /*   By: frteixei <frteixei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 16:45:52 by frteixei          #+#    #+#             */
-/*   Updated: 2025/11/05 16:46:18 by frteixei         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:27:36 by frteixei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	execute_command(t_vars *vars, char **commands, char **envp)
 		cleanup_child_and_exit(vars, 1);
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+	signal(SIGPIPE, SIG_IGN);
 	remove_quotes_from_array(vars->cmd_flags);
 	if (check_if_builtin(vars))
 		handle_builtin_child(vars);
